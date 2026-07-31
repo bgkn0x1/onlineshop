@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="bg"><head>
+<html lang="bg">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Онлайн Витрина</title>
@@ -1031,7 +1032,7 @@
     }
   </style>
 </head>
-<body id="body-tag" class="is-admin">
+<body id="body-tag" class="">
 
   <header>
     <div class="header-container">
@@ -1077,7 +1078,7 @@
 
   <div class="container">
     
-    <div class="admin-panel active" id="admin-panel">
+    <div class="admin-panel" id="admin-panel">
       <div class="admin-header">
         <h2>⚙️ Администраторски панел</h2>
         <div class="admin-download-dropdown">
@@ -1085,7 +1086,7 @@
             <button class="btn-download-file" onclick="downloadProductsJson()">💾 Свали обновен products.json</button>
             <button class="admin-dropdown-arrow-btn" onclick="toggleAdminDownloadDropdown(event)">▼</button>
           </div>
-          <div class="admin-dropdown-content show" id="admin-download-menu">
+          <div class="admin-dropdown-content" id="admin-download-menu">
             <a onclick="downloadProductsJson()">💾 Свали products.json</a>
             <a onclick="downloadIndexHtml()">📄 Свали index.html</a>
           </div>
@@ -1138,104 +1139,16 @@
     </div>
 
     <div class="filter-status">
-      <h2 id="catalog-title">Начало - Изберете категория</h2>
+      <h2 id="catalog-title">Зареждане на каталога...</h2>
       <button id="reset-filter-btn" class="btn-reset-filter" style="display: none;" onclick="resetAllFilters()">Назад към категории</button>
     </div>
 
-    <div id="main-content-area"><div class="categories-home-grid">
-        <div class="category-card-all" onclick="filterCategory('all')">
-          <span>Всички категории</span>
-        </div>
-      
-          <div class="category-card" onclick="filterCategory('Електроника')">
-            <div class="category-card-icon">💻</div>
-            <div class="category-card-title">Електроника</div>
-            <div class="category-card-count">9 артикула</div>
-          </div>
-        
-          <div class="category-card" onclick="filterCategory('Дом и кухня')">
-            <div class="category-card-icon">🏠</div>
-            <div class="category-card-title">Дом и кухня</div>
-            <div class="category-card-count">18 артикула</div>
-          </div>
-        
-          <div class="category-card" onclick="filterCategory('Здраве и красота')">
-            <div class="category-card-icon">💄</div>
-            <div class="category-card-title">Здраве и красота</div>
-            <div class="category-card-count">3 артикула</div>
-          </div>
-        
-          <div class="category-card" onclick="filterCategory('Облекло')">
-            <div class="category-card-icon">👕</div>
-            <div class="category-card-title">Облекло</div>
-            <div class="category-card-count">15 артикула</div>
-          </div>
-        
-          <div class="category-card" onclick="filterCategory('Дрехи')">
-            <div class="category-card-icon">👗</div>
-            <div class="category-card-title">Дрехи</div>
-            <div class="category-card-count">12 артикула</div>
-          </div>
-        
-          <div class="category-card" onclick="filterCategory('Обувки')">
-            <div class="category-card-icon">👟</div>
-            <div class="category-card-title">Обувки</div>
-            <div class="category-card-count">0 артикула</div>
-          </div>
-        
-          <div class="category-card" onclick="filterCategory('За деца')">
-            <div class="category-card-icon">🧸</div>
-            <div class="category-card-title">За деца</div>
-            <div class="category-card-count">1 артикула</div>
-          </div>
-        
-          <div class="category-card" onclick="filterCategory('Очила')">
-            <div class="category-card-icon">🕶️</div>
-            <div class="category-card-title">Очила</div>
-            <div class="category-card-count">1 артикула</div>
-          </div>
-        
-          <div class="category-card" onclick="filterCategory('Играчки и занятия')">
-            <div class="category-card-icon">🧩</div>
-            <div class="category-card-title">Играчки и занятия</div>
-            <div class="category-card-count">1 артикула</div>
-          </div>
-        
-          <div class="category-card" onclick="filterCategory('Спорт и на открито')">
-            <div class="category-card-icon">⚽</div>
-            <div class="category-card-title">Спорт и на открито</div>
-            <div class="category-card-count">4 артикула</div>
-          </div>
-        
-          <div class="category-card" onclick="filterCategory('Автомобилна')">
-            <div class="category-card-icon">🚗</div>
-            <div class="category-card-title">Автомобилна</div>
-            <div class="category-card-count">0 артикула</div>
-          </div>
-        
-          <div class="category-card" onclick="filterCategory('Домашни любимци')">
-            <div class="category-card-icon">🐾</div>
-            <div class="category-card-title">Домашни любимци</div>
-            <div class="category-card-count">0 артикула</div>
-          </div>
-        
-          <div class="category-card" onclick="filterCategory('Инструменти')">
-            <div class="category-card-icon">🛠️</div>
-            <div class="category-card-title">Инструменти</div>
-            <div class="category-card-count">11 артикула</div>
-          </div>
-        
-          <div class="category-card" onclick="filterCategory('Градина')">
-            <div class="category-card-icon">🌱</div>
-            <div class="category-card-title">Градина</div>
-            <div class="category-card-count">7 артикула</div>
-          </div>
-        </div></div>
+    <div id="main-content-area"></div>
 
   </div>
 
   <div class="bottom-bar">
-    <button id="auth-btn" class="bottom-bar-btn" onclick="handleAuth()">Изход</button>
+    <button id="auth-btn" class="bottom-bar-btn" onclick="handleAuth()">Вход</button>
   </div>
 
   <!-- Основен модал за продукт -->
@@ -1369,8 +1282,46 @@
   </div>
 
   <script>
-    const ADMIN_PASSWORD = "onlineshop0000";
+    
+const token = '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';
+    const owner = 'bgkn0x1';
+    const repo = 'onlineshop';
+    const path = 'products.json';
 
+    async function saveProductsToGitHub() {
+      const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+      try {
+        const getRes = await fetch(url, {
+          headers: {
+            'Authorization': `token ${token}`,
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+        let sha = '';
+        if (getRes.ok) {
+          const fileData = await getRes.json();
+          sha = fileData.sha;
+        }
+        const jsonString = JSON.stringify(products, null, 2);
+        const base64Content = btoa(unescape(encodeURIComponent(jsonString)));
+        await fetch(url, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3+json'
+          },
+          body: JSON.stringify({
+            message: 'Auto-update products.json from admin panel',
+            content: base64Content,
+            sha: sha
+          })
+        });
+      } catch (error) {
+        console.error('GitHub Sync Error:', error);
+      }
+    }
+    const ADMIN_PASSWORD = "onlineshop0000";
     let isAdmin = false;
     let currentCategory = 'home';
     let currentPage = 1;
@@ -1411,58 +1362,18 @@
       "Градина"
     ];
 
-    async function saveToGitHub(updatedProducts) {
-    const token = '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';
-    const owner = 'bgkn0x1';
-    const repo = 'onlineshop';
-    const path = 'products.json';
-
-    const getUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-    
-    try {
-        const getResponse = await fetch(getUrl, {
-            headers: {
-                'Authorization': `token ${token}`,
-                'Accept': 'vnd.github.v3+json'
-            }
-        });
-
-        if (!getResponse.ok) {
-            throw new Error('Грешка при четене на актуалния файл от GitHub.');
-        }
-
-        const fileData = await getResponse.json();
-        const fileSha = fileData.sha;
-
-        const jsonString = JSON.stringify(updatedProducts, null, 2);
-        const contentBase64 = btoa(unescape(encodeURIComponent(jsonString)));
-
-        const putResponse = await fetch(getUrl, {
-            method: 'PUT',
-            headers: {
-                'Authorization': `token ${token}`,
-                'Content-Type': 'application/json',
-                'Accept': 'vnd.github.v3+json'
-            },
-            body: JSON.stringify({
-                message: 'Update products.json automatically from Admin Panel',
-                content: contentBase64,
-                sha: fileSha
-            })
-        });
-
-        if (putResponse.ok) {
-            alert('Успех! Промените са записани директно в GitHub.');
-        } else {
-            const errData = await putResponse.json();
-            alert('Грешка при запис в GitHub: ' + errData.message);
-        }
-
-    } catch (error) {
-        console.error(error);
-        alert('Възникна грешка: ' + error.message);
+    async function loadProducts() {
+      try {
+        let response = await fetch('data/products.json');
+        if (!response.ok) throw new Error('Грешка при зареждане на products.json');
+        products = await response.json();
+        renderApp();
+      } catch (error) {
+        console.error("Грешка:", error);
+        document.getElementById('catalog-title').innerText = "Грешка при зареждане на данните";
+        document.getElementById('main-content-area').innerHTML = '<p style="color: red; text-align: center; padding: 20px;">Неуспешно зареждане на файла data/products.json. Уверете се, че отваряте страницата през локален сървър (Live Server) или хостинг.</p>';
+      }
     }
-}
 
     function toggleDropdown(event) {
       event.stopPropagation();
@@ -1849,6 +1760,7 @@
       this.reset();
       document.getElementById('p-size-container').style.display = 'none';
       renderApp();
+      saveProductsToGitHub();
       alert("Продуктът е добавен успешно!");
     });
 
@@ -1857,6 +1769,7 @@
       if (p) {
         p.sold = !p.sold;
         renderApp();
+        saveProductsToGitHub();
       }
     }
 
@@ -1864,6 +1777,7 @@
       if (confirm("Сигурни ли сте, че искате да изтриете този продукт?")) {
         products = products.filter(item => item.id !== id);
         renderApp();
+        saveProductsToGitHub();
       }
     }
 
@@ -1914,6 +1828,7 @@
 
       closeModal('edit-modal');
       renderApp();
+      saveProductsToGitHub();
       alert("Продуктът е обновен успешно!");
     });
 
@@ -1942,5 +1857,5 @@
 
     window.addEventListener('DOMContentLoaded', loadProducts);
   </script>
-
-</body></html>
+</body>
+</html>
