@@ -1282,8 +1282,46 @@
   </div>
 
   <script>
-    const ADMIN_PASSWORD = "onlineshop0000";
+    
+const token = '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';
+    const owner = 'bgkn0x1';
+    const repo = 'onlineshop';
+    const path = 'products.json';
 
+    async function saveProductsToGitHub() {
+      const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+      try {
+        const getRes = await fetch(url, {
+          headers: {
+            'Authorization': `token ${token}`,
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+        let sha = '';
+        if (getRes.ok) {
+          const fileData = await getRes.json();
+          sha = fileData.sha;
+        }
+        const jsonString = JSON.stringify(products, null, 2);
+        const base64Content = btoa(unescape(encodeURIComponent(jsonString)));
+        await fetch(url, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3+json'
+          },
+          body: JSON.stringify({
+            message: 'Auto-update products.json from admin panel',
+            content: base64Content,
+            sha: sha
+          })
+        });
+      } catch (error) {
+        console.error('GitHub Sync Error:', error);
+      }
+    }
+    const ADMIN_PASSWORD = "onlineshop0000";
     let isAdmin = false;
     let currentCategory = 'home';
     let currentPage = 1;
@@ -1722,6 +1760,7 @@
       this.reset();
       document.getElementById('p-size-container').style.display = 'none';
       renderApp();
+      saveProductsToGitHub();
       alert("Продуктът е добавен успешно!");
     });
 
@@ -1730,6 +1769,7 @@
       if (p) {
         p.sold = !p.sold;
         renderApp();
+        saveProductsToGitHub();
       }
     }
 
@@ -1737,6 +1777,7 @@
       if (confirm("Сигурни ли сте, че искате да изтриете този продукт?")) {
         products = products.filter(item => item.id !== id);
         renderApp();
+        saveProductsToGitHub();
       }
     }
 
@@ -1787,6 +1828,7 @@
 
       closeModal('edit-modal');
       renderApp();
+      saveProductsToGitHub();
       alert("Продуктът е обновен успешно!");
     });
 
