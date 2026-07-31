@@ -1670,29 +1670,63 @@
       <div class="modal-grid">
         <div>
           <div class="gallery-main">
-            <img id="modal-main-img" src="" alt="Основна снимка" onclick="openLightbox(this.src)" title="Кликни за уголемяване на цял екран">
+            <img id="modal-main-img" src="https://assets.jobalots.com/product_image/cZjYTO9f4mPkYPe2JtVkvwp0C0xarqlHWmcPReBY.png?format=auto&amp;width=640&amp;quality=100" alt="Основна снимка" onclick="openLightbox(this.src)" title="Кликни за уголемяване на цял екран">
           </div>
-          <div class="gallery-thumbs" id="modal-thumbs"></div>
+          <div class="gallery-thumbs" id="modal-thumbs">
+          <div class="thumb active" onclick="changeMainImage('https://assets.jobalots.com/product_image/cZjYTO9f4mPkYPe2JtVkvwp0C0xarqlHWmcPReBY.png?format=auto&amp;width=640&amp;quality=100', this)">
+            <img src="https://assets.jobalots.com/product_image/cZjYTO9f4mPkYPe2JtVkvwp0C0xarqlHWmcPReBY.png?format=auto&amp;width=640&amp;quality=100" alt="thumb">
+          </div>
+        
+          <div class="thumb " onclick="changeMainImage('https://assets.jobalots.com/product_image/Lys0Z2NssXMvuqlgA7zBXKj10nMKycjao0FfCzk5.png?format=auto&amp;width=640&amp;quality=100', this)">
+            <img src="https://assets.jobalots.com/product_image/Lys0Z2NssXMvuqlgA7zBXKj10nMKycjao0FfCzk5.png?format=auto&amp;width=640&amp;quality=100" alt="thumb">
+          </div>
+        
+          <div class="thumb " onclick="changeMainImage('https://assets.jobalots.com/product_image/WbP8Z8eo3ohXgdtJibCceoHhIOcmh3rGPFwPSayX.png?format=auto&amp;width=640&amp;quality=100', this)">
+            <img src="https://assets.jobalots.com/product_image/WbP8Z8eo3ohXgdtJibCceoHhIOcmh3rGPFwPSayX.png?format=auto&amp;width=640&amp;quality=100" alt="thumb">
+          </div>
+        </div>
         </div>
 
         <div>
-          <div class="modal-category" id="modal-category"></div>
+          <div class="modal-category" id="modal-category">Спорт и на открито</div>
           <div id="modal-size-container"></div>
-          <h1 class="modal-title" id="modal-title"></h1>
-          <div id="modal-status-badge" class="modal-status-badge"></div>
+          <h1 class="modal-title" id="modal-title">Стойка за Велосипед</h1>
+          <div id="modal-status-badge" class="modal-status-badge" style="background: rgb(40, 167, 69);">НАЛИЧНО</div>
           
-          <div class="modal-price-block" id="modal-price-block"></div>
+          <div class="modal-price-block" id="modal-price-block">
+          <div class="modal-old-price-box"><span class="modal-old-price">€20.00</span></div>
+          <span class="modal-sale-price">€8.00</span>
+          <span class="modal-discount-badge">-60%</span>
+        </div>
           
-          <div class="modal-stock-text" id="modal-stock"></div>
+          <div class="modal-stock-text" id="modal-stock" style="color: rgb(40, 167, 69);">Наличност: 1 бр.</div>
           
           <div style="font-weight: bold; margin-bottom: 4px; font-size: 13px; color: #333;">Подробно описание:</div>
-          <div class="modal-details" id="modal-details"></div>
+          <div class="modal-details" id="modal-details">Стойка за велосипед Регулируема по височина Универсална алуминиева стойка – 24-29 инча</div>
         </div>
       </div>
 
-      <div class="similar-section" id="similar-section" style="display: none;">
+      <div class="similar-section" id="similar-section" style="display: block;">
         <h3>📦 Сходни артикули</h3>
-        <div class="similar-grid" id="similar-grid"></div>
+        <div class="similar-grid" id="similar-grid">
+            <div class="similar-card" onclick="openProductModal(1785421377855)">
+              <img src="https://assets.jobalots.com/product_image/RWbuOdjRwiVqN4LATw2R16aB82XACJzfjSx0Urmd.png?format=auto&amp;width=640&amp;quality=100" alt="Кормило за планинско колело" onerror="this.src='https://via.placeholder.com/130x80?text=Снимка'">
+              <div class="similar-title">Кормило за планинско колело</div>
+              <div class="similar-price">€10.00</div>
+            </div>
+          
+            <div class="similar-card" onclick="openProductModal(1785419429990)">
+              <img src="https://assets.jobalots.com/product_image/5goTlnoIRV6Uk7hBt0UyIBLMU20dc2dPb5hN3m3w.png?format=auto&amp;width=640&amp;quality=100" alt="Стойка за Велосипед " onerror="this.src='https://via.placeholder.com/130x80?text=Снимка'">
+              <div class="similar-title">Стойка за Велосипед </div>
+              <div class="similar-price">€8.00</div>
+            </div>
+          
+            <div class="similar-card" onclick="openProductModal(1785340621147)">
+              <img src="https://m.media-amazon.com/images/I/61olQ9wZnbL._AC_SL1500_.jpg" alt="Електрическа шейкър" onerror="this.src='https://via.placeholder.com/130x80?text=Снимка'">
+              <div class="similar-title">Електрическа шейкър</div>
+              <div class="similar-price">€20.00</div>
+            </div>
+          </div>
       </div>
     </div>
   </div>
@@ -1793,46 +1827,8 @@
   </div>
 
   <script>
-    
-const token = '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';
-    const owner = 'bgkn0x1';
-    const repo = 'onlineshop';
-    const path = 'products.json';
-
-    async function saveProductsToGitHub() {
-      const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-      try {
-        const getRes = await fetch(url, {
-          headers: {
-            'Authorization': `token ${token}`,
-            'Accept': 'application/vnd.github.v3+json'
-          }
-        });
-        let sha = '';
-        if (getRes.ok) {
-          const fileData = await getRes.json();
-          sha = fileData.sha;
-        }
-        const jsonString = JSON.stringify(products, null, 2);
-        const base64Content = btoa(unescape(encodeURIComponent(jsonString)));
-        await fetch(url, {
-          method: 'PUT',
-          headers: {
-            'Authorization': `token ${token}`,
-            'Content-Type': 'application/json',
-            'Accept': 'application/vnd.github.v3+json'
-          },
-          body: JSON.stringify({
-            message: 'Auto-update products.json from admin panel',
-            content: base64Content,
-            sha: sha
-          })
-        });
-      } catch (error) {
-        console.error('GitHub Sync Error:', error);
-      }
-    }
     const ADMIN_PASSWORD = "onlineshop0000";
+
     let isAdmin = false;
     let currentCategory = 'home';
     let currentPage = 1;
@@ -2271,7 +2267,6 @@ const token = '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';
       this.reset();
       document.getElementById('p-size-container').style.display = 'none';
       renderApp();
-      saveProductsToGitHub();
       alert("Продуктът е добавен успешно!");
     });
 
@@ -2280,7 +2275,6 @@ const token = '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';
       if (p) {
         p.sold = !p.sold;
         renderApp();
-        saveProductsToGitHub();
       }
     }
 
@@ -2288,7 +2282,6 @@ const token = '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';
       if (confirm("Сигурни ли сте, че искате да изтриете този продукт?")) {
         products = products.filter(item => item.id !== id);
         renderApp();
-        saveProductsToGitHub();
       }
     }
 
@@ -2339,7 +2332,6 @@ const token = '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';
 
       closeModal('edit-modal');
       renderApp();
-      saveProductsToGitHub();
       alert("Продуктът е обновен успешно!");
     });
 
