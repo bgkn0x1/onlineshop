@@ -821,7 +821,6 @@
       cursor: zoom-in;
     }
 
-    /* Lightbox за пълноекранен преглед на снимка */
     .lightbox-overlay {
       display: none;
       position: fixed;
@@ -1083,12 +1082,12 @@
         <h2>⚙️ Администраторски панел</h2>
         <div class="admin-download-dropdown">
           <div class="admin-download-group">
-            <button class="btn-download-file" onclick="downloadProductsJson()">💾 Свали обновен products.json</button>
+            <button class="btn-download-file" onclick="downloadProductsJson()">☁️ Запиши директно в GitHub</button>
             <button class="admin-dropdown-arrow-btn" onclick="toggleAdminDownloadDropdown(event)">▼</button>
           </div>
           <div class="admin-dropdown-content" id="admin-download-menu">
-            <a onclick="downloadProductsJson()">💾 Свали products.json</a>
-            <a onclick="downloadIndexHtml()">📄 Свали index.html</a>
+            <a onclick="downloadProductsJson()">☁️ Запиши в GitHub (products.json)</a>
+            <a onclick="downloadIndexHtml()">📄 Свали index.html локално</a>
           </div>
         </div>
       </div>
@@ -1151,7 +1150,6 @@
     <button id="auth-btn" class="bottom-bar-btn" onclick="handleAuth()">Вход</button>
   </div>
 
-  <!-- Основен модал за продукт -->
   <div class="modal-overlay" id="product-modal" onclick="closeModalOnOverlay(event, 'product-modal')">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal('product-modal')">×</button>
@@ -1186,7 +1184,6 @@
     </div>
   </div>
 
-  <!-- Lightbox за пълноекранен преглед на снимка -->
   <div class="lightbox-overlay" id="image-lightbox" onclick="closeLightbox()">
     <div class="lightbox-content" onclick="event.stopPropagation()">
       <button class="lightbox-close" onclick="closeLightbox()">×</button>
@@ -1790,14 +1787,59 @@
       alert("Продуктът е обновен успешно!");
     });
 
-    function downloadProductsJson() {
-      let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(products, null, 2));
-      let a = document.createElement('a');
-      a.href = dataStr;
-      a.download = 'products.json';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+    // Функция за директно качване на products.json в GitHub репозиторието
+    async function downloadProductsJson() {
+      const token = "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";[cite: 4]
+      const owner = "bgkn0x1";[cite: 4]
+      const repo = "onlineshop";
+      const path = "data/products.json";
+      const commitMessage = "Update products.json via Admin Panel";
+      
+      try {
+        const getUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+        const getResponse = await fetch(getUrl, {
+          headers: {
+            "Authorization": `token ${token}`,
+            "Accept": "application/vnd.github.v3+json"
+          }
+        });
+
+        if (!getResponse.ok) {
+          throw new Error("Неуспешно извличане на SHA на файла от GitHub.");
+        }
+
+        const fileData = await getResponse.json();
+        const fileSha = fileData.sha;
+
+        const jsonString = JSON.stringify(products, null, 2);
+        const base64Content = btoa(unescape(encodeURIComponent(jsonString)));
+
+        const putResponse = await fetch(getUrl, {
+          method: "PUT",
+          headers: {
+            "Authorization": `token ${token}`,
+            "Accept": "application/vnd.github.v3+json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            message: commitMessage,
+            content: base64Content,
+            sha: fileSha
+          })
+        });
+
+        if (putResponse.ok) {
+          alert("Продуктите бяха успешно и директно обновени в GitHub!");
+        } else {
+          const errRes = await putResponse.json();
+          throw new Error(errRes.message || "Грешка при запис в GitHub.");
+        }
+
+      } catch (error) {
+        console.error("GitHub API Error:", error);
+        alert("Грешка при качване в GitHub: " + error.message);
+      }
+
       document.getElementById("admin-download-menu").classList.remove('show');
     }
 
