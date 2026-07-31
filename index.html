@@ -1297,38 +1297,70 @@ const token = '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';
             'Accept': 'application/vnd.github.v3+json'
           }
         });
-        
-        let bodyData = {
-          message: 'Auto-update products.json from admin panel',
-          content: btoa(unescape(encodeURIComponent(JSON.stringify(products, null, 2))))
-        };
-
+        let sha = '';
         if (getRes.ok) {
           const fileData = await getRes.json();
-          bodyData.sha = fileData.sha;
+          sha = fileData.sha;
         }
-
-        const putRes = await fetch(url, {
+        const jsonString = JSON.stringify(products, null, 2);
+        const base64Content = btoa(unescape(encodeURIComponent(jsonString)));
+        await fetch(url, {
           method: 'PUT',
           headers: {
             'Authorization': `token ${token}`,
             'Content-Type': 'application/json',
             'Accept': 'application/vnd.github.v3+json'
           },
-          body: JSON.stringify(bodyData)
+          body: JSON.stringify({
+            message: 'Auto-update products.json from admin panel',
+            content: base64Content,
+            sha: sha
+          })
         });
-
-        if (!putRes.ok) {
-          const errJson = await putRes.json();
-          throw new Error(errJson.message || 'Грешка при запис в GitHub');
-        }
-
-        console.log('Успешно синхронизирано с GitHub!');
       } catch (error) {
         console.error('GitHub Sync Error:', error);
-        alert('Грешка при връзка с GitHub: ' + error.message);
       }
     }
+    const ADMIN_PASSWORD = "onlineshop0000";
+    let isAdmin = false;
+    let currentCategory = 'home';
+    let currentPage = 1;
+    const PRODUCTS_PER_PAGE = 16;
+    let products = [];
+
+    const categoryIcons = {
+      "Електроника": "💻",
+      "Дом и кухня": "🏠",
+      "Здраве и красота": "💄",
+      "Облекло": "👕",
+      "Дрехи": "👗",
+      "Обувки": "👟",
+      "За деца": "🧸",
+      "Очила": "🕶️",
+      "Играчки и занятия": "🧩",
+      "Спорт и на открито": "⚽",
+      "Автомобилна": "🚗",
+      "Домашни любимци": "🐾",
+      "Инструменти": "🛠️",
+      "Градина": "🌱"
+    };
+
+    const mainCategoriesList = [
+      "Електроника",
+      "Дом и кухня",
+      "Здраве и красота",
+      "Облекло",
+      "Дрехи",
+      "Обувки",
+      "За деца",
+      "Очила",
+      "Играчки и занятия",
+      "Спорт и на открито",
+      "Автомобилна",
+      "Домашни любимци",
+      "Инструменти",
+      "Градина"
+    ];
 
     async function loadProducts() {
       try {
