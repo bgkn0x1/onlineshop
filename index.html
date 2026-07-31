@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Онлайн Витрина</title>
+  <style>
+    :root {
+      --emag-blue: #005cbf;
+      --emag-red: #e60000;
+      --bg-gray: #f2f4f8;
+      --card-border: #e3e8ee;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-gray);
+      color: #333;
+      padding-bottom: 80px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    header {
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 10px 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-btn {
+      background-color: var(--emag-blue);
+      color: white;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .dropdown-btn:hover {
+      background-color: #004a99;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #ffffff;
+      min-width: 220px;
+      box-shadow: 0px 8px 20px rgba(0,0,0,0.18);
+      border-radius: 8px;
+      overflow: visible;
+      z-index: 200;
+      border: 1px solid var(--card-border);
+    }
+
+    .dropdown-content.show {
+      display: block !important;
+    }
+
+    .dropdown-content a {
+      color: #333;
+      padding: 11px 16px;
+      text-decoration: none;
+      display: block;
+      font-size: 14px;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+    }
+
+    .dropdown-content a:last-child {
+      border-bottom: none;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #f2f4f8;
+      color: var(--emag-blue);
+      font-weight: 600;
+    }
+
+    .has-submenu {
+      position: relative;
+    }
+
+    .has-submenu > a {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+    }
+
+    .arrow-icon {
+      font-size: 14px;
+      color: var(--emag-blue);
+      font-weight: bold;
+      margin-left: 8px;
+    }
+
+    .submenu {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 100%;
+      background-color: #ffffff;
+      min-width: 170px;
+      box-shadow: 2px 8px 16px rgba(0,0,0,0.15);
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+    }
+
+    .has-submenu:hover .submenu,
+    .has-submenu.open .submenu {
+      display: block;
+    }
+
+    .search-box {
+      position: relative;
+      flex-grow: 1;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 9px 36px 9px 12px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--emag-blue);
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #777;
+      pointer-events: none;
+      font-size: 14px;
+    }
+
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #1a1a1a;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 15px;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+      z-index: 900;
+    }
+
+    .bottom-bar-btn {
+      background: none;
+      border: 1px solid #555;
+      color: #fff;
+      padding: 8px 24px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .bottom-bar-btn:hover {
+      background: #333;
+      border-color: #777;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 15px auto;
+      padding: 0 12px;
+    }
+
+    .filter-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .filter-status h2 {
+      font-size: 18px;
+    }
+
+    .btn-reset-filter {
+      background: #e0e0e0;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .categories-home-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    @media (min-width: 600px) {
+      .categories-home-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .categories-home-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .category-card-all {
+      grid-column: 1 / -1;
+      position: relative;
+      background-image: url('https://www.logicparkstad.com/wp-content/uploads/gallery-VBP8192-300x200.webp');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 35px 20px;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      transition: transform 0.2s, box-shadow 0.2s;
+      overflow: hidden;
+    }
+
+    .category-card-all::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 1;
+    }
+
+    .category-card-all span {
+      position: relative;
+      z-index: 2;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+    }
+
+    .category-card-all:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    }
+
+    .category-card {
+      background: #fff;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 20px 15px;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 110px;
+    }
+
+    .category-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      border-color: var(--emag-blue);
+    }
+
+    .category-card-icon {
+      font-size: 26px;
+      margin-bottom: 4px;
+    }
+
+    .category-card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #333;
+      margin-top: 4px;
+    }
+
+    .category-card-count {
+      font-size: 12px;
+      color: #777;
+      margin-top: 3px;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      margin-top: 25px;
+      flex-wrap: wrap;
+    }
+
+    .page-btn {
+      background: #fff;
+      border: 1px solid var(--card-border);
+      color: #333;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .page-btn:hover:not(:disabled) {
+      background-color: #f2f4f8;
+      border-color: var(--emag-blue);
+      color: var(--emag-blue);
+    }
+
+    .page-btn.active {
+      background-color: var(--emag-blue);
+      color: white;
+      border-color: var(--emag-blue);
+    }
+
+    .page-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .admin-panel {
+      display: none;
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .admin-panel.active {
+      display: block;
+    }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .admin-panel h2 {
+      font-size: 16px;
+      color: #856404;
+    }
+
+    .admin-download-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .admin-download-group {
+      display: inline-flex;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .btn-download-file {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .btn-download-file:hover {
+      background-color: #218838;
+    }
+
+    .admin-dropdown-arrow-btn {
+      background-color: #218838;
+      color: white;
+      border: none;
+      border-left: 1px solid rgba(255,255,255,0.3);
+      padding: 8px 10px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .admin-dropdown-arrow-btn:hover {
+      background-color: #1e7e34;
+    }
+
+    .admin-dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 100%;
+      margin-top: 4px;
+      background-color: #ffffff;
+      min-width: 200px;
+      box-shadow: 0px 8px 20px rgba(0,0,0,0.18);
+      border-radius: 6px;
+      z-index: 300;
+      border: 1px solid var(--card-border);
+    }
+
+    .admin-dropdown-content.show {
+      display: block;
+    }
+
+    .admin-dropdown-content a {
+      color: #333;
+      padding: 10px 14px;
+      text-decoration: none;
+      display: block;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .admin-dropdown-content a:hover {
+      background-color: #f2f4f8;
+      color: var(--emag-blue);
+      font-weight: 600;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 9px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 13px;
+      background: #fff;
+    }
+
+    .btn-add {
+      background-color: var(--emag-blue);
+      color: white;
+      border: none;
+      padding: 10px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      width: 100%;
+      margin-top: 5px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    @media (min-width: 600px) {
+      .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .product-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+      }
+    }
+
+    .product-card {
+      background: #fff;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .category-header-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .category-tag {
+      font-size: 10px;
+      color: #888;
+      text-transform: uppercase;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .size-badge {
+      background-color: #e6f0fa;
+      color: var(--emag-blue);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 4px;
+      border: 1px solid #b8daff;
+    }
+
+    .image-container {
+      width: 100%;
+      height: 130px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      background: #f8f9fa;
+    }
+
+    @media (min-width: 600px) {
+      .image-container {
+        height: 170px;
+      }
+    }
+
+    .product-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .badge-sold {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      background: rgba(0,0,0,0.8);
+      color: #fff;
+      padding: 3px 6px;
+      font-size: 10px;
+      font-weight: bold;
+      border-radius: 4px;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+
+    .badge-available {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      background: #28a745;
+      color: #fff;
+      padding: 3px 6px;
+      font-size: 10px;
+      font-weight: bold;
+      border-radius: 4px;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+
+    .badge-discount {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: var(--emag-red);
+      color: #fff;
+      padding: 3px 6px;
+      font-size: 10px;
+      font-weight: 800;
+      border-radius: 4px;
+      z-index: 2;
+    }
+
+    .product-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 4px;
+      line-height: 1.25;
+      height: 32px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .product-desc {
+      font-size: 11px;
+      color: #666;
+      margin-bottom: 6px;
+      height: 28px;
+      overflow: hidden;
+      line-height: 1.2;
+    }
+
+    .product-stock {
+      font-size: 11px;
+      font-weight: bold;
+      color: #005cbf;
+      margin-bottom: 6px;
+    }
+
+    .price-block {
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
+
+    .old-price-container {
+      background: #777;
+      padding: 1px 4px;
+      border-radius: 3px;
+    }
+
+    .old-price {
+      font-size: 11px;
+      color: #ffffff;
+      text-decoration: line-through;
+      font-weight: bold;
+    }
+
+    .current-price {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--emag-red);
+    }
+
+    .regular-price-only {
+      font-size: 15px;
+      font-weight: 800;
+      color: #333;
+    }
+
+    .click-more-hint {
+      font-size: 10px;
+      color: var(--emag-blue);
+      font-weight: 600;
+      text-align: right;
+    }
+
+    .sold-out .current-price,
+    .sold-out .regular-price-only {
+      text-decoration: line-through;
+      color: #888;
+    }
+
+    .sold-out .product-image {
+      opacity: 0.4;
+      filter: grayscale(100%);
+    }
+
+    .admin-controls {
+      display: none;
+      gap: 4px;
+      margin-top: 8px;
+      padding-top: 6px;
+      border-top: 1px dashed #ccc;
+    }
+
+    .is-admin .admin-controls {
+      display: flex;
+    }
+
+    .btn-toggle, .btn-edit, .btn-delete {
+      padding: 5px 2px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 10px;
+      text-align: center;
+      border: 1px solid #ccc;
+    }
+
+    .btn-toggle { flex: 1; background: #f8f9fa; }
+    .btn-edit { flex: 1; background: #fff3cd; color: #856404; border-color: #ffc107; }
+    .btn-delete { background: #dc3545; color: white; border: none; padding: 5px 6px; }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      justify-content: center;
+      align-items: flex-end;
+      padding: 0;
+    }
+
+    @media (min-width: 600px) {
+      .modal-overlay {
+        align-items: center;
+        padding: 20px;
+      }
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #fff;
+      width: 100%;
+      max-height: 90vh;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      overflow-y: auto;
+      position: relative;
+      padding: 20px 15px;
+      box-shadow: 0 -5px 25px rgba(0,0,0,0.25);
+    }
+
+    @media (min-width: 600px) {
+      .modal-content {
+        max-width: 850px;
+        border-radius: 12px;
+        padding: 25px;
+      }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 15px;
+      font-size: 26px;
+      font-weight: bold;
+      color: #888;
+      cursor: pointer;
+      border: none;
+      background: none;
+      line-height: 1;
+      z-index: 10;
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+
+    @media (min-width: 768px) {
+      .modal-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+      }
+    }
+
+    .gallery-main {
+      width: 100%;
+      height: 230px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 8px;
+      border: 1px solid var(--card-border);
+      position: relative;
+    }
+
+    @media (min-width: 600px) {
+      .gallery-main { height: 280px; }
+    }
+
+    .gallery-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      cursor: zoom-in;
+    }
+
+    /* Lightbox за пълноекранен преглед на снимка */
+    .lightbox-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .lightbox-overlay.active {
+      display: flex;
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 95vw;
+      max-height: 95vh;
+    }
+
+    .lightbox-content img {
+      width: 100%;
+      height: auto;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      font-size: 32px;
+      color: white;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .gallery-thumbs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 5px;
+    }
+
+    .thumb {
+      width: 60px;
+      height: 60px;
+      flex-shrink: 0;
+      border-radius: 6px;
+      border: 2px solid transparent;
+      overflow: hidden;
+      cursor: pointer;
+      background: #f8f9fa;
+    }
+
+    .thumb.active {
+      border-color: var(--emag-blue);
+    }
+
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .modal-category {
+      font-size: 11px;
+      color: #888;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    .modal-size-badge {
+      display: inline-block;
+      background-color: #e6f0fa;
+      color: var(--emag-blue);
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid #b8daff;
+      margin-top: 4px;
+      font-size: 12px;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 4px 0 8px 0;
+      color: #111;
+      line-height: 1.3;
+    }
+
+    .modal-price-block {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .modal-old-price-box {
+      background: #666;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .modal-old-price {
+      font-size: 14px;
+      color: #ffffff;
+      text-decoration: line-through;
+      font-weight: bold;
+    }
+
+    .modal-sale-price {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--emag-red);
+    }
+
+    .modal-discount-badge {
+      background: var(--emag-red);
+      color: #fff;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .modal-stock-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: #28a745;
+      margin-bottom: 10px;
+    }
+
+    .modal-status-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .modal-details {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #444;
+      white-space: pre-line;
+      border-top: 1px solid #eee;
+      padding-top: 12px;
+    }
+
+    .similar-section {
+      margin-top: 20px;
+      border-top: 2px solid #f0f0f0;
+      padding-top: 15px;
+    }
+
+    .similar-section h3 {
+      font-size: 15px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .similar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 10px;
+    }
+
+    .similar-card {
+      background: #fff;
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+      padding: 8px;
+      cursor: pointer;
+    }
+
+    .similar-card img {
+      width: 100%;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 6px;
+    }
+
+    .similar-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: #333;
+      height: 28px;
+      overflow: hidden;
+      line-height: 1.25;
+    }
+
+    .similar-price {
+      font-size: 13px;
+      font-weight: bold;
+      color: var(--emag-red);
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body id="body-tag" class="">
+
+  <header>
+    <div class="header-container">
+      <div class="dropdown">
+        <button class="dropdown-btn" onclick="toggleDropdown(event)">
+          ☰ Категории ▾
+        </button>
+        <div class="dropdown-content" id="dropdown-menu">
+          <a onclick="filterCategory('all')">📦 Всички категории</a>
+          <a onclick="filterCategory('Електроника')">💻 Електроника</a>
+          <a onclick="filterCategory('Дом и кухня')">🏠 Дом и кухня</a>
+          <a onclick="filterCategory('Здраве и красота')">💄 Здраве и красота</a>
+          
+          <div class="has-submenu" id="apparel-submenu">
+            <a onclick="toggleSubmenu(event)">
+              <span>👕 Облекло</span>
+              <span class="arrow-icon">›</span>
+            </a>
+            <div class="submenu">
+              <a onclick="filterCategory('Облекло')">👕 Всички от Облекло</a>
+              <a onclick="filterCategory('Дрехи')">👗 Дрехи</a>
+              <a onclick="filterCategory('Обувки')">👟 Обувки</a>
+              <a onclick="filterCategory('За деца')">🧸 За деца</a>
+              <a onclick="filterCategory('Очила')">🕶️ Очила</a>
+            </div>
+          </div>
+
+          <a onclick="filterCategory('Играчки и занятия')">🧩 Играчки и занятия</a>
+          <a onclick="filterCategory('Спорт и на открито')">⚽ Спорт и на открито</a>
+          <a onclick="filterCategory('Автомобилна')">🚗 Автомобилна</a>
+          <a onclick="filterCategory('Домашни любимци')">🐾 Домашни любимци</a>
+          <a onclick="filterCategory('Инструменти')">🛠️ Инструменти</a>
+          <a onclick="filterCategory('Градина')">🌱 Градина</a>
+        </div>
+      </div>
+
+      <div class="search-box">
+        <input type="text" id="search-input" class="search-input" placeholder="Търси продукт..." oninput="onSearchInput()">
+        <span class="search-icon">🔍</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    
+    <div class="admin-panel" id="admin-panel">
+      <div class="admin-header">
+        <h2>⚙️ Администраторски панел</h2>
+        <div class="admin-download-dropdown">
+          <div class="admin-download-group">
+            <button class="btn-download-file" onclick="downloadProductsJson()">💾 Свали обновен products.json</button>
+            <button class="admin-dropdown-arrow-btn" onclick="toggleAdminDownloadDropdown(event)">▼</button>
+          </div>
+          <div class="admin-dropdown-content" id="admin-download-menu">
+            <a onclick="downloadProductsJson()">💾 Свали products.json</a>
+            <a onclick="downloadIndexHtml()">📄 Свали index.html</a>
+          </div>
+        </div>
+      </div>
+
+      <form id="add-product-form">
+        <div class="form-grid">
+          <input type="text" id="p-title" placeholder="Заглавие на продукта" required="">
+          <input type="number" id="p-regular-price" placeholder="Редовна цена (€)" step="0.01" required="">
+          <input type="number" id="p-sale-price" placeholder="Промо цена (€) - по избор" step="0.01">
+          <input type="number" id="p-quantity" placeholder="Количество (бр.)" min="0" value="1" required="">
+          
+          <select id="p-category" onchange="toggleSizeInput('p-category', 'p-size-container')" required="">
+            <option value="" disabled="" selected="">Избери категория...</option>
+            <option value="Електроника">Електроника</option>
+            <option value="Дом и кухня">Дом и кухня</option>
+            <option value="Здраве и красота">Здраве и красота</option>
+            <option value="Облекло">Облекло (Общо)</option>
+            <option value="Дрехи">Облекло -&gt; Дрехи</option>
+            <option value="Обувки">Облекло -&gt; Обувки</option>
+            <option value="За деца">Облекло -&gt; За деца</option>
+            <option value="Очила">Облекло -&gt; Очила</option>
+            <option value="Играчки и занятия">Играчки и занятия</option>
+            <option value="Спорт и на открито">Спорт и на открито</option>
+            <option value="Автомобилна">Автомобилна</option>
+            <option value="Домашни любимци">Домашни любимци</option>
+            <option value="Инструменти">Инструменти</option>
+            <option value="Градина">Градина</option>
+          </select>
+
+          <div id="p-size-container" style="display: none;">
+            <input type="text" id="p-size" placeholder="Размер (напр. S, M, XL, 42)">
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <input type="url" id="p-image1" placeholder="Основна снимка URL" required="">
+          <input type="url" id="p-image2" placeholder="Втора снимка URL">
+          <input type="url" id="p-image3" placeholder="Трета снимка URL">
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px;">
+          <textarea id="p-desc" placeholder="Кратко описание (за витрината)..." style="height: 50px;" required=""></textarea>
+          <textarea id="p-details" placeholder="Подробно описание..." style="height: 50px;"></textarea>
+        </div>
+
+        <button type="submit" class="btn-add">+ Добави продукт</button>
+      </form>
+    </div>
+
+    <div class="filter-status">
+      <h2 id="catalog-title">Зареждане на каталога...</h2>
+      <button id="reset-filter-btn" class="btn-reset-filter" style="display: none;" onclick="resetAllFilters()">Назад към категории</button>
+    </div>
+
+    <div id="main-content-area"></div>
+
+  </div>
+
+  <div class="bottom-bar">
+    <button id="auth-btn" class="bottom-bar-btn" onclick="handleAuth()">Вход</button>
+  </div>
+
+  <!-- Основен модал за продукт -->
+  <div class="modal-overlay" id="product-modal" onclick="closeModalOnOverlay(event, 'product-modal')">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('product-modal')">×</button>
+      
+      <div class="modal-grid">
+        <div>
+          <div class="gallery-main">
+            <img id="modal-main-img" src="" alt="Основна снимка" onclick="openLightbox(this.src)" title="Кликни за уголемяване на цял екран">
+          </div>
+          <div class="gallery-thumbs" id="modal-thumbs"></div>
+        </div>
+
+        <div>
+          <div class="modal-category" id="modal-category"></div>
+          <div id="modal-size-container"></div>
+          <h1 class="modal-title" id="modal-title"></h1>
+          <div id="modal-status-badge" class="modal-status-badge"></div>
+          
+          <div class="modal-price-block" id="modal-price-block"></div>
+          
+          <div class="modal-stock-text" id="modal-stock"></div>
+          
+          <div style="font-weight: bold; margin-bottom: 4px; font-size: 13px; color: #333;">Подробно описание:</div>
+          <div class="modal-details" id="modal-details"></div>
+        </div>
+      </div>
+
+      <div class="similar-section" id="similar-section" style="display: none;">
+        <h3>📦 Сходни артикули</h3>
+        <div class="similar-grid" id="similar-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox за пълноекранен преглед на снимка -->
+  <div class="lightbox-overlay" id="image-lightbox" onclick="closeLightbox()">
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+      <button class="lightbox-close" onclick="closeLightbox()">×</button>
+      <img id="lightbox-img" src="" alt="Пълноекранна снимка">
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="edit-modal" onclick="closeModalOnOverlay(event, 'edit-modal')">
+    <div class="modal-content" style="max-width: 600px;">
+      <button class="modal-close" onclick="closeModal('edit-modal')">×</button>
+      
+      <h2 style="margin-bottom: 15px; color: #333; font-size: 16px; border-bottom: 2px solid var(--emag-blue); padding-bottom: 6px;">✏️ Редактиране на продукт</h2>
+
+      <form id="edit-product-form">
+        <input type="hidden" id="edit-p-id" value="">
+        
+        <div style="margin-bottom: 8px;">
+          <label style="font-size: 11px; font-weight: bold;">Заглавие:</label>
+          <input type="text" id="edit-p-title" required="">
+        </div>
+
+        <div class="form-grid">
+          <div>
+            <label style="font-size: 11px; font-weight: bold;">Редовна цена (€):</label>
+            <input type="number" id="edit-p-regular-price" step="0.01" required="">
+          </div>
+          <div>
+            <label style="font-size: 11px; font-weight: bold;">Промо цена (€):</label>
+            <input type="number" id="edit-p-sale-price" step="0.01">
+          </div>
+          <div>
+            <label style="font-size: 11px; font-weight: bold;">Количество (бр.):</label>
+            <input type="number" id="edit-p-quantity" min="0" required="">
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div>
+            <label style="font-size: 11px; font-weight: bold;">Категория:</label>
+            <select id="edit-p-category" onchange="toggleSizeInput('edit-p-category', 'edit-p-size-container')" required="">
+              <option value="Електроника">Електроника</option>
+              <option value="Дом и кухня">Дом и кухня</option>
+              <option value="Здраве и красота">Здраве и красота</option>
+              <option value="Облекло">Облекло (Общо)</option>
+              <option value="Дрехи">Облекло -&gt; Дрехи</option>
+              <option value="Обувки">Облекло -&gt; Обувки</option>
+              <option value="За деца">Облекло -&gt; За деца</option>
+              <option value="Очила">Облекло -&gt; Очила</option>
+              <option value="Играчки и занятия">Играчки и занятия</option>
+              <option value="Спорт и на открито">Спорт и на открито</option>
+              <option value="Автомобилна">Автомобилна</option>
+              <option value="Домашни любимци">Домашни любимци</option>
+              <option value="Инструменти">Инструменти</option>
+              <option value="Градина">Градина</option>
+            </select>
+          </div>
+
+          <div id="edit-p-size-container" style="display: none;">
+            <label style="font-size: 11px; font-weight: bold;">Размер:</label>
+            <input type="text" id="edit-p-size">
+          </div>
+        </div>
+
+        <div style="margin-bottom: 8px;">
+          <label style="font-size: 11px; font-weight: bold;">Основна снимка URL:</label>
+          <input type="url" id="edit-p-image1" required="">
+        </div>
+        <div style="margin-bottom: 8px;">
+          <label style="font-size: 11px; font-weight: bold;">Втора снимка URL:</label>
+          <input type="url" id="edit-p-image2">
+        </div>
+        <div style="margin-bottom: 8px;">
+          <label style="font-size: 11px; font-weight: bold;">Трета снимка URL:</label>
+          <input type="url" id="edit-p-image3">
+        </div>
+
+        <div style="margin-bottom: 8px;">
+          <label style="font-size: 11px; font-weight: bold;">Кратко описание:</label>
+          <textarea id="edit-p-desc" style="height: 45px;" required=""></textarea>
+        </div>
+
+        <div style="margin-bottom: 8px;">
+          <label style="font-size: 11px; font-weight: bold;">Подробно описание:</label>
+          <textarea id="edit-p-details" style="height: 60px;"></textarea>
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-top: 15px;">
+          <button type="submit" class="btn-add" style="background-color: #28a745; flex: 2;">💾 Запази</button>
+          <button type="button" class="btn-add" style="background-color: #6c757d; flex: 1;" onclick="closeModal('edit-modal')">Отказ</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const ADMIN_PASSWORD = "onlineshop0000";
+
+    let isAdmin = false;
+    let currentCategory = 'home';
+    let currentPage = 1;
+    const PRODUCTS_PER_PAGE = 16;
+    let products = [];
+
+    const categoryIcons = {
+      "Електроника": "💻",
+      "Дом и кухня": "🏠",
+      "Здраве и красота": "💄",
+      "Облекло": "👕",
+      "Дрехи": "👗",
+      "Обувки": "👟",
+      "За деца": "🧸",
+      "Очила": "🕶️",
+      "Играчки и занятия": "🧩",
+      "Спорт и на открито": "⚽",
+      "Автомобилна": "🚗",
+      "Домашни любимци": "🐾",
+      "Инструменти": "🛠️",
+      "Градина": "🌱"
+    };
+
+    const mainCategoriesList = [
+      "Електроника",
+      "Дом и кухня",
+      "Здраве и красота",
+      "Облекло",
+      "Дрехи",
+      "Обувки",
+      "За деца",
+      "Очила",
+      "Играчки и занятия",
+      "Спорт и на открито",
+      "Автомобилна",
+      "Домашни любимци",
+      "Инструменти",
+      "Градина"
+    ];
+
+    async function loadProducts() {
+      try {
+        let response = await fetch('data/products.json');
+        if (!response.ok) throw new Error('Грешка при зареждане на products.json');
+        products = await response.json();
+        renderApp();
+      } catch (error) {
+        console.error("Грешка:", error);
+        document.getElementById('catalog-title').innerText = "Грешка при зареждане на данните";
+        document.getElementById('main-content-area').innerHTML = '<p style="color: red; text-align: center; padding: 20px;">Неуспешно зареждане на файла data/products.json. Уверете се, че отваряте страницата през локален сървър (Live Server) или хостинг.</p>';
+      }
+    }
+
+    function toggleDropdown(event) {
+      event.stopPropagation();
+      document.getElementById("dropdown-menu").classList.toggle("show");
+    }
+
+    function toggleSubmenu(event) {
+      event.stopPropagation();
+      const parent = event.currentTarget.parentElement;
+      parent.classList.toggle("open");
+    }
+
+    function toggleAdminDownloadDropdown(event) {
+      event.stopPropagation();
+      document.getElementById("admin-download-menu").classList.toggle("show");
+    }
+
+    window.onclick = function(event) {
+      if (!event.target.closest('.dropdown')) {
+        const dropdowns = document.getElementsByClassName("dropdown-content");
+        for (let i = 0; i < dropdowns.length; i++) {
+          dropdowns[i].classList.remove('show');
+        }
+      }
+      if (!event.target.closest('.admin-download-dropdown')) {
+        const adminDropdowns = document.getElementsByClassName("admin-dropdown-content");
+        for (let i = 0; i < adminDropdowns.length; i++) {
+          adminDropdowns[i].classList.remove('show');
+        }
+      }
+    }
+
+    function filterCategory(category) {
+      currentCategory = category;
+      currentPage = 1;
+      document.getElementById("dropdown-menu").classList.remove('show');
+      renderApp();
+    }
+
+    function onSearchInput() {
+      currentPage = 1;
+      renderApp();
+    }
+
+    function resetAllFilters() {
+      currentCategory = 'home';
+      currentPage = 1;
+      document.getElementById("search-input").value = '';
+      renderApp();
+    }
+
+    function changePage(page) {
+      currentPage = page;
+      renderApp();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderApp() {
+      const searchQuery = document.getElementById("search-input").value.trim().toLowerCase();
+      const titleEl = document.getElementById("catalog-title");
+      const resetBtn = document.getElementById("reset-filter-btn");
+      const contentArea = document.getElementById("main-content-area");
+
+      if (searchQuery !== '') {
+        titleEl.innerText = `Резултати от търсене: "${searchQuery}"`;
+        resetBtn.style.display = "inline-block";
+        renderProductsGrid(filterProductsBySearch(searchQuery), contentArea);
+        return;
+      }
+
+      if (currentCategory === 'home') {
+        titleEl.innerText = "Начало - Изберете категория";
+        resetBtn.style.display = "none";
+        renderCategoriesHome(contentArea);
+        return;
+      }
+
+      if (currentCategory === 'all') {
+        titleEl.innerText = "Всички категории";
+      } else {
+        titleEl.innerText = currentCategory;
+      }
+      resetBtn.style.display = "inline-block";
+
+      let filtered = products.filter(p => {
+        if (currentCategory === 'all') return true;
+        if (currentCategory === 'Облекло') {
+          return ['Облекло', 'Дрехи', 'Обувки', 'За деца', 'Очила'].includes(p.category);
+        }
+        return p.category === currentCategory;
+      });
+
+      renderProductsGrid(filtered, contentArea);
+    }
+
+    function filterProductsBySearch(query) {
+      return products.filter(p => 
+        p.title.toLowerCase().includes(query) || 
+        p.description.toLowerCase().includes(query) || 
+        p.category.toLowerCase().includes(query)
+      );
+    }
+
+    function renderCategoriesHome(container) {
+      let html = `<div class="categories-home-grid">`;
+      
+      html += `
+        <div class="category-card-all" onclick="filterCategory('all')">
+          <span>Всички категории</span>
+        </div>
+      `;
+
+      mainCategoriesList.forEach(cat => {
+        let count = products.filter(p => {
+          if (cat === 'Облекло') {
+            return ['Облекло', 'Дрехи', 'Обувки', 'За деца', 'Очила'].includes(p.category);
+          }
+          return p.category === cat;
+        }).length;
+
+        let icon = categoryIcons[cat] || "📁";
+
+        html += `
+          <div class="category-card" onclick="filterCategory('${cat}')">
+            <div class="category-card-icon">${icon}</div>
+            <div class="category-card-title">${cat}</div>
+            <div class="category-card-count">${count} артикула</div>
+          </div>
+        `;
+      });
+
+      html += `</div>`;
+      container.innerHTML = html;
+    }
+
+    function renderProductsGrid(list, container) {
+      if (list.length === 0) {
+        container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #777;">Няма намерени продукти.</div>`;
+        return;
+      }
+
+      const totalPages = Math.ceil(list.length / PRODUCTS_PER_PAGE);
+      if (currentPage > totalPages) currentPage = totalPages || 1;
+
+      const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
+      const paginatedList = list.slice(startIndex, startIndex + PRODUCTS_PER_PAGE);
+
+      let html = `<div class="product-grid">`;
+
+      paginatedList.forEach(p => {
+        const isSold = p.sold || p.quantity === 0;
+        const hasDiscount = p.salePrice && p.salePrice < p.regularPrice;
+        const discountPct = hasDiscount ? Math.round((1 - p.salePrice / p.regularPrice) * 100) : 0;
+        const mainImg = (p.images && p.images.length > 0) ? p.images[0] : 'https://via.placeholder.com/300x200?text=Няма+снимка';
+
+        html += `
+          <div class="product-card ${isSold ? 'sold-out' : ''}" onclick="openProductModal(${p.id})">
+            <div>
+              <div class="category-header-line">
+                <span class="category-tag">${p.category}</span>
+                ${p.size ? `<span class="size-badge">${p.size}</span>` : ''}
+              </div>
+              <div class="image-container">
+                <img src="${mainImg}" alt="${p.title}" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
+                ${isSold ? '<span class="badge-sold">Изчерпано</span>' : '<span class="badge-available">Налично</span>'}
+                ${hasDiscount ? `<span class="badge-discount">-${discountPct}%</span>` : ''}
+              </div>
+              <div class="product-title">${p.title}</div>
+              <div class="product-desc">${p.description}</div>
+              <div class="product-stock">Наличност: ${p.quantity} бр.</div>
+            </div>
+            <div>
+              <div class="price-block">
+                ${hasDiscount ? `
+                  <span class="old-price-container"><span class="old-price">€${p.regularPrice.toFixed(2)}</span></span>
+                  <span class="current-price">€${p.salePrice.toFixed(2)}</span>
+                ` : `
+                  <span class="regular-price-only">€${p.regularPrice.toFixed(2)}</span>
+                `}
+              </div>
+              <div class="click-more-hint">🔍 Виж</div>
+              
+              <div class="admin-controls" onclick="event.stopPropagation()">
+                <button class="btn-toggle" onclick="toggleSold(${p.id})">${isSold ? 'Наличен' : 'Продаден'}</button>
+                <button class="btn-edit" onclick="openEditModal(${p.id})">✏️</button>
+                <button class="btn-delete" onclick="deleteProduct(${p.id})">✕</button>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      html += `</div>`;
+
+      if (totalPages > 1) {
+        html += `<div class="pagination">`;
+        html += `<button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(${currentPage - 1})">‹ Предишна</button>`;
+        
+        for (let i = 1; i <= totalPages; i++) {
+          html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+        }
+
+        html += `<button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(${currentPage + 1})">Следваща ›</button>`;
+        html += `</div>`;
+      }
+
+      container.innerHTML = html;
+    }
+
+    function openProductModal(id) {
+      const p = products.find(item => item.id === id);
+      if (!p) return;
+
+      document.getElementById('modal-category').innerText = p.category;
+      document.getElementById('modal-title').innerText = p.title;
+      
+      const sizeContainer = document.getElementById('modal-size-container');
+      if (p.size) {
+        sizeContainer.innerHTML = `<span class="modal-size-badge">Размер: ${p.size}</span>`;
+      } else {
+        sizeContainer.innerHTML = '';
+      }
+
+      const isSold = p.sold || p.quantity === 0;
+      const statusBadge = document.getElementById('modal-status-badge');
+      if (isSold) {
+        statusBadge.innerText = "ИЗЧЕРПАНО";
+        statusBadge.style.background = "rgba(0,0,0,0.8)";
+      } else {
+        statusBadge.innerText = "НАЛИЧНО";
+        statusBadge.style.background = "#28a745";
+      }
+
+      const hasDiscount = p.salePrice && p.salePrice < p.regularPrice;
+      const priceBlock = document.getElementById('modal-price-block');
+      if (hasDiscount) {
+        const discountPct = Math.round((1 - p.salePrice / p.regularPrice) * 100);
+        priceBlock.innerHTML = `
+          <div class="modal-old-price-box"><span class="modal-old-price">€${p.regularPrice.toFixed(2)}</span></div>
+          <span class="modal-sale-price">€${p.salePrice.toFixed(2)}</span>
+          <span class="modal-discount-badge">-${discountPct}%</span>
+        `;
+      } else {
+        priceBlock.innerHTML = `<span class="modal-sale-price">€${p.regularPrice.toFixed(2)}</span>`;
+      }
+
+      const stockEl = document.getElementById('modal-stock');
+      stockEl.innerText = `Наличност: ${p.quantity} бр.`;
+      stockEl.style.color = isSold ? '#888' : '#28a745';
+
+      document.getElementById('modal-details').innerText = p.details || p.description;
+
+      const imgs = (p.images && p.images.length > 0) ? p.images : ['https://via.placeholder.com/300x200?text=Няма+снимка'];
+      document.getElementById('modal-main-img').src = imgs[0];
+
+      const thumbsContainer = document.getElementById('modal-thumbs');
+      let thumbsHtml = '';
+      imgs.forEach((img, idx) => {
+        thumbsHtml += `
+          <div class="thumb ${idx === 0 ? 'active' : ''}" onclick="changeMainImage('${img}', this)">
+            <img src="${img}" alt="thumb">
+          </div>
+        `;
+      });
+      thumbsContainer.innerHTML = thumbsHtml;
+
+      const similar = products.filter(item => item.category === p.category && item.id !== p.id).slice(0, 4);
+      const similarSection = document.getElementById('similar-section');
+      const similarGrid = document.getElementById('similar-grid');
+      
+      if (similar.length > 0) {
+        similarSection.style.display = 'block';
+        let simHtml = '';
+        similar.forEach(sim => {
+          const simImg = (sim.images && sim.images.length > 0) ? sim.images[0] : '';
+          const simPrice = (sim.salePrice && sim.salePrice < sim.regularPrice) ? sim.salePrice : sim.regularPrice;
+          simHtml += `
+            <div class="similar-card" onclick="openProductModal(${sim.id})">
+              <img src="${simImg}" alt="${sim.title}" onerror="this.src='https://via.placeholder.com/130x80?text=Снимка'">
+              <div class="similar-title">${sim.title}</div>
+              <div class="similar-price">€${simPrice.toFixed(2)}</div>
+            </div>
+          `;
+        });
+        similarGrid.innerHTML = simHtml;
+      } else {
+        similarSection.style.display = 'none';
+      }
+
+      document.getElementById('product-modal').classList.add('active');
+    }
+
+    function changeMainImage(src, thumbElement) {
+      document.getElementById('modal-main-img').src = src;
+      const thumbs = thumbElement.parentElement.getElementsByClassName('thumb');
+      for (let t of thumbs) t.classList.remove('active');
+      thumbElement.classList.add('active');
+    }
+
+    function openLightbox(imgSrc) {
+      document.getElementById('lightbox-img').src = imgSrc;
+      document.getElementById('image-lightbox').classList.add('active');
+    }
+
+    function closeLightbox() {
+      document.getElementById('image-lightbox').classList.remove('active');
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
+    }
+
+    function closeModalOnOverlay(event, modalId) {
+      if (event.target === document.getElementById(modalId)) {
+        closeModal(modalId);
+      }
+    }
+
+    function handleAuth() {
+      if (!isAdmin) {
+        let pass = prompt("Въведете администраторска парола:");
+        if (pass === ADMIN_PASSWORD) {
+          isAdmin = true;
+          document.getElementById('body-tag').classList.add('is-admin');
+          document.getElementById('admin-panel').classList.add('active');
+          document.getElementById('auth-btn').innerText = "Изход";
+          renderApp();
+        } else if (pass !== null) {
+          alert("Грешна парола!");
+        }
+      } else {
+        isAdmin = false;
+        document.getElementById('body-tag').classList.remove('is-admin');
+        document.getElementById('admin-panel').classList.remove('active');
+        document.getElementById('auth-btn').innerText = "Вход";
+        renderApp();
+      }
+    }
+
+    function toggleSizeInput(selectId, containerId) {
+      const select = document.getElementById(selectId);
+      const container = document.getElementById(containerId);
+      const val = select.value;
+      if (['Дрехи', 'Обувки', 'За деца', 'Очила', 'Облекло'].includes(val)) {
+        container.style.display = 'block';
+      } else {
+        container.style.display = 'none';
+      }
+    }
+
+    document.getElementById('add-product-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const title = document.getElementById('p-title').value;
+      const regularPrice = parseFloat(document.getElementById('p-regular-price').value);
+      const salePriceVal = document.getElementById('p-sale-price').value;
+      const salePrice = salePriceVal ? parseFloat(salePriceVal) : null;
+      const quantity = parseInt(document.getElementById('p-quantity').value);
+      const category = document.getElementById('p-category').value;
+      const size = document.getElementById('p-size').value;
+      
+      const img1 = document.getElementById('p-image1').value;
+      const img2 = document.getElementById('p-image2').value;
+      const img3 = document.getElementById('p-image3').value;
+      const images = [img1, img2, img3].filter(img => img.trim() !== '');
+
+      const description = document.getElementById('p-desc').value;
+      const details = document.getElementById('p-details').value;
+
+      const newProduct = {
+        id: Date.now(),
+        title,
+        regularPrice,
+        salePrice,
+        quantity,
+        category,
+        size,
+        images,
+        description,
+        details,
+        sold: false
+      };
+
+      products.unshift(newProduct);
+      this.reset();
+      document.getElementById('p-size-container').style.display = 'none';
+      renderApp();
+      alert("Продуктът е добавен успешно!");
+    });
+
+    function toggleSold(id) {
+      const p = products.find(item => item.id === id);
+      if (p) {
+        p.sold = !p.sold;
+        renderApp();
+      }
+    }
+
+    function deleteProduct(id) {
+      if (confirm("Сигурни ли сте, че искате да изтриете този продукт?")) {
+        products = products.filter(item => item.id !== id);
+        renderApp();
+      }
+    }
+
+    function openEditModal(id) {
+      const p = products.find(item => item.id === id);
+      if (!p) return;
+
+      document.getElementById('edit-p-id').value = p.id;
+      document.getElementById('edit-p-title').value = p.title;
+      document.getElementById('edit-p-regular-price').value = p.regularPrice;
+      document.getElementById('edit-p-sale-price').value = p.salePrice !== null ? p.salePrice : '';
+      document.getElementById('edit-p-quantity').value = p.quantity;
+      document.getElementById('edit-p-category').value = p.category;
+      
+      toggleSizeInput('edit-p-category', 'edit-p-size-container');
+      document.getElementById('edit-p-size').value = p.size || '';
+
+      document.getElementById('edit-p-image1').value = p.images[0] || '';
+      document.getElementById('edit-p-image2').value = p.images[1] || '';
+      document.getElementById('edit-p-image3').value = p.images[2] || '';
+      document.getElementById('edit-p-desc').value = p.description || '';
+      document.getElementById('edit-p-details').value = p.details || '';
+
+      document.getElementById('edit-modal').classList.add('active');
+    }
+
+    document.getElementById('edit-product-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const id = parseInt(document.getElementById('edit-p-id').value);
+      const p = products.find(item => item.id === id);
+      if (!p) return;
+
+      p.title = document.getElementById('edit-p-title').value;
+      p.regularPrice = parseFloat(document.getElementById('edit-p-regular-price').value);
+      const saleVal = document.getElementById('edit-p-sale-price').value;
+      p.salePrice = saleVal ? parseFloat(saleVal) : null;
+      p.quantity = parseInt(document.getElementById('edit-p-quantity').value);
+      p.category = document.getElementById('edit-p-category').value;
+      p.size = document.getElementById('edit-p-size').value;
+
+      const img1 = document.getElementById('edit-p-image1').value;
+      const img2 = document.getElementById('edit-p-image2').value;
+      const img3 = document.getElementById('edit-p-image3').value;
+      p.images = [img1, img2, img3].filter(img => img.trim() !== '');
+
+      p.description = document.getElementById('edit-p-desc').value;
+      p.details = document.getElementById('edit-p-details').value;
+
+      closeModal('edit-modal');
+      renderApp();
+      alert("Продуктът е обновен успешно!");
+    });
+
+    function downloadProductsJson() {
+      let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(products, null, 2));
+      let a = document.createElement('a');
+      a.href = dataStr;
+      a.download = 'products.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      document.getElementById("admin-download-menu").classList.remove('show');
+    }
+
+    function downloadIndexHtml() {
+      let htmlContent = document.documentElement.outerHTML;
+      let blob = new Blob(["<!DOCTYPE html>\n" + htmlContent], { type: "text/html;charset=utf-8" });
+      let a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'index.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      document.getElementById("admin-download-menu").classList.remove('show');
+    }
+
+    window.addEventListener('DOMContentLoaded', loadProducts);
+  </script>
+</body>
+</html>
