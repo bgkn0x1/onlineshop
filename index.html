@@ -1291,76 +1291,46 @@ const token = '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';
     async function saveProductsToGitHub() {
       const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
       try {
+        // Проверяваме дали файлът вече съществува в GitHub, за да вземем неговия SHA
         const getRes = await fetch(url, {
           headers: {
             'Authorization': `token ${token}`,
             'Accept': 'application/vnd.github.v3+json'
           }
         });
-        let sha = '';
+        
+        let bodyData = {
+          message: 'Auto-update products.json from admin panel',
+          content: btoa(unescape(encodeURIComponent(JSON.stringify(products, null, 2))))
+        };
+
+        // Ако файлът съществува, добавяме неговия SHA (задължително за редакция)
         if (getRes.ok) {
           const fileData = await getRes.json();
-          sha = fileData.sha;
+          bodyData.sha = fileData.sha;
         }
-        const jsonString = JSON.stringify(products, null, 2);
-        const base64Content = btoa(unescape(encodeURIComponent(jsonString)));
-        await fetch(url, {
+
+        const putRes = await fetch(url, {
           method: 'PUT',
           headers: {
             'Authorization': `token ${token}`,
             'Content-Type': 'application/json',
             'Accept': 'application/vnd.github.v3+json'
           },
-          body: JSON.stringify({
-            message: 'Auto-update products.json from admin panel',
-            content: base64Content,
-            sha: sha
-          })
+          body: JSON.stringify(bodyData)
         });
+
+        if (!putRes.ok) {
+          const errJson = await putRes.json();
+          throw new Error(errJson.message || 'Грешка при запис в GitHub');
+        }
+
+        console.log('Успешно синхронизирано с GitHub!');
       } catch (error) {
         console.error('GitHub Sync Error:', error);
+        alert('Грешка при връзка с GitHub: ' + error.message);
       }
     }
-    const ADMIN_PASSWORD = "onlineshop0000";
-    let isAdmin = false;
-    let currentCategory = 'home';
-    let currentPage = 1;
-    const PRODUCTS_PER_PAGE = 16;
-    let products = [];
-
-    const categoryIcons = {
-      "Електроника": "💻",
-      "Дом и кухня": "🏠",
-      "Здраве и красота": "💄",
-      "Облекло": "👕",
-      "Дрехи": "👗",
-      "Обувки": "👟",
-      "За деца": "🧸",
-      "Очила": "🕶️",
-      "Играчки и занятия": "🧩",
-      "Спорт и на открито": "⚽",
-      "Автомобилна": "🚗",
-      "Домашни любимци": "🐾",
-      "Инструменти": "🛠️",
-      "Градина": "🌱"
-    };
-
-    const mainCategoriesList = [
-      "Електроника",
-      "Дом и кухня",
-      "Здраве и красота",
-      "Облекло",
-      "Дрехи",
-      "Обувки",
-      "За деца",
-      "Очила",
-      "Играчки и занятия",
-      "Спорт и на открито",
-      "Автомобилна",
-      "Домашни любимци",
-      "Инструменти",
-      "Градина"
-    ];
 
     async function loadProducts() {
       try {
