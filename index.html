@@ -1291,7 +1291,6 @@ const token = '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';
     async function saveProductsToGitHub() {
       const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
       try {
-        // Проверяваме дали файлът вече съществува в GitHub, за да вземем неговия SHA
         const getRes = await fetch(url, {
           headers: {
             'Authorization': `token ${token}`,
@@ -1304,7 +1303,6 @@ const token = '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';
           content: btoa(unescape(encodeURIComponent(JSON.stringify(products, null, 2))))
         };
 
-        // Ако файлът съществува, добавяме неговия SHA (задължително за редакция)
         if (getRes.ok) {
           const fileData = await getRes.json();
           bodyData.sha = fileData.sha;
