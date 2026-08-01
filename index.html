@@ -295,7 +295,7 @@
         </div>
     </div>
 
-    <!-- Футър (премахнати авторски права, оставена само връзката за вход) -->
+    <!-- Футър -->
     <footer class="bg-emagDark text-gray-400 py-4 border-t border-gray-700 mt-12">
         <div class="container mx-auto px-4 text-center text-sm space-y-2">
             <div>
@@ -323,7 +323,16 @@
         let currentCategoryFilter = 'Всички';
         let currentSearchQuery = '';
         let currentSort = 'default';
-        let isAdminLoggedIn = false; // Проследява дали сме влезли като админ
+        let isAdminLoggedIn = false;
+
+        // Помощна функция за вземане на активната цена (поддържа и promoPrice, и salePrice)
+        function getActivePrice(p) {
+            const promo = p.promoPrice !== undefined && p.promoPrice !== null && p.promoPrice !== '' ? Number(p.promoPrice) : null;
+            if (promo !== null && !isNaN(promo)) return promo;
+            const sale = p.salePrice !== undefined && p.salePrice !== null && p.salePrice !== '' ? Number(p.salePrice) : null;
+            if (sale !== null && !isNaN(sale)) return sale;
+            return Number(p.regularPrice) || 0;
+        }
 
         // Инициализация при зареждане на страницата
         window.addEventListener('DOMContentLoaded', async () => {
@@ -368,7 +377,7 @@
                     category: "Обувки",
                     size: "38",
                     regularPrice: 280.00,
-                    promoPrice: 199.00,
+                    salePrice: 199.00,
                     stockStatus: "наличен",
                     images: [
                         "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600",
@@ -466,13 +475,15 @@
         function sortProducts(sortType) {
             currentSort = sortType;
             if (sortType === 'price-asc') {
-                currentFilteredProducts.sort((a, b) => (a.promoPrice || a.regularPrice) - (b.promoPrice || b.regularPrice));
+                currentFilteredProducts.sort((a, b) => getActivePrice(a) - getActivePrice(b));
             } else if (sortType === 'price-desc') {
-                currentFilteredProducts.sort((a, b) => (b.promoPrice || b.regularPrice) - (a.promoPrice || a.regularPrice));
+                currentFilteredProducts.sort((a, b) => getActivePrice(b) - getActivePrice(a));
             } else if (sortType === 'discount') {
                 currentFilteredProducts.sort((a, b) => {
-                    const discA = a.promoPrice ? ((a.regularPrice - a.promoPrice) / a.regularPrice) : 0;
-                    const discB = b.promoPrice ? ((b.regularPrice - b.promoPrice) / b.regularPrice) : 0;
+                    const priceA = getActivePrice(a);
+                    const priceB = getActivePrice(b);
+                    const discA = a.regularPrice > priceA ? ((a.regularPrice - priceA) / a.regularPrice) : 0;
+                    const discB = b.regularPrice > priceB ? ((b.regularPrice - priceB) / b.regularPrice) : 0;
                     return discB - discA;
                 });
             }
@@ -501,8 +512,9 @@
             }
 
             grid.innerHTML = paginatedItems.map(p => {
-                const hasDiscount = p.promoPrice && p.promoPrice < p.regularPrice;
-                const discountPercent = hasDiscount ? Math.round(((p.regularPrice - p.promoPrice) / p.regularPrice) * 100) : 0;
+                const activePrice = getActivePrice(p);
+                const hasDiscount = p.regularPrice > activePrice;
+                const discountPercent = hasDiscount ? Math.round(((p.regularPrice - activePrice) / p.regularPrice) * 100) : 0;
                 const isSoldOut = p.stockStatus === 'продаден';
 
                 return `
@@ -539,8 +551,8 @@
                         <div class="border-t pt-3 mt-auto">
                             <div class="flex items-baseline justify-between">
                                 <div>
-                                    <div class="text-xs text-gray-400 line-through">${hasDiscount ? p.regularPrice.toFixed(2) + ' лв.' : ''}</div>
-                                    <div class="text-xl font-black text-gray-900">${(p.promoPrice || p.regularPrice).toFixed(2)} лв.</div>
+                                    <div class="text-xs text-gray-400 line-through">${hasDiscount ? Number(p.regularPrice).toFixed(2) + ' лв.' : ''}</div>
+                                    <div class="text-xl font-black text-gray-900">${activePrice.toFixed(2)} лв.</div>
                                 </div>
                                 <button onclick="openProductModal(${p.id})" class="bg-emagBlue text-white p-2 rounded-lg hover:bg-blue-700 transition">
                                     <i class="fa-solid fa-eye"></i>
@@ -587,7 +599,8 @@
             if (!product) return;
 
             const modalContent = document.getElementById('modalContent');
-            const hasDiscount = product.promoPrice && product.promoPrice < product.regularPrice;
+            const activePrice = getActivePrice(product);
+            const hasDiscount = product.regularPrice > activePrice;
             const similarProducts = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3);
 
             modalContent.innerHTML = `
@@ -615,8 +628,8 @@
                     <div class="bg-gray-50 p-4 rounded-lg border">
                         <div class="text-sm text-gray-500">Статус: <span class="font-bold ${product.stockStatus === 'продаден' ? 'text-red-500' : 'text-green-600'}">${product.stockStatus.toUpperCase()}</span></div>
                         <div class="mt-2">
-                            <span class="text-sm text-gray-400 line-through">${hasDiscount ? product.regularPrice.toFixed(2) + ' лв.' : ''}</span>
-                            <div class="text-3xl font-black text-gray-900">${(product.promoPrice || product.regularPrice).toFixed(2)} лв.</div>
+                            <span class="text-sm text-gray-400 line-through">${hasDiscount ? Number(product.regularPrice).toFixed(2) + ' лв.' : ''}</span>
+                            <div class="text-3xl font-black text-gray-900">${activePrice.toFixed(2)} лв.</div>
                         </div>
                     </div>
 
@@ -624,13 +637,16 @@
                     <div>
                         <h4 class="text-sm font-bold text-gray-700 mb-2">Сходни артикули:</h4>
                         <div class="grid grid-cols-3 gap-2">
-                            ${similarProducts.length > 0 ? similarProducts.map(sim => `
-                                <div onclick="openProductModal(${sim.id})" class="border rounded p-2 text-center cursor-pointer hover:border-emagBlue transition">
-                                    <img src="${sim.images[0]}" class="h-16 w-full object-cover rounded mb-1">
-                                    <div class="text-xs truncate font-medium">${sim.title}</div>
-                                    <div class="text-xs font-bold text-emagOrange">${(sim.promoPrice || sim.regularPrice).toFixed(2)} лв.</div>
-                                </div>
-                            `).join('') : '<p class="text-xs text-gray-400 col-span-3">Няма сходни артикули.</p>'}
+                            ${similarProducts.length > 0 ? similarProducts.map(sim => {
+                                const simPrice = getActivePrice(sim);
+                                return `
+                                    <div onclick="openProductModal(${sim.id})" class="border rounded p-2 text-center cursor-pointer hover:border-emagBlue transition">
+                                        <img src="${sim.images[0]}" class="h-16 w-full object-cover rounded mb-1">
+                                        <div class="text-xs truncate font-medium">${sim.title}</div>
+                                        <div class="text-xs font-bold text-emagOrange">${simPrice.toFixed(2)} лв.</div>
+                                    </div>
+                                `;
+                            }).join('') : '<p class="text-xs text-gray-400 col-span-3">Няма сходни артикули.</p>'}
                         </div>
                     </div>
                 </div>
@@ -702,24 +718,27 @@
 
         function renderAdminProductsList() {
             const list = document.getElementById('adminProductsList');
-            list.innerHTML = products.map(p => `
-                <div class="flex items-center justify-between bg-white p-3 rounded border shadow-sm">
-                    <div class="flex items-center gap-3">
-                        <img src="${p.images[0]}" class="w-12 h-12 object-cover rounded">
-                        <div>
-                            <div class="font-bold text-sm">${p.title}</div>
-                            <div class="text-xs text-gray-500">${p.category} | ${(p.promoPrice || p.regularPrice).toFixed(2)} лв. | <span class="${p.stockStatus === 'продаден' ? 'text-red-500' : 'text-green-600'} font-semibold">${p.stockStatus}</span></div>
+            list.innerHTML = products.map(p => {
+                const activePrice = getActivePrice(p);
+                return `
+                    <div class="flex items-center justify-between bg-white p-3 rounded border shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <img src="${p.images[0]}" class="w-12 h-12 object-cover rounded">
+                            <div>
+                                <div class="font-bold text-sm">${p.title}</div>
+                                <div class="text-xs text-gray-500">${p.category} | ${activePrice.toFixed(2)} лв. | <span class="${p.stockStatus === 'продаден' ? 'text-red-500' : 'text-green-600'} font-semibold">${p.stockStatus}</span></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="toggleProductStock(${p.id})" class="px-2.5 py-1 text-xs rounded font-medium ${p.stockStatus === 'наличен' ? 'bg-amber-100 text-amber-700 hover:bg-amber-200' : 'bg-green-100 text-green-700 hover:bg-green-200'}">
+                                ${p.stockStatus === 'наличен' ? 'Маркирай продаден' : 'Маркирай наличен'}
+                            </button>
+                            <button onclick="openEditProductForm(${p.id})" class="bg-blue-100 text-blue-700 hover:bg-blue-200 p-2 rounded text-xs"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="deleteProduct(${p.id})" class="bg-red-100 text-red-700 hover:bg-red-200 p-2 rounded text-xs"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="toggleProductStock(${p.id})" class="px-2.5 py-1 text-xs rounded font-medium ${p.stockStatus === 'наличен' ? 'bg-amber-100 text-amber-700 hover:bg-amber-200' : 'bg-green-100 text-green-700 hover:bg-green-200'}">
-                            ${p.stockStatus === 'наличен' ? 'Маркирай продаден' : 'Маркирай наличен'}
-                        </button>
-                        <button onclick="openEditProductForm(${p.id})" class="bg-blue-100 text-blue-700 hover:bg-blue-200 p-2 rounded text-xs"><i class="fa-solid fa-pen"></i></button>
-                        <button onclick="deleteProduct(${p.id})" class="bg-red-100 text-red-700 hover:bg-red-200 p-2 rounded text-xs"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         function openProductForm() {
@@ -738,7 +757,7 @@
             document.getElementById('formTitleInput').value = product.title;
             document.getElementById('formCategoryInput').value = product.category;
             document.getElementById('formRegularPrice').value = product.regularPrice;
-            document.getElementById('formPromoPrice').value = product.promoPrice || '';
+            document.getElementById('formPromoPrice').value = product.promoPrice !== undefined ? product.promoPrice : (product.salePrice !== undefined ? product.salePrice : '');
             document.getElementById('formSize').value = product.size || '';
             document.getElementById('formStockStatus').value = product.stockStatus;
             
@@ -768,12 +787,14 @@
             const img3 = document.getElementById('formImage3').value.trim();
             const imagesArr = [img1, img2, img3].filter(Boolean);
 
+            const promoVal = document.getElementById('formPromoPrice').value;
+
             const productData = {
                 id: editId ? parseInt(editId) : (products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1),
                 title: document.getElementById('formTitleInput').value,
                 category: document.getElementById('formCategoryInput').value,
                 regularPrice: parseFloat(document.getElementById('formRegularPrice').value),
-                promoPrice: document.getElementById('formPromoPrice').value ? parseFloat(document.getElementById('formPromoPrice').value) : null,
+                promoPrice: promoVal ? parseFloat(promoVal) : null,
                 size: document.getElementById('formSize').value,
                 stockStatus: document.getElementById('formStockStatus').value,
                 images: imagesArr.length > 0 ? imagesArr : ['https://via.placeholder.com/300'],
