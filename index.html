@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="bg">
-<head>
+<html lang="bg"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Онлайн Витрина</title>
@@ -1032,7 +1031,7 @@
     }
   </style>
 </head>
-<body id="body-tag" class="">
+<body id="body-tag" class="is-admin">
 
   <header>
     <div class="header-container">
@@ -1078,7 +1077,7 @@
 
   <div class="container">
     
-    <div class="admin-panel" id="admin-panel">
+    <div class="admin-panel active" id="admin-panel">
       <div class="admin-header">
         <h2>⚙️ Администраторски панел</h2>
         <div class="admin-download-dropdown">
@@ -1086,7 +1085,7 @@
             <button class="btn-download-file" onclick="downloadProductsJson()">💾 Свали обновен products.json</button>
             <button class="admin-dropdown-arrow-btn" onclick="toggleAdminDownloadDropdown(event)">▼</button>
           </div>
-          <div class="admin-dropdown-content" id="admin-download-menu">
+          <div class="admin-dropdown-content show" id="admin-download-menu">
             <a onclick="downloadProductsJson()">💾 Свали products.json</a>
             <a onclick="downloadIndexHtml()">📄 Свали index.html</a>
           </div>
@@ -1139,16 +1138,528 @@
     </div>
 
     <div class="filter-status">
-      <h2 id="catalog-title">Зареждане на каталога...</h2>
-      <button id="reset-filter-btn" class="btn-reset-filter" style="display: none;" onclick="resetAllFilters()">Назад към категории</button>
+      <h2 id="catalog-title">Всички категории</h2>
+      <button id="reset-filter-btn" class="btn-reset-filter" style="display: inline-block;" onclick="resetAllFilters()">Назад към категории</button>
     </div>
 
-    <div id="main-content-area"></div>
+    <div id="main-content-area"><div class="product-grid">
+          <div class="product-card " onclick="openProductModal(1785584263154)">
+            <div>
+              <div class="category-header-line">
+                <span class="category-tag">Електроника</span>
+                
+              </div>
+              <div class="image-container">
+                <img src="https://assets.jobalots.com/product_image/Hrfk1aSpze819VHZ4IM61X9Hh5qFBaIAOeqELJAx.png?format=auto&amp;width=640&amp;quality=100" alt="22" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
+                <span class="badge-available">Налично</span>
+                <span class="badge-discount">-50%</span>
+              </div>
+              <div class="product-title">22</div>
+              <div class="product-desc">32</div>
+              <div class="product-stock">Наличност: 1 бр.</div>
+            </div>
+            <div>
+              <div class="price-block">
+                
+                  <span class="old-price-container"><span class="old-price">€2.00</span></span>
+                  <span class="current-price">€1.00</span>
+                
+              </div>
+              <div class="click-more-hint">🔍 Виж</div>
+              
+              <div class="admin-controls" onclick="event.stopPropagation()">
+                <button class="btn-toggle" onclick="toggleSold(1785584263154)">Продаден</button>
+                <button class="btn-edit" onclick="openEditModal(1785584263154)">✏️</button>
+                <button class="btn-delete" onclick="deleteProduct(1785584263154)">✕</button>
+              </div>
+            </div>
+          </div>
+        
+          <div class="product-card " onclick="openProductModal(1785423034116)">
+            <div>
+              <div class="category-header-line">
+                <span class="category-tag">Инструменти</span>
+                
+              </div>
+              <div class="image-container">
+                <img src="https://assets.jobalots.com/product_image/YE96dlDWNFobPR1ourwDYJok969Gt7bRb8bVjDbA.png?format=auto&amp;width=640&amp;quality=100" alt="Уред за приготвяне на сухо мляко" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
+                <span class="badge-available">Налично</span>
+                <span class="badge-discount">-54%</span>
+              </div>
+              <div class="product-title">Уред за приготвяне на сухо мляко</div>
+              <div class="product-desc">Устройство за приготвяне на бебешки шишета и незабавно разпределяне на вода за адаптирано мляко с 4 температури, 72ч интелигентен термостат</div>
+              <div class="product-stock">Наличност: 1 бр.</div>
+            </div>
+            <div>
+              <div class="price-block">
+                
+                  <span class="old-price-container"><span class="old-price">€64.99</span></span>
+                  <span class="current-price">€30.00</span>
+                
+              </div>
+              <div class="click-more-hint">🔍 Виж</div>
+              
+              <div class="admin-controls" onclick="event.stopPropagation()">
+                <button class="btn-toggle" onclick="toggleSold(1785423034116)">Продаден</button>
+                <button class="btn-edit" onclick="openEditModal(1785423034116)">✏️</button>
+                <button class="btn-delete" onclick="deleteProduct(1785423034116)">✕</button>
+              </div>
+            </div>
+          </div>
+        
+          <div class="product-card " onclick="openProductModal(1785422829725)">
+            <div>
+              <div class="category-header-line">
+                <span class="category-tag">Спорт и на открито</span>
+                
+              </div>
+              <div class="image-container">
+                <img src="https://assets.jobalots.com/product_image/cZjYTO9f4mPkYPe2JtVkvwp0C0xarqlHWmcPReBY.png?format=auto&amp;width=640&amp;quality=100" alt="Стойка за Велосипед" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
+                <span class="badge-available">Налично</span>
+                <span class="badge-discount">-60%</span>
+              </div>
+              <div class="product-title">Стойка за Велосипед</div>
+              <div class="product-desc">Стойка за велосипед Регулируема по височина Универсална алуминиева стойка – 24-29 инча</div>
+              <div class="product-stock">Наличност: 1 бр.</div>
+            </div>
+            <div>
+              <div class="price-block">
+                
+                  <span class="old-price-container"><span class="old-price">€20.00</span></span>
+                  <span class="current-price">€8.00</span>
+                
+              </div>
+              <div class="click-more-hint">🔍 Виж</div>
+              
+              <div class="admin-controls" onclick="event.stopPropagation()">
+                <button class="btn-toggle" onclick="toggleSold(1785422829725)">Продаден</button>
+                <button class="btn-edit" onclick="openEditModal(1785422829725)">✏️</button>
+                <button class="btn-delete" onclick="deleteProduct(1785422829725)">✕</button>
+              </div>
+            </div>
+          </div>
+        
+          <div class="product-card " onclick="openProductModal(1785422786214)">
+            <div>
+              <div class="category-header-line">
+                <span class="category-tag">Дом и кухня</span>
+                
+              </div>
+              <div class="image-container">
+                <img src="https://assets.jobalots.com/product_image/5AYWhnvovrIPXDOSSrOEzP3CD31o2dYYsCIpuvmL.png?format=auto&amp;width=640&amp;quality=100" alt="Стойка за монитор" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
+                <span class="badge-available">Налично</span>
+                <span class="badge-discount">-50%</span>
+              </div>
+              <div class="product-title">Стойка за монитор</div>
+              <div class="product-desc">Двойна мониторна стойка 91х26см</div>
+              <div class="product-stock">Наличност: 1 бр.</div>
+            </div>
+            <div>
+              <div class="price-block">
+                
+                  <span class="old-price-container"><span class="old-price">€40.00</span></span>
+                  <span class="current-price">€20.00</span>
+                
+              </div>
+              <div class="click-more-hint">🔍 Виж</div>
+              
+              <div class="admin-controls" onclick="event.stopPropagation()">
+                <button class="btn-toggle" onclick="toggleSold(1785422786214)">Продаден</button>
+                <button class="btn-edit" onclick="openEditModal(1785422786214)">✏️</button>
+                <button class="btn-delete" onclick="deleteProduct(1785422786214)">✕</button>
+              </div>
+            </div>
+          </div>
+        
+          <div class="product-card " onclick="openProductModal(1785422695747)">
+            <div>
+              <div class="category-header-line">
+                <span class="category-tag">Инструменти</span>
+                
+              </div>
+              <div class="image-container">
+                <img src="https://assets.jobalots.com/product_image/Uqz5Ewy5pRWi5ruK8rMkQqmKhEGSI0JKy7iBbpjy.png?format=auto&amp;width=640&amp;quality=100" alt="Смесител за вана" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
+                <span class="badge-available">Налично</span>
+                <span class="badge-discount">-57%</span>
+              </div>
+              <div class="product-title">Смесител за вана</div>
+              <div class="product-desc">Ulytid смесител за вана с бутон – Черен</div>
+              <div class="product-stock">Наличност: 1 бр.</div>
+            </div>
+            <div>
+              <div class="price-block">
+                
+                  <span class="old-price-container"><span class="old-price">€69.99</span></span>
+                  <span class="current-price">€30.00</span>
+                
+              </div>
+              <div class="click-more-hint">🔍 Виж</div>
+              
+              <div class="admin-controls" onclick="event.stopPropagation()">
+                <button class="btn-toggle" onclick="toggleSold(1785422695747)">Продаден</button>
+                <button class="btn-edit" onclick="openEditModal(1785422695747)">✏️</button>
+                <button class="btn-delete" onclick="deleteProduct(1785422695747)">✕</button>
+              </div>
+            </div>
+          </div>
+        
+          <div class="product-card " onclick="openProductModal(1785422647925)">
+            <div>
+              <div class="category-header-line">
+                <span class="category-tag">Инструменти</span>
+                
+              </div>
+              <div class="image-container">
+                <img src="https://assets.jobalots.com/product_image/TKwidk6OP3Bib3lmxA9xPPvuf1BG9pj7YNCKxIM0.png?format=auto&amp;width=640&amp;quality=100" alt="Ултразвуков почистващ апарат" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
+                <span class="badge-available">Налично</span>
+                <span class="badge-discount">-50%</span>
+              </div>
+              <div class="product-title">Ултразвуков почистващ апарат</div>
+              <div class="product-desc">Ултразвуков почистващ апарат 350 мл 48kHz професионален за очила, бижута, часовници</div>
+              <div class="product-stock">Наличност: 1 бр.</div>
+            </div>
+            <div>
+              <div class="price-block">
+                
+                  <span class="old-price-container"><span class="old-price">€40.33</span></span>
+                  <span class="current-price">€20.00</span>
+                
+              </div>
+              <div class="click-more-hint">🔍 Виж</div>
+              
+              <div class="admin-controls" onclick="event.stopPropagation()">
+                <button class="btn-toggle" onclick="toggleSold(1785422647925)">Продаден</button>
+                <button class="btn-edit" onclick="openEditModal(1785422647925)">✏️</button>
+                <button class="btn-delete" onclick="deleteProduct(1785422647925)">✕</button>
+              </div>
+            </div>
+          </div>
+        
+          <div class="product-card " onclick="openProductModal(1785422593480)">
+            <div>
+              <div class="category-header-line">
+                <span class="category-tag">Дрехи</span>
+                <span class="size-badge">M</span>
+              </div>
+              <div class="image-container">
+                <img src="https://assets.jobalots.com/product_image/eyr7LxWAmCSab42barT5vGqJkxYjVYmrHle9IOhY.png?format=auto&amp;width=640&amp;quality=100" alt="Отопляемо яке" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
+                <span class="badge-available">Налично</span>
+                <span class="badge-discount">-56%</span>
+              </div>
+              <div class="product-title">Отопляемо яке</div>
+              <div class="product-desc">Огряващо яке с powerbank 12V 18400mAh 8 зони на отопление 3 нива на температура</div>
+              <div class="product-stock">Наличност: 1 бр.</div>
+            </div>
+            <div>
+              <div class="price-block">
+                
+                  <span class="old-price-container"><span class="old-price">€126.04</span></span>
+                  <span class="current-price">€55.00</span>
+                
+              </div>
+              <div class="click-more-hint">🔍 Виж</div>
+              
+              <div class="admin-controls" onclick="event.stopPropagation()">
+                <button class="btn-toggle" onclick="toggleSold(1785422593480)">Продаден</button>
+                <button class="btn-edit" onclick="openEditModal(1785422593480)">✏️</button>
+                <button class="btn-delete" onclick="deleteProduct(1785422593480)">✕</button>
+              </div>
+            </div>
+          </div>
+        
+          <div class="product-card " onclick="openProductModal(1785422531228)">
+            <div>
+              <div class="category-header-line">
+                <span class="category-tag">Електроника</span>
+                
+              </div>
+              <div class="image-container">
+                <img src="https://assets.jobalots.com/product_image/cjG9LvOokwbzYVJsE15NNw12tq71qY6UVFbywtqq.png?format=auto&amp;width=640&amp;quality=100" alt="LED външна стенна лампа" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
+                <span class="badge-available">Налично</span>
+                <span class="badge-discount">-67%</span>
+              </div>
+              <div class="product-title">LED външна стенна лампа</div>
+              <div class="product-desc">Coinmit 2-опаковка 36W LED външна стена светлина IP65 водоустойчив – Антрацит</div>
+              <div class="product-stock">Наличност: 1 бр.</div>
+            </div>
+            <div>
+              <div class="price-block">
+                
+                  <span class="old-price-container"><span class="old-price">€119.99</span></span>
+                  <span class="current-price">€40.00</span>
+                
+              </div>
+              <div class="click-more-hint">🔍 Виж</div>
+              
+              <div class="admin-controls" onclick="event.stopPropagation()">
+                <button class="btn-toggle" onclick="toggleSold(1785422531228)">Продаден</button>
+                <button class="btn-edit" onclick="openEditModal(1785422531228)">✏️</button>
+                <button class="btn-delete" onclick="deleteProduct(1785422531228)">✕</button>
+              </div>
+            </div>
+          </div>
+        
+          <div class="product-card " onclick="openProductModal(1785422483747)">
+            <div>
+              <div class="category-header-line">
+                <span class="category-tag">Дом и кухня</span>
+                
+              </div>
+              <div class="image-container">
+                <img src="https://assets.jobalots.com/product_image/G9HSzjZoeQdxGcwWhmQYU3qhGQdbWXWJaLDnoAmR.png?format=auto&amp;width=640&amp;quality=100" alt="Термометър за месо" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
+                <span class="badge-available">Налично</span>
+                <span class="badge-discount">-43%</span>
+              </div>
+              <div class="product-title">Термометър за месо</div>
+              <div class="product-desc">Bluetooth термометър за месо 150м обхват с аларма</div>
+              <div class="product-stock">Наличност: 1 бр.</div>
+            </div>
+            <div>
+              <div class="price-block">
+                
+                  <span class="old-price-container"><span class="old-price">€44.22</span></span>
+                  <span class="current-price">€25.00</span>
+                
+              </div>
+              <div class="click-more-hint">🔍 Виж</div>
+              
+              <div class="admin-controls" onclick="event.stopPropagation()">
+                <button class="btn-toggle" onclick="toggleSold(1785422483747)">Продаден</button>
+                <button class="btn-edit" onclick="openEditModal(1785422483747)">✏️</button>
+                <button class="btn-delete" onclick="deleteProduct(1785422483747)">✕</button>
+              </div>
+            </div>
+          </div>
+        
+          <div class="product-card " onclick="openProductModal(1785422424735)">
+            <div>
+              <div class="category-header-line">
+                <span class="category-tag">Здраве и красота</span>
+                
+              </div>
+              <div class="image-container">
+                <img src="https://assets.jobalots.com/product_image/aZRZ3QPuA1DnhglZm77XrWjbkwDZ54vHi44fhBE5.png?format=auto&amp;width=640&amp;quality=100" alt="Самобръсначка Wahl Mobile Shaver" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
+                <span class="badge-available">Налично</span>
+                <span class="badge-discount">-68%</span>
+              </div>
+              <div class="product-title">Самобръсначка Wahl Mobile Shaver</div>
+              <div class="product-desc">Wahl Mobile Shaver - Безжична електрическа самобръсначка с калъф за пътуване - За глава и брада</div>
+              <div class="product-stock">Наличност: 1 бр.</div>
+            </div>
+            <div>
+              <div class="price-block">
+                
+                  <span class="old-price-container"><span class="old-price">€37.00</span></span>
+                  <span class="current-price">€12.00</span>
+                
+              </div>
+              <div class="click-more-hint">🔍 Виж</div>
+              
+              <div class="admin-controls" onclick="event.stopPropagation()">
+                <button class="btn-toggle" onclick="toggleSold(1785422424735)">Продаден</button>
+                <button class="btn-edit" onclick="openEditModal(1785422424735)">✏️</button>
+                <button class="btn-delete" onclick="deleteProduct(1785422424735)">✕</button>
+              </div>
+            </div>
+          </div>
+        
+          <div class="product-card " onclick="openProductModal(1785422291735)">
+            <div>
+              <div class="category-header-line">
+                <span class="category-tag">Дом и кухня</span>
+                
+              </div>
+              <div class="image-container">
+                <img src="https://assets.jobalots.com/product_image/6pas8IwHSxHIDnSsFTGSdL43s1CGVUg6sjPjZ2eO.png?format=auto&amp;width=640&amp;quality=100" alt="Електрическа резачка" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
+                <span class="badge-available">Налично</span>
+                <span class="badge-discount">-80%</span>
+              </div>
+              <div class="product-title">Електрическа резачка</div>
+              <div class="product-desc">Електрическа универсална резачка 200 вата за домашна употреба, професионална резачка за хляб с подвижно острие 2 х 19 см, бутон за прецизна дебелина 0-15 рязане на месо, шунка, хляб, плодове, предпазна защита</div>
+              <div class="product-stock">Наличност: 1 бр.</div>
+            </div>
+            <div>
+              <div class="price-block">
+                
+                  <span class="old-price-container"><span class="old-price">€306.82</span></span>
+                  <span class="current-price">€60.00</span>
+                
+              </div>
+              <div class="click-more-hint">🔍 Виж</div>
+              
+              <div class="admin-controls" onclick="event.stopPropagation()">
+                <button class="btn-toggle" onclick="toggleSold(1785422291735)">Продаден</button>
+                <button class="btn-edit" onclick="openEditModal(1785422291735)">✏️</button>
+                <button class="btn-delete" onclick="deleteProduct(1785422291735)">✕</button>
+              </div>
+            </div>
+          </div>
+        
+          <div class="product-card " onclick="openProductModal(1785422144338)">
+            <div>
+              <div class="category-header-line">
+                <span class="category-tag">Дом и кухня</span>
+                
+              </div>
+              <div class="image-container">
+                <img src="https://assets.jobalots.com/product_image/nbEmtQjqz1VhoiR1FtNTJURyNcrQ0d5Oap2Nx4NY.png?format=auto&amp;width=640&amp;quality=100" alt="LED лампа с тъч и APP контро" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
+                <span class="badge-available">Налично</span>
+                <span class="badge-discount">-57%</span>
+              </div>
+              <div class="product-title">LED лампа с тъч и APP контро</div>
+              <div class="product-desc">Умен RGB LED ъглов подов лампа с тъч и APP контрол 1500LM димируем – Черна</div>
+              <div class="product-stock">Наличност: 1 бр.</div>
+            </div>
+            <div>
+              <div class="price-block">
+                
+                  <span class="old-price-container"><span class="old-price">€45.99</span></span>
+                  <span class="current-price">€20.00</span>
+                
+              </div>
+              <div class="click-more-hint">🔍 Виж</div>
+              
+              <div class="admin-controls" onclick="event.stopPropagation()">
+                <button class="btn-toggle" onclick="toggleSold(1785422144338)">Продаден</button>
+                <button class="btn-edit" onclick="openEditModal(1785422144338)">✏️</button>
+                <button class="btn-delete" onclick="deleteProduct(1785422144338)">✕</button>
+              </div>
+            </div>
+          </div>
+        
+          <div class="product-card " onclick="openProductModal(1785422086685)">
+            <div>
+              <div class="category-header-line">
+                <span class="category-tag">Инструменти</span>
+                
+              </div>
+              <div class="image-container">
+                <img src="https://assets.jobalots.com/product_image/rIuWKAAEV58AEobYy2sOHUSOyoFfsZ7p9gPQKbKu.png?format=auto&amp;width=640&amp;quality=100" alt="Електрическа четка за почистване" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
+                <span class="badge-available">Налично</span>
+                <span class="badge-discount">-55%</span>
+              </div>
+              <div class="product-title">Електрическа четка за почистване</div>
+              <div class="product-desc">Електрическа почистваща четка Leebein, 2024 г. нов центрофугиращ скрубер с 8 сменяеми глави на четка, дистанционно управление, регулируема дълга дръжка 38-132 см и 2 скорости и за баня </div>
+              <div class="product-stock">Наличност: 1 бр.</div>
+            </div>
+            <div>
+              <div class="price-block">
+                
+                  <span class="old-price-container"><span class="old-price">€54.99</span></span>
+                  <span class="current-price">€25.00</span>
+                
+              </div>
+              <div class="click-more-hint">🔍 Виж</div>
+              
+              <div class="admin-controls" onclick="event.stopPropagation()">
+                <button class="btn-toggle" onclick="toggleSold(1785422086685)">Продаден</button>
+                <button class="btn-edit" onclick="openEditModal(1785422086685)">✏️</button>
+                <button class="btn-delete" onclick="deleteProduct(1785422086685)">✕</button>
+              </div>
+            </div>
+          </div>
+        
+          <div class="product-card " onclick="openProductModal(1785422007503)">
+            <div>
+              <div class="category-header-line">
+                <span class="category-tag">Дом и кухня</span>
+                
+              </div>
+              <div class="image-container">
+                <img src="https://assets.jobalots.com/product_image/dmNdrIYRm0f6zqyepBDeRF5xfqR7YHXeLDOBce9k.png?format=auto&amp;width=640&amp;quality=100" alt="Отварачка за буркани" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
+                <span class="badge-available">Налично</span>
+                <span class="badge-discount">-65%</span>
+              </div>
+              <div class="product-title">Отварачка за буркани</div>
+              <div class="product-desc"> Електрическа отварачка за консерви Chulovs, кухненски помощник, тежка автоматична отварачка за нови запечатани буркани, отварачка за консерви без ръце с по-малко усилия за отваряне (бяла)</div>
+              <div class="product-stock">Наличност: 1 бр.</div>
+            </div>
+            <div>
+              <div class="price-block">
+                
+                  <span class="old-price-container"><span class="old-price">€22.99</span></span>
+                  <span class="current-price">€8.00</span>
+                
+              </div>
+              <div class="click-more-hint">🔍 Виж</div>
+              
+              <div class="admin-controls" onclick="event.stopPropagation()">
+                <button class="btn-toggle" onclick="toggleSold(1785422007503)">Продаден</button>
+                <button class="btn-edit" onclick="openEditModal(1785422007503)">✏️</button>
+                <button class="btn-delete" onclick="deleteProduct(1785422007503)">✕</button>
+              </div>
+            </div>
+          </div>
+        
+          <div class="product-card " onclick="openProductModal(1785421945394)">
+            <div>
+              <div class="category-header-line">
+                <span class="category-tag">Дом и кухня</span>
+                
+              </div>
+              <div class="image-container">
+                <img src="https://assets.jobalots.com/product_image/NYjUTr4MXx86zfKd6wH9RbpA9FsKiLzEykX82IIa.png?format=auto&amp;width=640&amp;quality=100" alt="Електрическо одеяло 150 x 180 см" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
+                <span class="badge-available">Налично</span>
+                <span class="badge-discount">-58%</span>
+              </div>
+              <div class="product-title">Електрическо одеяло 150 x 180 см</div>
+              <div class="product-desc">Електрическо нагреваемо одеяло AdrreyuFny 180x150 см, фланелено електрическо нагреваемо одеяло с LCD дисплей, 5 настройки за време, 6 нива на отопление, бързо нагряване, може да се пере в пералня</div>
+              <div class="product-stock">Наличност: 1 бр.</div>
+            </div>
+            <div>
+              <div class="price-block">
+                
+                  <span class="old-price-container"><span class="old-price">€59.99</span></span>
+                  <span class="current-price">€25.00</span>
+                
+              </div>
+              <div class="click-more-hint">🔍 Виж</div>
+              
+              <div class="admin-controls" onclick="event.stopPropagation()">
+                <button class="btn-toggle" onclick="toggleSold(1785421945394)">Продаден</button>
+                <button class="btn-edit" onclick="openEditModal(1785421945394)">✏️</button>
+                <button class="btn-delete" onclick="deleteProduct(1785421945394)">✕</button>
+              </div>
+            </div>
+          </div>
+        
+          <div class="product-card " onclick="openProductModal(1785421847078)">
+            <div>
+              <div class="category-header-line">
+                <span class="category-tag">Дрехи</span>
+                
+              </div>
+              <div class="image-container">
+                <img src="https://assets.jobalots.com/product_image/iEiRCTgtFtrQeD7YH9m5gaRUixlyx8S4QKqvtSby.png?format=auto&amp;width=640&amp;quality=100" alt="Мъжка сатенена риза" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
+                <span class="badge-available">Налично</span>
+                <span class="badge-discount">-78%</span>
+              </div>
+              <div class="product-title">Мъжка сатенена риза</div>
+              <div class="product-desc">Мъжка сатенена риза къс ръкав жакард флорален лъскав - Различни размери</div>
+              <div class="product-stock">Наличност: 1 бр.</div>
+            </div>
+            <div>
+              <div class="price-block">
+                
+                  <span class="old-price-container"><span class="old-price">€27.22</span></span>
+                  <span class="current-price">€6.00</span>
+                
+              </div>
+              <div class="click-more-hint">🔍 Виж</div>
+              
+              <div class="admin-controls" onclick="event.stopPropagation()">
+                <button class="btn-toggle" onclick="toggleSold(1785421847078)">Продаден</button>
+                <button class="btn-edit" onclick="openEditModal(1785421847078)">✏️</button>
+                <button class="btn-delete" onclick="deleteProduct(1785421847078)">✕</button>
+              </div>
+            </div>
+          </div>
+        </div><div class="pagination"><button class="page-btn" disabled="" onclick="changePage(0)">‹ Предишна</button><button class="page-btn active" onclick="changePage(1)">1</button><button class="page-btn " onclick="changePage(2)">2</button><button class="page-btn " onclick="changePage(3)">3</button><button class="page-btn " onclick="changePage(4)">4</button><button class="page-btn " onclick="changePage(5)">5</button><button class="page-btn" onclick="changePage(2)">Следваща ›</button></div></div>
 
   </div>
 
   <div class="bottom-bar">
-    <button id="auth-btn" class="bottom-bar-btn" onclick="handleAuth()">Вход</button>
+    <button id="auth-btn" class="bottom-bar-btn" onclick="handleAuth()">Изход</button>
   </div>
 
   <!-- Основен модал за продукт -->
@@ -1857,5 +2368,5 @@ const token = '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';
 
     window.addEventListener('DOMContentLoaded', loadProducts);
   </script>
-</body>
-</html>
+
+</body></html>
