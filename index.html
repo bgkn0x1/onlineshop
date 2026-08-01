@@ -25,7 +25,7 @@
         .dropdown:hover .dropdown-menu { display: block; }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col justify-between">
+<body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col justify-between pb-16">
 
     <!-- Хедър и Навигация -->
     <header class="bg-emagDark text-white sticky top-0 z-50 shadow-md">
@@ -53,27 +53,36 @@
             <div class="hidden md:flex items-center gap-4"></div>
         </div>
 
-        <!-- Подменю с категории -->
+        <!-- Подменю с нови категории -->
         <nav class="bg-gray-800 border-t border-gray-700">
-            <div class="container mx-auto px-4 flex flex-wrap items-center gap-6 py-2 text-sm">
-                <a href="#" onclick="switchView('home')" class="hover:text-emagOrange transition font-medium"><i class="fa-solid fa-house mr-1"></i> Начало</a>
-                <a href="#" onclick="filterByCategory('Всички')" class="hover:text-emagOrange transition font-medium">Всички продукти</a>
-                
-                <!-- Падащо меню за Облекло -->
-                <div class="relative dropdown group py-1">
-                    <a href="#" class="hover:text-emagOrange transition font-medium flex items-center gap-1">
-                        Облекло <i class="fa-solid fa-chevron-down text-xs"></i>
-                    </a>
-                    <div class="dropdown-menu absolute hidden bg-white text-gray-800 shadow-xl rounded mt-1 py-2 w-48 z-50">
-                        <a href="#" onclick="filterByCategory('Дрехи')" class="block px-4 py-2 hover:bg-gray-100">Дрехи</a>
-                        <a href="#" onclick="filterByCategory('Обувки')" class="block px-4 py-2 hover:bg-gray-100">Обувки</a>
-                        <a href="#" onclick="filterByCategory('За деца')" class="block px-4 py-2 hover:bg-gray-100">За деца</a>
-                        <a href="#" onclick="filterByCategory('Очила')" class="block px-4 py-2 hover:bg-gray-100">Очила</a>
+            <div class="container mx-auto px-4 flex flex-wrap items-center justify-between py-2 text-sm">
+                <div class="flex flex-wrap items-center gap-4 lg:gap-6">
+                    <a href="#" onclick="switchView('home')" class="hover:text-emagOrange transition font-medium"><i class="fa-solid fa-house mr-1"></i> Начало</a>
+                    <a href="#" onclick="filterByCategory('Всички')" class="hover:text-emagOrange transition font-medium">Всички продукти</a>
+                    
+                    <!-- Падащо меню за Облекло -->
+                    <div class="relative dropdown group py-1">
+                        <a href="#" class="hover:text-emagOrange transition font-medium flex items-center gap-1">
+                            Облекло <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </a>
+                        <div class="dropdown-menu absolute hidden bg-white text-gray-800 shadow-xl rounded mt-1 py-2 w-48 z-50">
+                            <a href="#" onclick="filterByCategory('Дрехи')" class="block px-4 py-2 hover:bg-gray-100">Дрехи</a>
+                            <a href="#" onclick="filterByCategory('Обувки')" class="block px-4 py-2 hover:bg-gray-100">Обувки</a>
+                            <a href="#" onclick="filterByCategory('За деца')" class="block px-4 py-2 hover:bg-gray-100">За деца</a>
+                            <a href="#" onclick="filterByCategory('Очила')" class="block px-4 py-2 hover:bg-gray-100">Очила</a>
+                        </div>
                     </div>
-                </div>
 
-                <a href="#" onclick="filterByCategory('Електроника')" class="hover:text-emagOrange transition font-medium">Електроника</a>
-                <a href="#" onclick="filterByCategory('Дом и Градина')" class="hover:text-emagOrange transition font-medium">Дом и Градина</a>
+                    <a href="#" onclick="filterByCategory('Електроника')" class="hover:text-emagOrange transition font-medium">Електроника</a>
+                    <a href="#" onclick="filterByCategory('Дом и кухня')" class="hover:text-emagOrange transition font-medium">Дом и кухня</a>
+                    <a href="#" onclick="filterByCategory('Здраве и красота')" class="hover:text-emagOrange transition font-medium">Здраве и красота</a>
+                    <a href="#" onclick="filterByCategory('Играчки и занятия')" class="hover:text-emagOrange transition font-medium">Играчки и занятия</a>
+                    <a href="#" onclick="filterByCategory('Спорт и на открито')" class="hover:text-emagOrange transition font-medium">Спорт и на открито</a>
+                    <a href="#" onclick="filterByCategory('Автомобилна')" class="hover:text-emagOrange transition font-medium">Автомобилна</a>
+                    <a href="#" onclick="filterByCategory('Домашни любимци')" class="hover:text-emagOrange transition font-medium">Домашни любимци</a>
+                    <a href="#" onclick="filterByCategory('Инструменти')" class="hover:text-emagOrange transition font-medium">Инструменти</a>
+                    <a href="#" onclick="filterByCategory('Градина')" class="hover:text-emagOrange transition font-medium">Градина</a>
+                </div>
             </div>
         </nav>
     </header>
@@ -160,7 +169,7 @@
         <img id="lightboxImg" src="" class="max-h-[90vh] max-w-[90vw] object-contain rounded">
     </div>
 
-    <!-- МОДАЛ: Администраторски панел -->
+    <!-- МОДАЛ: Администраторски панел (Табло с продукти) -->
     <div id="adminModal" class="fixed inset-0 bg-black bg-opacity-60 hidden z-50 flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 relative shadow-2xl">
             <button onclick="closeAdminModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl font-bold">
@@ -210,7 +219,14 @@
                                 <option value="За деца">За деца</option>
                                 <option value="Очила">Очила</option>
                                 <option value="Електроника">Електроника</option>
-                                <option value="Дом и Градина">Дом и Градина</option>
+                                <option value="Дом и кухня">Дом и кухня</option>
+                                <option value="Здраве и красота">Здраве и красота</option>
+                                <option value="Играчки и занятия">Играчки и занятия</option>
+                                <option value="Спорт и на открито">Спорт и на открито</option>
+                                <option value="Автомобилна">Автомобилна</option>
+                                <option value="Домашни любимци">Домашни любимци</option>
+                                <option value="Инструменти">Инструменти</option>
+                                <option value="Градина">Градина</option>
                             </select>
                         </div>
                         <div>
@@ -232,10 +248,15 @@
                                 <option value="продаден">Продаден / Изчерпан</option>
                             </select>
                         </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium mb-1">Снимки (URL адреси, разделени със запетая)</label>
-                            <input type="text" id="formImages" placeholder="https://image1.jpg, https://image2.jpg" required class="w-full border p-2 rounded bg-white">
+                        
+                        <!-- Полета за до 3 снимки -->
+                        <div class="md:col-span-2 space-y-2">
+                            <label class="block text-sm font-medium">Снимки на продукта (до 3 URL адреса)</label>
+                            <input type="url" id="formImage1" placeholder="Снимка 1 (задължителна) - https://..." required class="w-full border p-2 rounded bg-white text-sm">
+                            <input type="url" id="formImage2" placeholder="Снимка 2 (опционална) - https://..." class="w-full border p-2 rounded bg-white text-sm">
+                            <input type="url" id="formImage3" placeholder="Снимка 3 (опционална) - https://..." class="w-full border p-2 rounded bg-white text-sm">
                         </div>
+
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium mb-1">Описание</label>
                             <textarea id="formDescription" rows="3" class="w-full border p-2 rounded bg-white"></textarea>
@@ -258,10 +279,30 @@
         </div>
     </div>
 
-    <!-- Футър -->
-    <footer class="bg-emagDark text-gray-400 py-6 border-t border-gray-700 mt-12">
-        <div class="container mx-auto px-4 text-center text-sm">
-            <a href="#" onclick="openAdminLogin()" class="hover:text-emagOrange transition font-medium">админ панел</a>
+    <!-- ФИКСИРАНА ДОЛНА ЛЕНТА (Появява се само при влязъл админ) -->
+    <div id="adminBottomBar" class="fixed bottom-0 left-0 right-0 bg-gray-900 text-white px-6 py-3 shadow-2xl z-40 flex items-center justify-between border-t border-gray-700 hidden">
+        <div class="flex items-center gap-2 text-sm font-medium">
+            <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
+            <span>Админ сесията е активна</span>
+        </div>
+        <div class="flex items-center gap-3">
+            <button onclick="openAdminDashboardModal()" class="bg-emagBlue hover:bg-blue-600 text-white px-4 py-1.5 rounded text-sm font-bold transition flex items-center gap-1">
+                <i class="fa-solid fa-gauge text-xs"></i> Админ панел
+            </button>
+            <button onclick="adminLogout()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded text-sm font-bold transition flex items-center gap-1">
+                <i class="fa-solid fa-right-from-bracket text-xs"></i> Изход
+            </button>
+        </div>
+    </div>
+
+    <!-- Футър (премахнати авторски права, оставена само връзката за вход) -->
+    <footer class="bg-emagDark text-gray-400 py-4 border-t border-gray-700 mt-12">
+        <div class="container mx-auto px-4 text-center text-sm space-y-2">
+            <div>
+                <a href="#" onclick="openAdminLogin()" class="text-xs text-gray-500 hover:text-gray-300 transition inline-flex items-center gap-1">
+                    <i class="fa-solid fa-lock text-[10px]"></i> Админ панел
+                </a>
+            </div>
         </div>
     </footer>
 
@@ -304,7 +345,7 @@
             renderCatalog();
         }
 
-        // Примерни данни, ако външния файл липсва
+        // Примерни данни
         function getDefaultSampleProducts() {
             return [
                 {
@@ -334,32 +375,6 @@
                         "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600"
                     ],
                     description: "Максимален комфорт и омекотяване при бягане и ежедневна употреба."
-                },
-                {
-                    id: 3,
-                    title: "Детски комплект с качулка",
-                    category: "За деца",
-                    size: "128 см",
-                    regularPrice: 65.00,
-                    promoPrice: 45.00,
-                    stockStatus: "наличен",
-                    images: [
-                        "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=600"
-                    ],
-                    description: "Меко памучно детско облекло за игри и свободно време."
-                },
-                {
-                    id: 4,
-                    title: "Слънчеви очила Ray-Ban Aviator",
-                    category: "Очила",
-                    size: "Универсален",
-                    regularPrice: 240.00,
-                    promoPrice: 180.00,
-                    stockStatus: "продаден",
-                    images: [
-                        "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600"
-                    ],
-                    description: "Класически стил и пълна UV защита с поляризирани стъкла."
                 }
             ];
         }
@@ -383,10 +398,15 @@
             const categories = [
                 { name: 'Дрехи', icon: 'fa-shirt', color: 'bg-blue-50 text-blue-600' },
                 { name: 'Обувки', icon: 'fa-shoe-prints', color: 'bg-orange-50 text-emagOrange' },
-                { name: 'За деца', icon: 'fa-child-reaching', color: 'bg-green-50 text-green-600' },
-                { name: 'Очила', icon: 'fa-glasses', color: 'bg-purple-50 text-purple-600' },
                 { name: 'Електроника', icon: 'fa-laptop', color: 'bg-indigo-50 text-indigo-600' },
-                { name: 'Дом и Градина', icon: 'fa-house-chimney', color: 'bg-amber-50 text-amber-600' }
+                { name: 'Дом и кухня', icon: 'fa-house-chimney', color: 'bg-amber-50 text-amber-600' },
+                { name: 'Здраве и красота', icon: 'fa-heart-pulse', color: 'bg-rose-50 text-rose-600' },
+                { name: 'Играчки и занятия', icon: 'fa-puzzle-piece', color: 'bg-emerald-50 text-emerald-600' },
+                { name: 'Спорт и на открито', icon: 'fa-person-running', color: 'bg-cyan-50 text-cyan-600' },
+                { name: 'Автомобилна', icon: 'fa-car', color: 'bg-zinc-50 text-zinc-700' },
+                { name: 'Домашни любимци', icon: 'fa-paw', color: 'bg-yellow-50 text-yellow-600' },
+                { name: 'Инструменти', icon: 'fa-screwdriver-wrench', color: 'bg-stone-50 text-stone-600' },
+                { name: 'Градина', icon: 'fa-seedling', color: 'bg-green-50 text-green-600' }
             ];
 
             grid.innerHTML = categories.map(cat => {
@@ -463,7 +483,7 @@
             sortProducts(currentSort);
         }
 
-        // Рендиране на продуктовия каталог с пагинация (16 продукта на страница)
+        // Рендиране на продуктовия каталог с пагинация
         function renderCatalog() {
             const grid = document.getElementById('productsGrid');
             const countElem = document.getElementById('catalogCount');
@@ -493,7 +513,7 @@
                             ${isSoldOut ? `<span class="bg-gray-800 text-white text-xs font-bold px-2 py-1 rounded">Изчерпан</span>` : `<span class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">Наличен</span>`}
                         </div>
 
-                        <!-- Категория таг / Бутон за бърза редакция, ако е логнат админ -->
+                        <!-- Категория таг / Бутон за бърза редакция ако е админ -->
                         <div class="absolute top-3 right-3 z-10 flex items-center gap-1">
                             ${isAdminLoggedIn ? `
                                 <button onclick="openEditProductFormDirect(${p.id})" title="Редактирай продукта" class="bg-blue-600 hover:bg-blue-700 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs shadow transition">
@@ -503,7 +523,7 @@
                             <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded font-medium">${p.category}</span>
                         </div>
 
-                        <!-- Изображение с клик за детайли -->
+                        <!-- Изображение -->
                         <div class="w-full h-48 mb-4 overflow-hidden rounded cursor-pointer flex items-center justify-center bg-gray-50" onclick="openProductModal(${p.id})">
                             <img src="${p.images[0] || 'https://via.placeholder.com/300'}" alt="${p.title}" class="object-cover h-full w-full group-hover:scale-105 transition duration-300">
                         </div>
@@ -568,8 +588,6 @@
 
             const modalContent = document.getElementById('modalContent');
             const hasDiscount = product.promoPrice && product.promoPrice < product.regularPrice;
-
-            // Сходни артикули от същата категория
             const similarProducts = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3);
 
             modalContent.innerHTML = `
@@ -639,12 +657,23 @@
             document.getElementById('lightboxModal').classList.add('hidden');
         }
 
-        // АДМИНИСТРАТОРСКИ ПАНЕЛ
+        // АДМИНИСТРАТОРСКИ ПАНЕЛ И ВХОД
         function openAdminLogin() {
+            if (isAdminLoggedIn) {
+                openAdminDashboardModal();
+                return;
+            }
             document.getElementById('adminLoginSection').classList.remove('hidden');
             document.getElementById('adminDashboardSection').classList.add('hidden');
             document.getElementById('adminPasswordInput').value = '';
             document.getElementById('adminLoginError').classList.add('hidden');
+            document.getElementById('adminModal').classList.remove('hidden');
+        }
+
+        function openAdminDashboardModal() {
+            document.getElementById('adminLoginSection').classList.add('hidden');
+            document.getElementById('adminDashboardSection').classList.remove('hidden');
+            renderAdminProductsList();
             document.getElementById('adminModal').classList.remove('hidden');
         }
 
@@ -656,13 +685,19 @@
             const pass = document.getElementById('adminPasswordInput').value;
             if (pass === 'onlineshop0000') {
                 isAdminLoggedIn = true;
-                document.getElementById('adminLoginSection').classList.add('hidden');
-                document.getElementById('adminDashboardSection').classList.remove('hidden');
-                renderAdminProductsList();
-                renderCatalog(); // Презарежда каталога за да покаже бутоните за редакция върху картите
+                closeAdminModal();
+                document.getElementById('adminBottomBar').classList.remove('hidden');
+                renderCatalog();
             } else {
                 document.getElementById('adminLoginError').classList.remove('hidden');
             }
+        }
+
+        function adminLogout() {
+            isAdminLoggedIn = false;
+            document.getElementById('adminBottomBar').classList.add('hidden');
+            renderCatalog();
+            alert('Успешно излязохте от администраторския панел.');
         }
 
         function renderAdminProductsList() {
@@ -706,18 +741,17 @@
             document.getElementById('formPromoPrice').value = product.promoPrice || '';
             document.getElementById('formSize').value = product.size || '';
             document.getElementById('formStockStatus').value = product.stockStatus;
-            document.getElementById('formImages').value = product.images.join(', ');
-            document.getElementById('formDescription').value = product.description || '';
+            
+            document.getElementById('formImage1').value = product.images[0] || '';
+            document.getElementById('formImage2').value = product.images[1] || '';
+            document.getElementById('formImage3').value = product.images[2] || '';
 
+            document.getElementById('formDescription').value = product.description || '';
             document.getElementById('productFormContainer').classList.remove('hidden');
         }
 
-        // Директно отваряне на формата за редакция при клик върху моливчето на картата
         function openEditProductFormDirect(id) {
-            openAdminLogin();
-            document.getElementById('adminLoginSection').classList.add('hidden');
-            document.getElementById('adminDashboardSection').classList.remove('hidden');
-            renderAdminProductsList();
+            openAdminDashboardModal();
             openEditProductForm(id);
         }
 
@@ -728,7 +762,11 @@
         async function handleProductFormSubmit(e) {
             e.preventDefault();
             const editId = document.getElementById('editProductId').value;
-            const imagesArr = document.getElementById('formImages').value.split(',').map(s => s.trim()).filter(Boolean);
+            
+            const img1 = document.getElementById('formImage1').value.trim();
+            const img2 = document.getElementById('formImage2').value.trim();
+            const img3 = document.getElementById('formImage3').value.trim();
+            const imagesArr = [img1, img2, img3].filter(Boolean);
 
             const productData = {
                 id: editId ? parseInt(editId) : (products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1),
@@ -754,7 +792,6 @@
             renderHomeCategories();
             filterByCategory(currentCategoryFilter);
 
-            // Синхронизация с GitHub
             await syncWithGitHub();
         }
 
@@ -778,7 +815,6 @@
             }
         }
 
-        // Изтегляне на products.json файл
         function downloadProductsJson() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(products, null, 2));
             const downloadAnchor = document.createElement('a');
@@ -789,7 +825,6 @@
             downloadAnchor.remove();
         }
 
-        // Изтегляне на целия index.html файл с актуалните данни вградени или готови за експорт
         function downloadFullIndexHtml() {
             const htmlContent = document.documentElement.outerHTML;
             const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
@@ -802,13 +837,11 @@
             downloadAnchor.remove();
         }
 
-        // Автоматична GitHub интеграция (синхронизация при промяна)
         async function syncWithGitHub() {
             const { owner, repo, path, token } = GITHUB_CONFIG;
             const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
             try {
-                // 1. Взимаме актуалното SHA на файла в репозиторито
                 const getResponse = await fetch(url, {
                     headers: {
                         "Authorization": `Bearer ${token}`,
@@ -822,11 +855,9 @@
                     sha = fileData.sha;
                 }
 
-                // 2. Кодираме новия JSON съдържащ се в products масива в Base64 (поддържа UTF-8 кирилица)
                 const jsonString = JSON.stringify(products, null, 2);
                 const contentEncoded = btoa(unescape(encodeURIComponent(jsonString)));
 
-                // 3. Изпращаме PUT заявка за обновяване на файла в GitHub
                 const putResponse = await fetch(url, {
                     method: "PUT",
                     headers: {
