@@ -21,70 +21,59 @@
             }
         }
     </script>
-    <style>
-        .dropdown:hover .dropdown-menu { display: block; }
-    </style>
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col justify-between pb-16">
 
     <!-- Хедър и Навигация -->
     <header class="bg-emagDark text-white sticky top-0 z-50 shadow-md">
-        <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
-            <!-- Лого -->
-            <div class="flex items-center justify-between w-full md:w-auto">
-                <a href="#" onclick="switchView('home')" class="text-2xl font-black tracking-wider flex items-center gap-2">
-                    <span class="bg-emagOrange text-white px-2 py-1 rounded text-base md:text-xl">Твоят</span>Шанс
-                </a>
-                <button id="mobile-menu-btn" class="md:hidden text-xl focus:outline-none">
-                    <i class="fa-solid fa-bars"></i>
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between gap-4 relative">
+            
+            <!-- ЛЯВО: Бутон с 3 чертички и падащо меню с категории -->
+            <div class="relative">
+                <button id="categoryDropdownBtn" onclick="toggleCategoryDropdown(event)" class="text-xl bg-gray-800 hover:bg-gray-700 px-3.5 py-2.5 rounded-lg focus:outline-none flex items-center gap-2 transition border border-gray-700">
+                    <i class="fa-solid fa-bars text-emagOrange"></i>
+                    <span class="text-xs hidden sm:inline font-semibold">Категории</span>
                 </button>
+                
+                <!-- Падащо меню с категории -->
+                <div id="categoryDropdownMenu" class="absolute left-0 mt-2 w-64 bg-white text-gray-800 rounded-xl shadow-2xl py-2 hidden z-50 border border-gray-100">
+                    <div class="px-4 py-2 font-bold text-xs uppercase tracking-wider text-gray-400 border-b">Категории</div>
+                    <div class="max-h-[70vh] overflow-y-auto">
+                        <a href="#" onclick="filterByCategory('Всички'); closeCategoryDropdown();" class="block px-4 py-2.5 text-sm hover:bg-gray-100 font-medium transition"><i class="fa-solid fa-house mr-2 text-emagOrange"></i> Всички продукти</a>
+                        <a href="#" onclick="filterByCategory('Дрехи'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-shirt mr-2 text-gray-400"></i> Дрехи</a>
+                        <a href="#" onclick="filterByCategory('Обувки'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-shoe-prints mr-2 text-gray-400"></i> Обувки</a>
+                        <a href="#" onclick="filterByCategory('За деца'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-child mr-2 text-gray-400"></i> За деца</a>
+                        <a href="#" onclick="filterByCategory('Очила'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-glasses mr-2 text-gray-400"></i> Очила</a>
+                        <a href="#" onclick="filterByCategory('Електроника'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-laptop mr-2 text-gray-400"></i> Електроника</a>
+                        <a href="#" onclick="filterByCategory('Дом и кухня'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-house-chimney mr-2 text-gray-400"></i> Дом и кухня</a>
+                        <a href="#" onclick="filterByCategory('Здраве и красота'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-heart-pulse mr-2 text-gray-400"></i> Здраве и красота</a>
+                        <a href="#" onclick="filterByCategory('Играчки и занятия'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-puzzle-piece mr-2 text-gray-400"></i> Играчки и занятия</a>
+                        <a href="#" onclick="filterByCategory('Спорт и на открито'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-person-running mr-2 text-gray-400"></i> Спорт и на открито</a>
+                        <a href="#" onclick="filterByCategory('Автомобилна'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-car mr-2 text-gray-400"></i> Автомобилна</a>
+                        <a href="#" onclick="filterByCategory('Домашни любимци'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-paw mr-2 text-gray-400"></i> Домашни любимци</a>
+                        <a href="#" onclick="filterByCategory('Инструменти'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-screwdriver-wrench mr-2 text-gray-400"></i> Инструменти</a>
+                        <a href="#" onclick="filterByCategory('Градина'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-seedling mr-2 text-gray-400"></i> Градина</a>
+                    </div>
+                </div>
             </div>
 
-            <!-- Поле за търсене в реално време -->
-            <div class="w-full md:flex-1 max-w-xl relative">
+            <!-- СРЕДА: Поле за търсене -->
+            <div class="flex-1 max-w-xl relative">
                 <input type="text" id="searchInput" placeholder="Търсене на продукти, марки, категории..." 
-                    class="w-full py-2 px-4 rounded-l bg-white text-gray-800 focus:outline-none" oninput="handleSearch(this.value)">
-                <button class="absolute right-0 top-0 h-full bg-emagOrange px-5 rounded-r text-white hover:bg-opacity-90 transition">
+                    class="w-full py-2.5 px-4 rounded-l-lg bg-white text-gray-800 focus:outline-none text-sm" oninput="handleSearch(this.value)">
+                <button class="absolute right-0 top-0 h-full bg-emagOrange px-4 md:px-5 rounded-r-lg text-white hover:bg-opacity-90 transition">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
 
-            <!-- Празна кутия за баланс в хедъра -->
-            <div class="hidden md:flex items-center gap-4"></div>
-        </div>
-
-        <!-- Подменю с нови категории -->
-        <nav class="bg-gray-800 border-t border-gray-700">
-            <div class="container mx-auto px-4 flex flex-wrap items-center justify-between py-2 text-sm">
-                <div class="flex flex-wrap items-center gap-4 lg:gap-6">
-                    <a href="#" onclick="switchView('home')" class="hover:text-emagOrange transition font-medium"><i class="fa-solid fa-house mr-1"></i> Начало</a>
-                    <a href="#" onclick="filterByCategory('Всички')" class="hover:text-emagOrange transition font-medium">Всички продукти</a>
-                    
-                    <!-- Падащо меню за Облекло -->
-                    <div class="relative dropdown group py-1">
-                        <a href="#" class="hover:text-emagOrange transition font-medium flex items-center gap-1">
-                            Облекло <i class="fa-solid fa-chevron-down text-xs"></i>
-                        </a>
-                        <div class="dropdown-menu absolute hidden bg-white text-gray-800 shadow-xl rounded mt-1 py-2 w-48 z-50">
-                            <a href="#" onclick="filterByCategory('Дрехи')" class="block px-4 py-2 hover:bg-gray-100">Дрехи</a>
-                            <a href="#" onclick="filterByCategory('Обувки')" class="block px-4 py-2 hover:bg-gray-100">Обувки</a>
-                            <a href="#" onclick="filterByCategory('За деца')" class="block px-4 py-2 hover:bg-gray-100">За деца</a>
-                            <a href="#" onclick="filterByCategory('Очила')" class="block px-4 py-2 hover:bg-gray-100">Очила</a>
-                        </div>
-                    </div>
-
-                    <a href="#" onclick="filterByCategory('Електроника')" class="hover:text-emagOrange transition font-medium">Електроника</a>
-                    <a href="#" onclick="filterByCategory('Дом и кухня')" class="hover:text-emagOrange transition font-medium">Дом и кухня</a>
-                    <a href="#" onclick="filterByCategory('Здраве и красота')" class="hover:text-emagOrange transition font-medium">Здраве и красота</a>
-                    <a href="#" onclick="filterByCategory('Играчки и занятия')" class="hover:text-emagOrange transition font-medium">Играчки и занятия</a>
-                    <a href="#" onclick="filterByCategory('Спорт и на открито')" class="hover:text-emagOrange transition font-medium">Спорт и на открито</a>
-                    <a href="#" onclick="filterByCategory('Автомобилна')" class="hover:text-emagOrange transition font-medium">Автомобилна</a>
-                    <a href="#" onclick="filterByCategory('Домашни любимци')" class="hover:text-emagOrange transition font-medium">Домашни любимци</a>
-                    <a href="#" onclick="filterByCategory('Инструменти')" class="hover:text-emagOrange transition font-medium">Инструменти</a>
-                    <a href="#" onclick="filterByCategory('Градина')" class="hover:text-emagOrange transition font-medium">Градина</a>
-                </div>
+            <!-- ДЯСНО: Лого "Твоят Шанс" -->
+            <div>
+                <a href="#" onclick="switchView('home')" class="text-xl md:text-2xl font-black tracking-wider flex items-center gap-1.5">
+                    <span class="bg-emagOrange text-white px-2 py-0.5 rounded text-sm md:text-lg">Твоят</span>Шанс
+                </a>
             </div>
-        </nav>
+
+        </div>
     </header>
 
     <!-- Основно съдържание -->
@@ -149,7 +138,7 @@
         </section>
     </main>
 
-    <!-- МОДАЛ: Детайли за продукт и Галерия (Преработен с "Сходни артикули" най-долу) -->
+    <!-- МОДАЛ: Детайли за продукт и Галерия -->
     <div id="productModal" class="fixed inset-0 bg-black bg-opacity-60 hidden z-50 flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 relative shadow-2xl">
             <button onclick="closeProductModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl font-bold z-20">
@@ -324,6 +313,26 @@
         let currentSearchQuery = '';
         let currentSort = 'default';
         let isAdminLoggedIn = false;
+
+        // Управление на падащото меню с категории отляво
+        function toggleCategoryDropdown(event) {
+            event.stopPropagation();
+            const menu = document.getElementById('categoryDropdownMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        function closeCategoryDropdown() {
+            const menu = document.getElementById('categoryDropdownMenu');
+            menu.classList.add('hidden');
+        }
+
+        window.addEventListener('click', (e) => {
+            const menu = document.getElementById('categoryDropdownMenu');
+            const btn = document.getElementById('categoryDropdownBtn');
+            if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
+                menu.classList.add('hidden');
+            }
+        });
 
         // Помощна функция за активна цена
         function getActivePrice(p) {
@@ -594,7 +603,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // МОДАЛ ЗА ДЕТАЙЛИ НА ПРОДУКТ (Коригирани миниатюри и "Сходни артикули" най-долу)
+        // МОДАЛ ЗА ДЕТАЙЛИ НА ПРОДУКТ (Миниатюри и Сходни артикули най-долу)
         function openProductModal(productId) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
@@ -606,15 +615,12 @@
             const isSold = status === 'продаден';
             const images = (product.images && product.images.length > 0) ? product.images : ['https://via.placeholder.com/300'];
             
-            // Намиране на сходни артикули по категория
             const similarProducts = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
 
-            // Корекция 1: Всяка миниатюра подава точно своя URL адрес към основното изображение
             const thumbnailsHTML = images.map(img => `
                 <img src="${img}" onclick="document.getElementById('mainModalImg').src='${img}'" class="w-16 h-16 object-cover rounded cursor-pointer border-2 border-transparent hover:border-emagBlue transition flex-shrink-0">
             `).join('');
 
-            // Корекция 2: Блок за сходни артикули позициониран най-долу в прозореца
             const similarHTML = similarProducts.length > 0 ? `
                 <div class="mt-6 pt-6 border-t border-gray-200 w-full">
                     <h4 class="font-bold text-gray-800 text-base mb-4">Сходни артикули</h4>
@@ -790,7 +796,6 @@
             document.getElementById('productFormContainer').classList.add('hidden');
         }
 
-        // При добавяне, редакция, изтриване или смяна на статус, кодът автоматично задейства syncWithGitHub()
         async function handleProductFormSubmit(e) {
             e.preventDefault();
             const editId = document.getElementById('editProductId').value;
