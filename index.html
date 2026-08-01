@@ -49,12 +49,8 @@
                 </button>
             </div>
 
-            <!-- Бутони за Навигация / Админ -->
-            <div class="flex items-center gap-4 w-full md:w-auto justify-end">
-                <button onclick="openAdminLogin()" class="bg-gray-700 hover:bg-gray-600 px-3 py-2 rounded text-sm flex items-center gap-2 transition">
-                    <i class="fa-solid fa-lock"></i> Админ панел
-                </button>
-            </div>
+            <!-- Празна кутия за баланс в хедъра -->
+            <div class="hidden md:flex items-center gap-4"></div>
         </div>
 
         <!-- Подменю с категории -->
@@ -265,7 +261,7 @@
     <!-- Футър -->
     <footer class="bg-emagDark text-gray-400 py-6 border-t border-gray-700 mt-12">
         <div class="container mx-auto px-4 text-center text-sm">
-            <a href="#" onclick="openAdminLogin()" class="hover:text-emagOrange transition font-medium">Админ панел</a>
+            <a href="#" onclick="openAdminLogin()" class="hover:text-emagOrange transition font-medium">админ панел</a>
         </div>
     </footer>
 
@@ -286,6 +282,7 @@
         let currentCategoryFilter = 'Всички';
         let currentSearchQuery = '';
         let currentSort = 'default';
+        let isAdminLoggedIn = false; // Проследява дали сме влезли като админ
 
         // Инициализация при зареждане на страницата
         window.addEventListener('DOMContentLoaded', async () => {
@@ -496,8 +493,13 @@
                             ${isSoldOut ? `<span class="bg-gray-800 text-white text-xs font-bold px-2 py-1 rounded">Изчерпан</span>` : `<span class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">Наличен</span>`}
                         </div>
 
-                        <!-- Категория таг -->
-                        <div class="absolute top-3 right-3 z-10">
+                        <!-- Категория таг / Бутон за бърза редакция, ако е логнат админ -->
+                        <div class="absolute top-3 right-3 z-10 flex items-center gap-1">
+                            ${isAdminLoggedIn ? `
+                                <button onclick="openEditProductFormDirect(${p.id})" title="Редактирай продукта" class="bg-blue-600 hover:bg-blue-700 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs shadow transition">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                            ` : ''}
                             <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded font-medium">${p.category}</span>
                         </div>
 
@@ -653,9 +655,11 @@
         function verifyAdminPassword() {
             const pass = document.getElementById('adminPasswordInput').value;
             if (pass === 'onlineshop0000') {
+                isAdminLoggedIn = true;
                 document.getElementById('adminLoginSection').classList.add('hidden');
                 document.getElementById('adminDashboardSection').classList.remove('hidden');
                 renderAdminProductsList();
+                renderCatalog(); // Презарежда каталога за да покаже бутоните за редакция върху картите
             } else {
                 document.getElementById('adminLoginError').classList.remove('hidden');
             }
@@ -706,6 +710,15 @@
             document.getElementById('formDescription').value = product.description || '';
 
             document.getElementById('productFormContainer').classList.remove('hidden');
+        }
+
+        // Директно отваряне на формата за редакция при клик върху моливчето на картата
+        function openEditProductFormDirect(id) {
+            openAdminLogin();
+            document.getElementById('adminLoginSection').classList.add('hidden');
+            document.getElementById('adminDashboardSection').classList.remove('hidden');
+            renderAdminProductsList();
+            openEditProductForm(id);
         }
 
         function cancelProductForm() {
