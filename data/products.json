@@ -1,19 +1,5 @@
 [
   {
-    "id": 1785423034117,
-    "title": "123123",
-    "category": "Автомобилна",
-    "regularPrice": 333,
-    "salePrice": 1,
-    "size": "",
-    "stockStatus": "наличен",
-    "sold": false,
-    "images": [
-      "https://minecraft.wiki/images/thumb/Sniffer_sniffsniff.gif/200px-Sniffer_sniffsniff.gif?36ccd"
-    ],
-    "description": "3213"
-  },
-  {
     "id": 1785423034116,
     "title": "Уред за приготвяне на сухо мляко",
     "regularPrice": 64.99,
