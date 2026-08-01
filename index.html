@@ -489,76 +489,83 @@
 
         // Рендиране на каталога
         function renderCatalog() {
-            const grid = document.getElementById('productsGrid');
-            const countElem = document.getElementById('catalogCount');
-            
-            countElem.innerText = `Показани ${currentFilteredProducts.length} артикула`;
+    const grid = document.getElementById('productsGrid');
+    const countElem = document.getElementById('catalogCount');
+    
+    if (!grid) return;
+    
+    if (countElem) {
+        countElem.innerText = `Показани ${currentFilteredProducts.length} артикула`;
+    }
 
-            const startIndex = (currentPage - 1) * itemsPerPage;
-            const endIndex = startIndex + itemsPerPage;
-            const paginatedItems = currentFilteredProducts.slice(startIndex, endIndex);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedItems = currentFilteredProducts.slice(startIndex, endIndex);
 
-            if (paginatedItems.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-500">Няма намерени продукти.</div>`;
-                document.getElementById('paginationContainer').innerHTML = '';
-                return;
-            }
+    if (paginatedItems.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-500">Няма намерени продукти.</div>`;
+        const paginationContainer = document.getElementById('paginationContainer');
+        if (paginationContainer) paginationContainer.innerHTML = '';
+        return;
+    }
 
-            grid.innerHTML = paginatedItems.map(p => {
-                const activePrice = getActivePrice(p);
-                const hasDiscount = p.regularPrice > activePrice;
-                const discountPercent = hasDiscount ? Math.round(((p.regularPrice - activePrice) / p.regularPrice) * 100) : 0;
-                const status = getStockStatus(p);
-                const isSoldOut = status === 'продаден';
+    grid.innerHTML = paginatedItems.map(p => {
+        const activePrice = getActivePrice(p);
+        const hasDiscount = p.regularPrice > activePrice;
+        const discountPercent = hasDiscount ? Math.round(((p.regularPrice - activePrice) / p.regularPrice) * 100) : 0;
+        const status = getStockStatus(p);
+        const isSoldOut = status === 'продаден';
 
-                return `
-                    <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition p-4 flex flex-col justify-between relative border border-gray-100 group">
-                        <!-- Етикети -->
-                        <div class="absolute top-3 left-3 z-10 flex flex-col gap-1">
-                            ${hasDiscount ? `<span class="bg-emagOrange text-white text-xs font-black px-2 py-1 rounded">-${discountPercent}%</span>` : ''}
-                            ${isSoldOut ? `<span class="bg-gray-800 text-white text-xs font-bold px-2 py-1 rounded">Изчерпан</span>` : `<span class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">Наличен</span>`}
+        return `
+            <div onclick="openProductModal(${p.id})" class="bg-white rounded-lg shadow-sm hover:shadow-lg transition p-4 flex flex-col justify-between relative border border-gray-100 group cursor-pointer">
+                <!-- Етикети за отстъпка и статус -->
+                <div class="absolute top-3 left-3 z-10 flex flex-col gap-1 pointer-events-none">
+                    ${hasDiscount ? `<span class="bg-orange-500 text-white text-xs font-black px-2 py-1 rounded">-${discountPercent}%</span>` : ''}
+                    ${isSoldOut ? `<span class="bg-gray-800 text-white text-xs font-bold px-2 py-1 rounded">Изчерпан</span>` : `<span class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">Наличен</span>`}
+                </div>
+
+                <!-- Админ бутон за редакция (ако е активен) -->
+                <div class="absolute top-3 right-3 z-10 flex items-center gap-1">
+                    ${typeof isAdminLoggedIn !== 'undefined' && isAdminLoggedIn ? `
+                        <button onclick="event.stopPropagation(); openEditProductFormDirect(${p.id})" title="Редактирай" class="bg-blue-600 hover:bg-blue-700 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs shadow transition">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                    ` : ''}
+                    <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded font-medium">${p.category || ''}</span>
+                </div>
+
+                <!-- Изображение на продукта -->
+                <div class="w-full h-48 mb-4 overflow-hidden rounded flex items-center justify-center bg-gray-50">
+                    <img src="${(p.images && p.images[0]) ? p.images[0] : 'https://via.placeholder.com/300'}" alt="${p.title}" class="object-cover h-full w-full group-hover:scale-105 transition duration-300">
+                </div>
+
+                <!-- Текстова информация -->
+                <div class="space-y-1 mb-4 flex-grow">
+                    <div class="text-xs text-gray-500">Размер: <span class="font-semibold text-gray-700">${p.size || 'N/A'}</span></div>
+                    <h3 class="font-bold text-gray-800 text-sm line-clamp-2">${p.title}</h3>
+                    <p class="text-xs text-gray-500 line-clamp-2">${p.description || ''}</p>
+                </div>
+
+                <!-- Ценови блок и бутон за преглед -->
+                <div class="border-t pt-3 mt-auto">
+                    <div class="flex items-baseline justify-between">
+                        <div>
+                            <div class="text-xs text-gray-400 line-through">${hasDiscount ? Number(p.regularPrice).toFixed(2) + ' лв.' : ''}</div>
+                            <div class="text-xl font-black text-gray-900">${activePrice.toFixed(2)} лв.</div>
                         </div>
-
-                        <!-- Бутон за бърза редакция ако е админ -->
-                        <div class="absolute top-3 right-3 z-10 flex items-center gap-1">
-                            ${isAdminLoggedIn ? `
-                                <button onclick="openEditProductFormDirect(${p.id})" title="Редактирай продукта" class="bg-blue-600 hover:bg-blue-700 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs shadow transition">
-                                    <i class="fa-solid fa-pen"></i>
-                                </button>
-                            ` : ''}
-                            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded font-medium">${p.category}</span>
-                        </div>
-
-                        <!-- Изображение -->
-                        <div class="w-full h-48 mb-4 overflow-hidden rounded cursor-pointer flex items-center justify-center bg-gray-50" onclick="openProductModal(${p.id})">
-                            <img src="${(p.images && p.images[0]) ? p.images[0] : 'https://via.placeholder.com/300'}" alt="${p.title}" class="object-cover h-full w-full group-hover:scale-105 transition duration-300">
-                        </div>
-
-                        <!-- Информация -->
-                        <div class="space-y-1 mb-4 flex-grow">
-                            <div class="text-xs text-gray-500">Размер: <span class="font-semibold text-gray-700">${p.size || 'N/A'}</span></div>
-                            <h3 class="font-bold text-gray-800 text-sm line-clamp-2 cursor-pointer hover:text-emagBlue transition" onclick="openProductModal(${p.id})">${p.title}</h3>
-                            <p class="text-xs text-gray-500 line-clamp-2">${p.description || ''}</p>
-                        </div>
-
-                        <!-- Ценови блок -->
-                        <div class="border-t pt-3 mt-auto">
-                            <div class="flex items-baseline justify-between">
-                                <div>
-                                    <div class="text-xs text-gray-400 line-through">${hasDiscount ? Number(p.regularPrice).toFixed(2) + ' лв.' : ''}</div>
-                                    <div class="text-xl font-black text-gray-900">${activePrice.toFixed(2)} лв.</div>
-                                </div>
-                                <button onclick="openProductModal(${p.id})" class="bg-emagBlue text-white p-2 rounded-lg hover:bg-blue-700 transition">
-                                    <i class="fa-solid fa-eye"></i>
-                                </button>
-                            </div>
+                        <div class="bg-blue-600 text-white p-2 rounded-lg pointer-events-none">
+                            <i class="fa-solid fa-eye"></i>
                         </div>
                     </div>
-                `;
-            }).join('');
+                </div>
+            </div>
+        `;
+    }).join('');
 
-            renderPagination();
-        }
+    if (typeof renderPagination === 'function') {
+        renderPagination();
+    }
+}
 
         // Рендиране на пагинация
         function renderPagination() {
