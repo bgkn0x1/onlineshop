@@ -1,2374 +1,843 @@
 <!DOCTYPE html>
-<html lang="bg"><head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Онлайн Витрина</title>
-  <style>
-    :root {
-      --emag-blue: #005cbf;
-      --emag-red: #e60000;
-      --bg-gray: #f2f4f8;
-      --card-border: #e3e8ee;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
-
-    body {
-      background-color: var(--bg-gray);
-      color: #333;
-      padding-bottom: 80px;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    header {
-      background-color: #fff;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .header-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 10px 15px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .dropdown-btn {
-      background-color: var(--emag-blue);
-      color: white;
-      padding: 10px 14px;
-      font-size: 14px;
-      font-weight: 700;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      white-space: nowrap;
-    }
-
-    .dropdown-btn:hover {
-      background-color: #004a99;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background-color: #ffffff;
-      min-width: 220px;
-      box-shadow: 0px 8px 20px rgba(0,0,0,0.18);
-      border-radius: 8px;
-      overflow: visible;
-      z-index: 200;
-      border: 1px solid var(--card-border);
-    }
-
-    .dropdown-content.show {
-      display: block !important;
-    }
-
-    .dropdown-content a {
-      color: #333;
-      padding: 11px 16px;
-      text-decoration: none;
-      display: block;
-      font-size: 14px;
-      border-bottom: 1px solid #f0f0f0;
-      cursor: pointer;
-    }
-
-    .dropdown-content a:last-child {
-      border-bottom: none;
-    }
-
-    .dropdown-content a:hover {
-      background-color: #f2f4f8;
-      color: var(--emag-blue);
-      font-weight: 600;
-    }
-
-    .has-submenu {
-      position: relative;
-    }
-
-    .has-submenu > a {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 600;
-    }
-
-    .arrow-icon {
-      font-size: 14px;
-      color: var(--emag-blue);
-      font-weight: bold;
-      margin-left: 8px;
-    }
-
-    .submenu {
-      display: none;
-      position: absolute;
-      top: 0;
-      left: 100%;
-      background-color: #ffffff;
-      min-width: 170px;
-      box-shadow: 2px 8px 16px rgba(0,0,0,0.15);
-      border-radius: 8px;
-      border: 1px solid var(--card-border);
-    }
-
-    .has-submenu:hover .submenu,
-    .has-submenu.open .submenu {
-      display: block;
-    }
-
-    .search-box {
-      position: relative;
-      flex-grow: 1;
-    }
-
-    .search-input {
-      width: 100%;
-      padding: 9px 36px 9px 12px;
-      border: 1px solid #ccc;
-      border-radius: 20px;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.2s ease;
-    }
-
-    .search-input:focus {
-      border-color: var(--emag-blue);
-    }
-
-    .search-icon {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #777;
-      pointer-events: none;
-      font-size: 14px;
-    }
-
-    .bottom-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background-color: #1a1a1a;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 10px 15px;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
-      z-index: 900;
-    }
-
-    .bottom-bar-btn {
-      background: none;
-      border: 1px solid #555;
-      color: #fff;
-      padding: 8px 24px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 600;
-      transition: all 0.2s ease;
-    }
-
-    .bottom-bar-btn:hover {
-      background: #333;
-      border-color: #777;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 15px auto;
-      padding: 0 12px;
-    }
-
-    .filter-status {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .filter-status h2 {
-      font-size: 18px;
-    }
-
-    .btn-reset-filter {
-      background: #e0e0e0;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .categories-home-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-
-    @media (min-width: 600px) {
-      .categories-home-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-      }
-    }
-
-    @media (min-width: 900px) {
-      .categories-home-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-    }
-
-    .category-card-all {
-      grid-column: 1 / -1;
-      position: relative;
-      background-image: url('https://www.logicparkstad.com/wp-content/uploads/gallery-VBP8192-300x200.webp');
-      background-size: cover;
-      background-position: center;
-      color: white;
-      padding: 35px 20px;
-      border-radius: 12px;
-      text-align: center;
-      font-size: 22px;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-      transition: transform 0.2s, box-shadow 0.2s;
-      overflow: hidden;
-    }
-
-    .category-card-all::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.45);
-      z-index: 1;
-    }
-
-    .category-card-all span {
-      position: relative;
-      z-index: 2;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
-    }
-
-    .category-card-all:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-    }
-
-    .category-card {
-      background: #fff;
-      border: 1px solid var(--card-border);
-      border-radius: 10px;
-      padding: 20px 15px;
-      text-align: center;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 110px;
-    }
-
-    .category-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-      border-color: var(--emag-blue);
-    }
-
-    .category-card-icon {
-      font-size: 26px;
-      margin-bottom: 4px;
-    }
-
-    .category-card-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: #333;
-      margin-top: 4px;
-    }
-
-    .category-card-count {
-      font-size: 12px;
-      color: #777;
-      margin-top: 3px;
-    }
-
-    .pagination {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 6px;
-      margin-top: 25px;
-      flex-wrap: wrap;
-    }
-
-    .page-btn {
-      background: #fff;
-      border: 1px solid var(--card-border);
-      color: #333;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 600;
-      transition: background-color 0.2s, color 0.2s;
-    }
-
-    .page-btn:hover:not(:disabled) {
-      background-color: #f2f4f8;
-      border-color: var(--emag-blue);
-      color: var(--emag-blue);
-    }
-
-    .page-btn.active {
-      background-color: var(--emag-blue);
-      color: white;
-      border-color: var(--emag-blue);
-    }
-
-    .page-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .admin-panel {
-      display: none;
-      background: #fff3cd;
-      border: 1px solid #ffeeba;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
-
-    .admin-panel.active {
-      display: block;
-    }
-
-    .admin-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .admin-panel h2 {
-      font-size: 16px;
-      color: #856404;
-    }
-
-    .admin-download-dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .admin-download-group {
-      display: inline-flex;
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .btn-download-file {
-      background-color: #28a745;
-      color: white;
-      border: none;
-      padding: 8px 14px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 12px;
-    }
-
-    .btn-download-file:hover {
-      background-color: #218838;
-    }
-
-    .admin-dropdown-arrow-btn {
-      background-color: #218838;
-      color: white;
-      border: none;
-      border-left: 1px solid rgba(255,255,255,0.3);
-      padding: 8px 10px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 12px;
-    }
-
-    .admin-dropdown-arrow-btn:hover {
-      background-color: #1e7e34;
-    }
-
-    .admin-dropdown-content {
-      display: none;
-      position: absolute;
-      right: 0;
-      top: 100%;
-      margin-top: 4px;
-      background-color: #ffffff;
-      min-width: 200px;
-      box-shadow: 0px 8px 20px rgba(0,0,0,0.18);
-      border-radius: 6px;
-      z-index: 300;
-      border: 1px solid var(--card-border);
-    }
-
-    .admin-dropdown-content.show {
-      display: block;
-    }
-
-    .admin-dropdown-content a {
-      color: #333;
-      padding: 10px 14px;
-      text-decoration: none;
-      display: block;
-      font-size: 13px;
-      cursor: pointer;
-    }
-
-    .admin-dropdown-content a:hover {
-      background-color: #f2f4f8;
-      color: var(--emag-blue);
-      font-weight: 600;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    input, textarea, select {
-      width: 100%;
-      padding: 9px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 13px;
-      background: #fff;
-    }
-
-    .btn-add {
-      background-color: var(--emag-blue);
-      color: white;
-      border: none;
-      padding: 10px;
-      font-weight: bold;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
-      width: 100%;
-      margin-top: 5px;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-
-    @media (min-width: 600px) {
-      .product-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 15px;
-      }
-    }
-
-    @media (min-width: 900px) {
-      .product-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
-      }
-    }
-
-    .product-card {
-      background: #fff;
-      border: 1px solid var(--card-border);
-      border-radius: 8px;
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-      transition: box-shadow 0.2s ease, transform 0.2s ease;
-      cursor: pointer;
-    }
-
-    .product-card:hover {
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .category-header-line {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 5px;
-      gap: 4px;
-      flex-wrap: wrap;
-    }
-
-    .category-tag {
-      font-size: 10px;
-      color: #888;
-      text-transform: uppercase;
-      font-weight: bold;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .size-badge {
-      background-color: #e6f0fa;
-      color: var(--emag-blue);
-      font-size: 10px;
-      font-weight: 700;
-      padding: 1px 5px;
-      border-radius: 4px;
-      border: 1px solid #b8daff;
-    }
-
-    .image-container {
-      width: 100%;
-      height: 130px;
-      position: relative;
-      overflow: hidden;
-      border-radius: 6px;
-      margin-bottom: 8px;
-      background: #f8f9fa;
-    }
-
-    @media (min-width: 600px) {
-      .image-container {
-        height: 170px;
-      }
-    }
-
-    .product-image {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    .badge-sold {
-      position: absolute;
-      top: 5px;
-      left: 5px;
-      background: rgba(0,0,0,0.8);
-      color: #fff;
-      padding: 3px 6px;
-      font-size: 10px;
-      font-weight: bold;
-      border-radius: 4px;
-      text-transform: uppercase;
-      z-index: 2;
-    }
-
-    .badge-available {
-      position: absolute;
-      top: 5px;
-      left: 5px;
-      background: #28a745;
-      color: #fff;
-      padding: 3px 6px;
-      font-size: 10px;
-      font-weight: bold;
-      border-radius: 4px;
-      text-transform: uppercase;
-      z-index: 2;
-    }
-
-    .badge-discount {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      background: var(--emag-red);
-      color: #fff;
-      padding: 3px 6px;
-      font-size: 10px;
-      font-weight: 800;
-      border-radius: 4px;
-      z-index: 2;
-    }
-
-    .product-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #333;
-      margin-bottom: 4px;
-      line-height: 1.25;
-      height: 32px;
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-    }
-
-    .product-desc {
-      font-size: 11px;
-      color: #666;
-      margin-bottom: 6px;
-      height: 28px;
-      overflow: hidden;
-      line-height: 1.2;
-    }
-
-    .product-stock {
-      font-size: 11px;
-      font-weight: bold;
-      color: #005cbf;
-      margin-bottom: 6px;
-    }
-
-    .price-block {
-      display: flex;
-      align-items: baseline;
-      gap: 5px;
-      flex-wrap: wrap;
-      margin-bottom: 4px;
-    }
-
-    .old-price-container {
-      background: #777;
-      padding: 1px 4px;
-      border-radius: 3px;
-    }
-
-    .old-price {
-      font-size: 11px;
-      color: #ffffff;
-      text-decoration: line-through;
-      font-weight: bold;
-    }
-
-    .current-price {
-      font-size: 15px;
-      font-weight: 800;
-      color: var(--emag-red);
-    }
-
-    .regular-price-only {
-      font-size: 15px;
-      font-weight: 800;
-      color: #333;
-    }
-
-    .click-more-hint {
-      font-size: 10px;
-      color: var(--emag-blue);
-      font-weight: 600;
-      text-align: right;
-    }
-
-    .sold-out .current-price,
-    .sold-out .regular-price-only {
-      text-decoration: line-through;
-      color: #888;
-    }
-
-    .sold-out .product-image {
-      opacity: 0.4;
-      filter: grayscale(100%);
-    }
-
-    .admin-controls {
-      display: none;
-      gap: 4px;
-      margin-top: 8px;
-      padding-top: 6px;
-      border-top: 1px dashed #ccc;
-    }
-
-    .is-admin .admin-controls {
-      display: flex;
-    }
-
-    .btn-toggle, .btn-edit, .btn-delete {
-      padding: 5px 2px;
-      border-radius: 4px;
-      font-weight: 600;
-      font-size: 10px;
-      text-align: center;
-      border: 1px solid #ccc;
-    }
-
-    .btn-toggle { flex: 1; background: #f8f9fa; }
-    .btn-edit { flex: 1; background: #fff3cd; color: #856404; border-color: #ffc107; }
-    .btn-delete { background: #dc3545; color: white; border: none; padding: 5px 6px; }
-
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: 1000;
-      justify-content: center;
-      align-items: flex-end;
-      padding: 0;
-    }
-
-    @media (min-width: 600px) {
-      .modal-overlay {
-        align-items: center;
-        padding: 20px;
-      }
-    }
-
-    .modal-overlay.active {
-      display: flex;
-    }
-
-    .modal-content {
-      background: #fff;
-      width: 100%;
-      max-height: 90vh;
-      border-top-left-radius: 16px;
-      border-top-right-radius: 16px;
-      overflow-y: auto;
-      position: relative;
-      padding: 20px 15px;
-      box-shadow: 0 -5px 25px rgba(0,0,0,0.25);
-    }
-
-    @media (min-width: 600px) {
-      .modal-content {
-        max-width: 850px;
-        border-radius: 12px;
-        padding: 25px;
-      }
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 12px;
-      right: 15px;
-      font-size: 26px;
-      font-weight: bold;
-      color: #888;
-      cursor: pointer;
-      border: none;
-      background: none;
-      line-height: 1;
-      z-index: 10;
-    }
-
-    .modal-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 15px;
-    }
-
-    @media (min-width: 768px) {
-      .modal-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 25px;
-      }
-    }
-
-    .gallery-main {
-      width: 100%;
-      height: 230px;
-      background: #f8f9fa;
-      border-radius: 8px;
-      overflow: hidden;
-      margin-bottom: 8px;
-      border: 1px solid var(--card-border);
-      position: relative;
-    }
-
-    @media (min-width: 600px) {
-      .gallery-main { height: 280px; }
-    }
-
-    .gallery-main img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      cursor: zoom-in;
-    }
-
-    /* Lightbox за пълноекранен преглед на снимка */
-    .lightbox-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.9);
-      z-index: 2000;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .lightbox-overlay.active {
-      display: flex;
-    }
-
-    .lightbox-content {
-      position: relative;
-      max-width: 95vw;
-      max-height: 95vh;
-    }
-
-    .lightbox-content img {
-      width: 100%;
-      height: auto;
-      max-height: 90vh;
-      object-fit: contain;
-      border-radius: 4px;
-    }
-
-    .lightbox-close {
-      position: absolute;
-      top: -40px;
-      right: 0;
-      font-size: 32px;
-      color: white;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .gallery-thumbs {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 5px;
-    }
-
-    .thumb {
-      width: 60px;
-      height: 60px;
-      flex-shrink: 0;
-      border-radius: 6px;
-      border: 2px solid transparent;
-      overflow: hidden;
-      cursor: pointer;
-      background: #f8f9fa;
-    }
-
-    .thumb.active {
-      border-color: var(--emag-blue);
-    }
-
-    .thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .modal-category {
-      font-size: 11px;
-      color: #888;
-      text-transform: uppercase;
-      font-weight: bold;
-    }
-
-    .modal-size-badge {
-      display: inline-block;
-      background-color: #e6f0fa;
-      color: var(--emag-blue);
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 4px;
-      border: 1px solid #b8daff;
-      margin-top: 4px;
-      font-size: 12px;
-    }
-
-    .modal-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin: 4px 0 8px 0;
-      color: #111;
-      line-height: 1.3;
-    }
-
-    .modal-price-block {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-
-    .modal-old-price-box {
-      background: #666;
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-
-    .modal-old-price {
-      font-size: 14px;
-      color: #ffffff;
-      text-decoration: line-through;
-      font-weight: bold;
-    }
-
-    .modal-sale-price {
-      font-size: 24px;
-      font-weight: 800;
-      color: var(--emag-red);
-    }
-
-    .modal-discount-badge {
-      background: var(--emag-red);
-      color: #fff;
-      font-weight: bold;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 12px;
-    }
-
-    .modal-stock-text {
-      font-size: 13px;
-      font-weight: 600;
-      color: #28a745;
-      margin-bottom: 10px;
-    }
-
-    .modal-status-badge {
-      display: inline-block;
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-size: 11px;
-      font-weight: bold;
-      color: #fff;
-      margin-bottom: 10px;
-    }
-
-    .modal-details {
-      font-size: 13px;
-      line-height: 1.5;
-      color: #444;
-      white-space: pre-line;
-      border-top: 1px solid #eee;
-      padding-top: 12px;
-    }
-
-    .similar-section {
-      margin-top: 20px;
-      border-top: 2px solid #f0f0f0;
-      padding-top: 15px;
-    }
-
-    .similar-section h3 {
-      font-size: 15px;
-      margin-bottom: 10px;
-      color: #333;
-    }
-
-    .similar-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-      gap: 10px;
-    }
-
-    .similar-card {
-      background: #fff;
-      border: 1px solid var(--card-border);
-      border-radius: 6px;
-      padding: 8px;
-      cursor: pointer;
-    }
-
-    .similar-card img {
-      width: 100%;
-      height: 80px;
-      object-fit: contain;
-      margin-bottom: 6px;
-    }
-
-    .similar-title {
-      font-size: 11px;
-      font-weight: 600;
-      color: #333;
-      height: 28px;
-      overflow: hidden;
-      line-height: 1.25;
-    }
-
-    .similar-price {
-      font-size: 13px;
-      font-weight: bold;
-      color: var(--emag-red);
-      margin-top: 4px;
-    }
-  </style>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Твоят Шанс - Онлайн витрина</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        emagBlue: '#0055ff',
+                        emagOrange: '#ff6600',
+                        emagDark: '#1f2937'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .dropdown:hover .dropdown-menu { display: block; }
+    </style>
 </head>
-<body id="body-tag" class="is-admin">
+<body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col justify-between">
 
-  <header>
-    <div class="header-container">
-      <div class="dropdown">
-        <button class="dropdown-btn" onclick="toggleDropdown(event)">
-          ☰ Категории ▾
+    <!-- Хедър и Навигация -->
+    <header class="bg-emagDark text-white sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
+            <!-- Лого -->
+            <div class="flex items-center justify-between w-full md:w-auto">
+                <a href="#" onclick="switchView('home')" class="text-2xl font-black tracking-wider flex items-center gap-2">
+                    <span class="bg-emagOrange text-white px-2 py-1 rounded text-base md:text-xl">Твоят</span>Шанс
+                </a>
+                <button id="mobile-menu-btn" class="md:hidden text-xl focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- Поле за търсене в реално време -->
+            <div class="w-full md:flex-1 max-w-xl relative">
+                <input type="text" id="searchInput" placeholder="Търсене на продукти, марки, категории..." 
+                    class="w-full py-2 px-4 rounded-l bg-white text-gray-800 focus:outline-none" oninput="handleSearch(this.value)">
+                <button class="absolute right-0 top-0 h-full bg-emagOrange px-5 rounded-r text-white hover:bg-opacity-90 transition">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+
+            <!-- Бутони за Навигация / Админ -->
+            <div class="flex items-center gap-4 w-full md:w-auto justify-end">
+                <button onclick="openAdminLogin()" class="bg-gray-700 hover:bg-gray-600 px-3 py-2 rounded text-sm flex items-center gap-2 transition">
+                    <i class="fa-solid fa-lock"></i> Админ панел
+                </button>
+            </div>
+        </div>
+
+        <!-- Подменю с категории -->
+        <nav class="bg-gray-800 border-t border-gray-700">
+            <div class="container mx-auto px-4 flex flex-wrap items-center gap-6 py-2 text-sm">
+                <a href="#" onclick="switchView('home')" class="hover:text-emagOrange transition font-medium"><i class="fa-solid fa-house mr-1"></i> Начало</a>
+                <a href="#" onclick="filterByCategory('Всички')" class="hover:text-emagOrange transition font-medium">Всички продукти</a>
+                
+                <!-- Падащо меню за Облекло -->
+                <div class="relative dropdown group py-1">
+                    <a href="#" class="hover:text-emagOrange transition font-medium flex items-center gap-1">
+                        Облекло <i class="fa-solid fa-chevron-down text-xs"></i>
+                    </a>
+                    <div class="dropdown-menu absolute hidden bg-white text-gray-800 shadow-xl rounded mt-1 py-2 w-48 z-50">
+                        <a href="#" onclick="filterByCategory('Дрехи')" class="block px-4 py-2 hover:bg-gray-100">Дрехи</a>
+                        <a href="#" onclick="filterByCategory('Обувки')" class="block px-4 py-2 hover:bg-gray-100">Обувки</a>
+                        <a href="#" onclick="filterByCategory('За деца')" class="block px-4 py-2 hover:bg-gray-100">За деца</a>
+                        <a href="#" onclick="filterByCategory('Очила')" class="block px-4 py-2 hover:bg-gray-100">Очила</a>
+                    </div>
+                </div>
+
+                <a href="#" onclick="filterByCategory('Електроника')" class="hover:text-emagOrange transition font-medium">Електроника</a>
+                <a href="#" onclick="filterByCategory('Дом и Градина')" class="hover:text-emagOrange transition font-medium">Дом и Градина</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Основно съдържание -->
+    <main class="container mx-auto px-4 py-6 flex-grow">
+
+        <!-- НАЧАЛЕН ИЗГЛЕД (Home View) -->
+        <section id="homeView" class="space-y-8">
+            <!-- Банер -->
+            <div class="bg-gradient-to-r from-emagBlue to-blue-700 text-white rounded-2xl p-8 shadow-lg flex flex-col md:flex-row items-center justify-between">
+                <div class="space-y-4 max-w-lg">
+                    <span class="bg-emagOrange text-xs uppercase px-3 py-1 rounded-full font-bold">Голяма разпродажба</span>
+                    <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">Всичко, от което се нуждаеш, на едно място!</h1>
+                    <p class="text-blue-100">Разгледай хиляди качествени артикули с бърза доставка и топ цени.</p>
+                    <button onclick="filterByCategory('Всички')" class="bg-emagOrange text-white font-bold px-6 py-3 rounded-lg shadow hover:bg-opacity-90 transition">
+                        Към каталога <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+                <div class="mt-6 md:mt-0 text-6xl opacity-20 md:opacity-100">
+                    <i class="fa-solid fa-bag-shopping text-9xl"></i>
+                </div>
+            </div>
+
+            <!-- Карти за категории с брой артикули -->
+            <div>
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-bold text-gray-800">Популярни категории</h2>
+                    <button onclick="filterByCategory('Всички')" class="text-emagBlue font-medium hover:underline">Виж всички категории &rarr;</button>
+                </div>
+                <div id="categoryCardsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <!-- Динамично генерирани категории -->
+                </div>
+            </div>
+        </section>
+
+        <!-- КАТАЛОГ И СЕКЦИЯ ПРОДУКТИ (Catalog View) -->
+        <section id="catalogView" class="hidden space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-center bg-white p-4 rounded-lg shadow-sm gap-4">
+                <div>
+                    <h2 id="catalogTitle" class="text-xl font-bold">Всички продукти</h2>
+                    <p id="catalogCount" class="text-sm text-gray-500">Показване на резултати</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <label class="text-sm font-medium">Сортиране:</label>
+                    <select id="sortSelect" onchange="sortProducts(this.value)" class="border rounded px-3 py-1.5 text-sm bg-white focus:outline-none">
+                        <option value="default">По подразбиране</option>
+                        <option value="price-asc">Цена: Ниска към Висока</option>
+                        <option value="price-desc">Цена: Висока към Ниска</option>
+                        <option value="discount">Най-голяма отстъпка</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Адаптивна мрежа за продукти -->
+            <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Продуктови карти ще се зареждат тук -->
+            </div>
+
+            <!-- Пагинация -->
+            <div id="paginationContainer" class="flex justify-center items-center gap-2 pt-6">
+                <!-- Странициране -->
+            </div>
+        </section>
+    </main>
+
+    <!-- МОДАЛ: Детайли за продукт и Галерия -->
+    <div id="productModal" class="fixed inset-0 bg-black bg-opacity-60 hidden z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 relative shadow-2xl">
+            <button onclick="closeProductModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl font-bold">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="modalContent" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Динамично съдържание на модала -->
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛ: Lightbox за пълноекранен преглед -->
+    <div id="lightboxModal" class="fixed inset-0 bg-black bg-opacity-90 hidden z-50 flex items-center justify-center p-4">
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white text-3xl hover:text-gray-300">
+            <i class="fa-solid fa-xmark"></i>
         </button>
-        <div class="dropdown-content" id="dropdown-menu">
-          <a onclick="filterCategory('all')">📦 Всички категории</a>
-          <a onclick="filterCategory('Електроника')">💻 Електроника</a>
-          <a onclick="filterCategory('Дом и кухня')">🏠 Дом и кухня</a>
-          <a onclick="filterCategory('Здраве и красота')">💄 Здраве и красота</a>
-          
-          <div class="has-submenu" id="apparel-submenu">
-            <a onclick="toggleSubmenu(event)">
-              <span>👕 Облекло</span>
-              <span class="arrow-icon">›</span>
-            </a>
-            <div class="submenu">
-              <a onclick="filterCategory('Облекло')">👕 Всички от Облекло</a>
-              <a onclick="filterCategory('Дрехи')">👗 Дрехи</a>
-              <a onclick="filterCategory('Обувки')">👟 Обувки</a>
-              <a onclick="filterCategory('За деца')">🧸 За деца</a>
-              <a onclick="filterCategory('Очила')">🕶️ Очила</a>
-            </div>
-          </div>
-
-          <a onclick="filterCategory('Играчки и занятия')">🧩 Играчки и занятия</a>
-          <a onclick="filterCategory('Спорт и на открито')">⚽ Спорт и на открито</a>
-          <a onclick="filterCategory('Автомобилна')">🚗 Автомобилна</a>
-          <a onclick="filterCategory('Домашни любимци')">🐾 Домашни любимци</a>
-          <a onclick="filterCategory('Инструменти')">🛠️ Инструменти</a>
-          <a onclick="filterCategory('Градина')">🌱 Градина</a>
-        </div>
-      </div>
-
-      <div class="search-box">
-        <input type="text" id="search-input" class="search-input" placeholder="Търси продукт..." oninput="onSearchInput()">
-        <span class="search-icon">🔍</span>
-      </div>
-    </div>
-  </header>
-
-  <div class="container">
-    
-    <div class="admin-panel active" id="admin-panel">
-      <div class="admin-header">
-        <h2>⚙️ Администраторски панел</h2>
-        <div class="admin-download-dropdown">
-          <div class="admin-download-group">
-            <button class="btn-download-file" onclick="downloadProductsJson()">💾 Свали обновен products.json</button>
-            <button class="admin-dropdown-arrow-btn" onclick="toggleAdminDownloadDropdown(event)">▼</button>
-          </div>
-          <div class="admin-dropdown-content show" id="admin-download-menu">
-            <a onclick="downloadProductsJson()">💾 Свали products.json</a>
-            <a onclick="downloadIndexHtml()">📄 Свали index.html</a>
-          </div>
-        </div>
-      </div>
-
-      <form id="add-product-form">
-        <div class="form-grid">
-          <input type="text" id="p-title" placeholder="Заглавие на продукта" required="">
-          <input type="number" id="p-regular-price" placeholder="Редовна цена (€)" step="0.01" required="">
-          <input type="number" id="p-sale-price" placeholder="Промо цена (€) - по избор" step="0.01">
-          <input type="number" id="p-quantity" placeholder="Количество (бр.)" min="0" value="1" required="">
-          
-          <select id="p-category" onchange="toggleSizeInput('p-category', 'p-size-container')" required="">
-            <option value="" disabled="" selected="">Избери категория...</option>
-            <option value="Електроника">Електроника</option>
-            <option value="Дом и кухня">Дом и кухня</option>
-            <option value="Здраве и красота">Здраве и красота</option>
-            <option value="Облекло">Облекло (Общо)</option>
-            <option value="Дрехи">Облекло -&gt; Дрехи</option>
-            <option value="Обувки">Облекло -&gt; Обувки</option>
-            <option value="За деца">Облекло -&gt; За деца</option>
-            <option value="Очила">Облекло -&gt; Очила</option>
-            <option value="Играчки и занятия">Играчки и занятия</option>
-            <option value="Спорт и на открито">Спорт и на открито</option>
-            <option value="Автомобилна">Автомобилна</option>
-            <option value="Домашни любимци">Домашни любимци</option>
-            <option value="Инструменти">Инструменти</option>
-            <option value="Градина">Градина</option>
-          </select>
-
-          <div id="p-size-container" style="display: none;">
-            <input type="text" id="p-size" placeholder="Размер (напр. S, M, XL, 42)">
-          </div>
-        </div>
-
-        <div class="form-grid">
-          <input type="url" id="p-image1" placeholder="Основна снимка URL" required="">
-          <input type="url" id="p-image2" placeholder="Втора снимка URL">
-          <input type="url" id="p-image3" placeholder="Трета снимка URL">
-        </div>
-
-        <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px;">
-          <textarea id="p-desc" placeholder="Кратко описание (за витрината)..." style="height: 50px;" required=""></textarea>
-          <textarea id="p-details" placeholder="Подробно описание..." style="height: 50px;"></textarea>
-        </div>
-
-        <button type="submit" class="btn-add">+ Добави продукт</button>
-      </form>
+        <img id="lightboxImg" src="" class="max-h-[90vh] max-w-[90vw] object-contain rounded">
     </div>
 
-    <div class="filter-status">
-      <h2 id="catalog-title">Всички категории</h2>
-      <button id="reset-filter-btn" class="btn-reset-filter" style="display: inline-block;" onclick="resetAllFilters()">Назад към категории</button>
+    <!-- МОДАЛ: Администраторски панел -->
+    <div id="adminModal" class="fixed inset-0 bg-black bg-opacity-60 hidden z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 relative shadow-2xl">
+            <button onclick="closeAdminModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl font-bold">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <!-- Login State -->
+            <div id="adminLoginSection" class="max-w-md mx-auto py-8">
+                <h3 class="text-2xl font-bold mb-4 text-center">Вход в Админ панел</h3>
+                <p class="text-sm text-gray-500 mb-6 text-center">Моля, въведете паролата за достъп.</p>
+                <input type="password" id="adminPasswordInput" placeholder="Парола..." class="w-full border p-3 rounded mb-4 focus:outline-none focus:border-emagBlue">
+                <button onclick="verifyAdminPassword()" class="w-full bg-emagBlue text-white font-bold py-3 rounded hover:bg-blue-700 transition">Вход</button>
+                <p id="adminLoginError" class="text-red-500 text-sm mt-2 text-center hidden">Грешна парола!</p>
+            </div>
+
+            <!-- Dashboard State -->
+            <div id="adminDashboardSection" class="hidden space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-center border-b pb-4 gap-4">
+                    <h3 class="text-2xl font-bold">Администраторски панел</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="openProductForm()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm font-medium transition">
+                            <i class="fa-solid fa-plus mr-1"></i> Нов продукт
+                        </button>
+                        <button onclick="downloadProductsJson()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-medium transition">
+                            <i class="fa-solid fa-download mr-1"></i> Изтегли products.json
+                        </button>
+                        <button onclick="downloadFullIndexHtml()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded text-sm font-medium transition">
+                            <i class="fa-solid fa-file-code mr-1"></i> Изтегли index.html
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Форма за добавяне/редакция на продукт -->
+                <div id="productFormContainer" class="hidden bg-gray-50 p-6 rounded-lg border">
+                    <h4 id="formTitle" class="text-lg font-bold mb-4">Добавяне на нов продукт</h4>
+                    <form id="productForm" onsubmit="handleProductFormSubmit(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="hidden" id="editProductId">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Заглавие</label>
+                            <input type="text" id="formTitleInput" required class="w-full border p-2 rounded bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Категория</label>
+                            <select id="formCategoryInput" required class="w-full border p-2 rounded bg-white">
+                                <option value="Дрехи">Дрехи</option>
+                                <option value="Обувки">Обувки</option>
+                                <option value="За деца">За деца</option>
+                                <option value="Очила">Очила</option>
+                                <option value="Електроника">Електроника</option>
+                                <option value="Дом и Градина">Дом и Градина</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Редовна цена (лв.)</label>
+                            <input type="number" step="0.01" id="formRegularPrice" required class="w-full border p-2 rounded bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Промо цена (лв.)</label>
+                            <input type="number" step="0.01" id="formPromoPrice" class="w-full border p-2 rounded bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Размер</label>
+                            <input type="text" id="formSize" placeholder="напр. M, 42, Универсален" class="w-full border p-2 rounded bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Наличност статус</label>
+                            <select id="formStockStatus" class="w-full border p-2 rounded bg-white">
+                                <option value="наличен">Наличен</option>
+                                <option value="продаден">Продаден / Изчерпан</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium mb-1">Снимки (URL адреси, разделени със запетая)</label>
+                            <input type="text" id="formImages" placeholder="https://image1.jpg, https://image2.jpg" required class="w-full border p-2 rounded bg-white">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium mb-1">Описание</label>
+                            <textarea id="formDescription" rows="3" class="w-full border p-2 rounded bg-white"></textarea>
+                        </div>
+                        <div class="md:col-span-2 flex justify-end gap-2">
+                            <button type="button" onclick="cancelProductForm()" class="bg-gray-400 text-white px-4 py-2 rounded">Отказ</button>
+                            <button type="submit" class="bg-emagBlue text-white px-6 py-2 rounded font-bold">Запиши</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Списък с продукти за управление -->
+                <div>
+                    <h4 class="text-lg font-bold mb-3">Управление на съществуващи продукти</h4>
+                    <div id="adminProductsList" class="space-y-2 max-h-96 overflow-y-auto pr-2">
+                        <!-- Динамично пълнене -->
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div id="main-content-area"><div class="product-grid">
-          <div class="product-card " onclick="openProductModal(1785584263154)">
-            <div>
-              <div class="category-header-line">
-                <span class="category-tag">Електроника</span>
-                
-              </div>
-              <div class="image-container">
-                <img src="https://assets.jobalots.com/product_image/Hrfk1aSpze819VHZ4IM61X9Hh5qFBaIAOeqELJAx.png?format=auto&amp;width=640&amp;quality=100" alt="22" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
-                <span class="badge-available">Налично</span>
-                <span class="badge-discount">-50%</span>
-              </div>
-              <div class="product-title">22</div>
-              <div class="product-desc">32</div>
-              <div class="product-stock">Наличност: 1 бр.</div>
-            </div>
-            <div>
-              <div class="price-block">
-                
-                  <span class="old-price-container"><span class="old-price">€2.00</span></span>
-                  <span class="current-price">€1.00</span>
-                
-              </div>
-              <div class="click-more-hint">🔍 Виж</div>
-              
-              <div class="admin-controls" onclick="event.stopPropagation()">
-                <button class="btn-toggle" onclick="toggleSold(1785584263154)">Продаден</button>
-                <button class="btn-edit" onclick="openEditModal(1785584263154)">✏️</button>
-                <button class="btn-delete" onclick="deleteProduct(1785584263154)">✕</button>
-              </div>
-            </div>
-          </div>
-        
-          <div class="product-card " onclick="openProductModal(1785423034116)">
-            <div>
-              <div class="category-header-line">
-                <span class="category-tag">Инструменти</span>
-                
-              </div>
-              <div class="image-container">
-                <img src="https://assets.jobalots.com/product_image/YE96dlDWNFobPR1ourwDYJok969Gt7bRb8bVjDbA.png?format=auto&amp;width=640&amp;quality=100" alt="Уред за приготвяне на сухо мляко" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
-                <span class="badge-available">Налично</span>
-                <span class="badge-discount">-54%</span>
-              </div>
-              <div class="product-title">Уред за приготвяне на сухо мляко</div>
-              <div class="product-desc">Устройство за приготвяне на бебешки шишета и незабавно разпределяне на вода за адаптирано мляко с 4 температури, 72ч интелигентен термостат</div>
-              <div class="product-stock">Наличност: 1 бр.</div>
-            </div>
-            <div>
-              <div class="price-block">
-                
-                  <span class="old-price-container"><span class="old-price">€64.99</span></span>
-                  <span class="current-price">€30.00</span>
-                
-              </div>
-              <div class="click-more-hint">🔍 Виж</div>
-              
-              <div class="admin-controls" onclick="event.stopPropagation()">
-                <button class="btn-toggle" onclick="toggleSold(1785423034116)">Продаден</button>
-                <button class="btn-edit" onclick="openEditModal(1785423034116)">✏️</button>
-                <button class="btn-delete" onclick="deleteProduct(1785423034116)">✕</button>
-              </div>
-            </div>
-          </div>
-        
-          <div class="product-card " onclick="openProductModal(1785422829725)">
-            <div>
-              <div class="category-header-line">
-                <span class="category-tag">Спорт и на открито</span>
-                
-              </div>
-              <div class="image-container">
-                <img src="https://assets.jobalots.com/product_image/cZjYTO9f4mPkYPe2JtVkvwp0C0xarqlHWmcPReBY.png?format=auto&amp;width=640&amp;quality=100" alt="Стойка за Велосипед" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
-                <span class="badge-available">Налично</span>
-                <span class="badge-discount">-60%</span>
-              </div>
-              <div class="product-title">Стойка за Велосипед</div>
-              <div class="product-desc">Стойка за велосипед Регулируема по височина Универсална алуминиева стойка – 24-29 инча</div>
-              <div class="product-stock">Наличност: 1 бр.</div>
-            </div>
-            <div>
-              <div class="price-block">
-                
-                  <span class="old-price-container"><span class="old-price">€20.00</span></span>
-                  <span class="current-price">€8.00</span>
-                
-              </div>
-              <div class="click-more-hint">🔍 Виж</div>
-              
-              <div class="admin-controls" onclick="event.stopPropagation()">
-                <button class="btn-toggle" onclick="toggleSold(1785422829725)">Продаден</button>
-                <button class="btn-edit" onclick="openEditModal(1785422829725)">✏️</button>
-                <button class="btn-delete" onclick="deleteProduct(1785422829725)">✕</button>
-              </div>
-            </div>
-          </div>
-        
-          <div class="product-card " onclick="openProductModal(1785422786214)">
-            <div>
-              <div class="category-header-line">
-                <span class="category-tag">Дом и кухня</span>
-                
-              </div>
-              <div class="image-container">
-                <img src="https://assets.jobalots.com/product_image/5AYWhnvovrIPXDOSSrOEzP3CD31o2dYYsCIpuvmL.png?format=auto&amp;width=640&amp;quality=100" alt="Стойка за монитор" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
-                <span class="badge-available">Налично</span>
-                <span class="badge-discount">-50%</span>
-              </div>
-              <div class="product-title">Стойка за монитор</div>
-              <div class="product-desc">Двойна мониторна стойка 91х26см</div>
-              <div class="product-stock">Наличност: 1 бр.</div>
-            </div>
-            <div>
-              <div class="price-block">
-                
-                  <span class="old-price-container"><span class="old-price">€40.00</span></span>
-                  <span class="current-price">€20.00</span>
-                
-              </div>
-              <div class="click-more-hint">🔍 Виж</div>
-              
-              <div class="admin-controls" onclick="event.stopPropagation()">
-                <button class="btn-toggle" onclick="toggleSold(1785422786214)">Продаден</button>
-                <button class="btn-edit" onclick="openEditModal(1785422786214)">✏️</button>
-                <button class="btn-delete" onclick="deleteProduct(1785422786214)">✕</button>
-              </div>
-            </div>
-          </div>
-        
-          <div class="product-card " onclick="openProductModal(1785422695747)">
-            <div>
-              <div class="category-header-line">
-                <span class="category-tag">Инструменти</span>
-                
-              </div>
-              <div class="image-container">
-                <img src="https://assets.jobalots.com/product_image/Uqz5Ewy5pRWi5ruK8rMkQqmKhEGSI0JKy7iBbpjy.png?format=auto&amp;width=640&amp;quality=100" alt="Смесител за вана" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
-                <span class="badge-available">Налично</span>
-                <span class="badge-discount">-57%</span>
-              </div>
-              <div class="product-title">Смесител за вана</div>
-              <div class="product-desc">Ulytid смесител за вана с бутон – Черен</div>
-              <div class="product-stock">Наличност: 1 бр.</div>
-            </div>
-            <div>
-              <div class="price-block">
-                
-                  <span class="old-price-container"><span class="old-price">€69.99</span></span>
-                  <span class="current-price">€30.00</span>
-                
-              </div>
-              <div class="click-more-hint">🔍 Виж</div>
-              
-              <div class="admin-controls" onclick="event.stopPropagation()">
-                <button class="btn-toggle" onclick="toggleSold(1785422695747)">Продаден</button>
-                <button class="btn-edit" onclick="openEditModal(1785422695747)">✏️</button>
-                <button class="btn-delete" onclick="deleteProduct(1785422695747)">✕</button>
-              </div>
-            </div>
-          </div>
-        
-          <div class="product-card " onclick="openProductModal(1785422647925)">
-            <div>
-              <div class="category-header-line">
-                <span class="category-tag">Инструменти</span>
-                
-              </div>
-              <div class="image-container">
-                <img src="https://assets.jobalots.com/product_image/TKwidk6OP3Bib3lmxA9xPPvuf1BG9pj7YNCKxIM0.png?format=auto&amp;width=640&amp;quality=100" alt="Ултразвуков почистващ апарат" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
-                <span class="badge-available">Налично</span>
-                <span class="badge-discount">-50%</span>
-              </div>
-              <div class="product-title">Ултразвуков почистващ апарат</div>
-              <div class="product-desc">Ултразвуков почистващ апарат 350 мл 48kHz професионален за очила, бижута, часовници</div>
-              <div class="product-stock">Наличност: 1 бр.</div>
-            </div>
-            <div>
-              <div class="price-block">
-                
-                  <span class="old-price-container"><span class="old-price">€40.33</span></span>
-                  <span class="current-price">€20.00</span>
-                
-              </div>
-              <div class="click-more-hint">🔍 Виж</div>
-              
-              <div class="admin-controls" onclick="event.stopPropagation()">
-                <button class="btn-toggle" onclick="toggleSold(1785422647925)">Продаден</button>
-                <button class="btn-edit" onclick="openEditModal(1785422647925)">✏️</button>
-                <button class="btn-delete" onclick="deleteProduct(1785422647925)">✕</button>
-              </div>
-            </div>
-          </div>
-        
-          <div class="product-card " onclick="openProductModal(1785422593480)">
-            <div>
-              <div class="category-header-line">
-                <span class="category-tag">Дрехи</span>
-                <span class="size-badge">M</span>
-              </div>
-              <div class="image-container">
-                <img src="https://assets.jobalots.com/product_image/eyr7LxWAmCSab42barT5vGqJkxYjVYmrHle9IOhY.png?format=auto&amp;width=640&amp;quality=100" alt="Отопляемо яке" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
-                <span class="badge-available">Налично</span>
-                <span class="badge-discount">-56%</span>
-              </div>
-              <div class="product-title">Отопляемо яке</div>
-              <div class="product-desc">Огряващо яке с powerbank 12V 18400mAh 8 зони на отопление 3 нива на температура</div>
-              <div class="product-stock">Наличност: 1 бр.</div>
-            </div>
-            <div>
-              <div class="price-block">
-                
-                  <span class="old-price-container"><span class="old-price">€126.04</span></span>
-                  <span class="current-price">€55.00</span>
-                
-              </div>
-              <div class="click-more-hint">🔍 Виж</div>
-              
-              <div class="admin-controls" onclick="event.stopPropagation()">
-                <button class="btn-toggle" onclick="toggleSold(1785422593480)">Продаден</button>
-                <button class="btn-edit" onclick="openEditModal(1785422593480)">✏️</button>
-                <button class="btn-delete" onclick="deleteProduct(1785422593480)">✕</button>
-              </div>
-            </div>
-          </div>
-        
-          <div class="product-card " onclick="openProductModal(1785422531228)">
-            <div>
-              <div class="category-header-line">
-                <span class="category-tag">Електроника</span>
-                
-              </div>
-              <div class="image-container">
-                <img src="https://assets.jobalots.com/product_image/cjG9LvOokwbzYVJsE15NNw12tq71qY6UVFbywtqq.png?format=auto&amp;width=640&amp;quality=100" alt="LED външна стенна лампа" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
-                <span class="badge-available">Налично</span>
-                <span class="badge-discount">-67%</span>
-              </div>
-              <div class="product-title">LED външна стенна лампа</div>
-              <div class="product-desc">Coinmit 2-опаковка 36W LED външна стена светлина IP65 водоустойчив – Антрацит</div>
-              <div class="product-stock">Наличност: 1 бр.</div>
-            </div>
-            <div>
-              <div class="price-block">
-                
-                  <span class="old-price-container"><span class="old-price">€119.99</span></span>
-                  <span class="current-price">€40.00</span>
-                
-              </div>
-              <div class="click-more-hint">🔍 Виж</div>
-              
-              <div class="admin-controls" onclick="event.stopPropagation()">
-                <button class="btn-toggle" onclick="toggleSold(1785422531228)">Продаден</button>
-                <button class="btn-edit" onclick="openEditModal(1785422531228)">✏️</button>
-                <button class="btn-delete" onclick="deleteProduct(1785422531228)">✕</button>
-              </div>
-            </div>
-          </div>
-        
-          <div class="product-card " onclick="openProductModal(1785422483747)">
-            <div>
-              <div class="category-header-line">
-                <span class="category-tag">Дом и кухня</span>
-                
-              </div>
-              <div class="image-container">
-                <img src="https://assets.jobalots.com/product_image/G9HSzjZoeQdxGcwWhmQYU3qhGQdbWXWJaLDnoAmR.png?format=auto&amp;width=640&amp;quality=100" alt="Термометър за месо" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
-                <span class="badge-available">Налично</span>
-                <span class="badge-discount">-43%</span>
-              </div>
-              <div class="product-title">Термометър за месо</div>
-              <div class="product-desc">Bluetooth термометър за месо 150м обхват с аларма</div>
-              <div class="product-stock">Наличност: 1 бр.</div>
-            </div>
-            <div>
-              <div class="price-block">
-                
-                  <span class="old-price-container"><span class="old-price">€44.22</span></span>
-                  <span class="current-price">€25.00</span>
-                
-              </div>
-              <div class="click-more-hint">🔍 Виж</div>
-              
-              <div class="admin-controls" onclick="event.stopPropagation()">
-                <button class="btn-toggle" onclick="toggleSold(1785422483747)">Продаден</button>
-                <button class="btn-edit" onclick="openEditModal(1785422483747)">✏️</button>
-                <button class="btn-delete" onclick="deleteProduct(1785422483747)">✕</button>
-              </div>
-            </div>
-          </div>
-        
-          <div class="product-card " onclick="openProductModal(1785422424735)">
-            <div>
-              <div class="category-header-line">
-                <span class="category-tag">Здраве и красота</span>
-                
-              </div>
-              <div class="image-container">
-                <img src="https://assets.jobalots.com/product_image/aZRZ3QPuA1DnhglZm77XrWjbkwDZ54vHi44fhBE5.png?format=auto&amp;width=640&amp;quality=100" alt="Самобръсначка Wahl Mobile Shaver" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
-                <span class="badge-available">Налично</span>
-                <span class="badge-discount">-68%</span>
-              </div>
-              <div class="product-title">Самобръсначка Wahl Mobile Shaver</div>
-              <div class="product-desc">Wahl Mobile Shaver - Безжична електрическа самобръсначка с калъф за пътуване - За глава и брада</div>
-              <div class="product-stock">Наличност: 1 бр.</div>
-            </div>
-            <div>
-              <div class="price-block">
-                
-                  <span class="old-price-container"><span class="old-price">€37.00</span></span>
-                  <span class="current-price">€12.00</span>
-                
-              </div>
-              <div class="click-more-hint">🔍 Виж</div>
-              
-              <div class="admin-controls" onclick="event.stopPropagation()">
-                <button class="btn-toggle" onclick="toggleSold(1785422424735)">Продаден</button>
-                <button class="btn-edit" onclick="openEditModal(1785422424735)">✏️</button>
-                <button class="btn-delete" onclick="deleteProduct(1785422424735)">✕</button>
-              </div>
-            </div>
-          </div>
-        
-          <div class="product-card " onclick="openProductModal(1785422291735)">
-            <div>
-              <div class="category-header-line">
-                <span class="category-tag">Дом и кухня</span>
-                
-              </div>
-              <div class="image-container">
-                <img src="https://assets.jobalots.com/product_image/6pas8IwHSxHIDnSsFTGSdL43s1CGVUg6sjPjZ2eO.png?format=auto&amp;width=640&amp;quality=100" alt="Електрическа резачка" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
-                <span class="badge-available">Налично</span>
-                <span class="badge-discount">-80%</span>
-              </div>
-              <div class="product-title">Електрическа резачка</div>
-              <div class="product-desc">Електрическа универсална резачка 200 вата за домашна употреба, професионална резачка за хляб с подвижно острие 2 х 19 см, бутон за прецизна дебелина 0-15 рязане на месо, шунка, хляб, плодове, предпазна защита</div>
-              <div class="product-stock">Наличност: 1 бр.</div>
-            </div>
-            <div>
-              <div class="price-block">
-                
-                  <span class="old-price-container"><span class="old-price">€306.82</span></span>
-                  <span class="current-price">€60.00</span>
-                
-              </div>
-              <div class="click-more-hint">🔍 Виж</div>
-              
-              <div class="admin-controls" onclick="event.stopPropagation()">
-                <button class="btn-toggle" onclick="toggleSold(1785422291735)">Продаден</button>
-                <button class="btn-edit" onclick="openEditModal(1785422291735)">✏️</button>
-                <button class="btn-delete" onclick="deleteProduct(1785422291735)">✕</button>
-              </div>
-            </div>
-          </div>
-        
-          <div class="product-card " onclick="openProductModal(1785422144338)">
-            <div>
-              <div class="category-header-line">
-                <span class="category-tag">Дом и кухня</span>
-                
-              </div>
-              <div class="image-container">
-                <img src="https://assets.jobalots.com/product_image/nbEmtQjqz1VhoiR1FtNTJURyNcrQ0d5Oap2Nx4NY.png?format=auto&amp;width=640&amp;quality=100" alt="LED лампа с тъч и APP контро" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
-                <span class="badge-available">Налично</span>
-                <span class="badge-discount">-57%</span>
-              </div>
-              <div class="product-title">LED лампа с тъч и APP контро</div>
-              <div class="product-desc">Умен RGB LED ъглов подов лампа с тъч и APP контрол 1500LM димируем – Черна</div>
-              <div class="product-stock">Наличност: 1 бр.</div>
-            </div>
-            <div>
-              <div class="price-block">
-                
-                  <span class="old-price-container"><span class="old-price">€45.99</span></span>
-                  <span class="current-price">€20.00</span>
-                
-              </div>
-              <div class="click-more-hint">🔍 Виж</div>
-              
-              <div class="admin-controls" onclick="event.stopPropagation()">
-                <button class="btn-toggle" onclick="toggleSold(1785422144338)">Продаден</button>
-                <button class="btn-edit" onclick="openEditModal(1785422144338)">✏️</button>
-                <button class="btn-delete" onclick="deleteProduct(1785422144338)">✕</button>
-              </div>
-            </div>
-          </div>
-        
-          <div class="product-card " onclick="openProductModal(1785422086685)">
-            <div>
-              <div class="category-header-line">
-                <span class="category-tag">Инструменти</span>
-                
-              </div>
-              <div class="image-container">
-                <img src="https://assets.jobalots.com/product_image/rIuWKAAEV58AEobYy2sOHUSOyoFfsZ7p9gPQKbKu.png?format=auto&amp;width=640&amp;quality=100" alt="Електрическа четка за почистване" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
-                <span class="badge-available">Налично</span>
-                <span class="badge-discount">-55%</span>
-              </div>
-              <div class="product-title">Електрическа четка за почистване</div>
-              <div class="product-desc">Електрическа почистваща четка Leebein, 2024 г. нов центрофугиращ скрубер с 8 сменяеми глави на четка, дистанционно управление, регулируема дълга дръжка 38-132 см и 2 скорости и за баня </div>
-              <div class="product-stock">Наличност: 1 бр.</div>
-            </div>
-            <div>
-              <div class="price-block">
-                
-                  <span class="old-price-container"><span class="old-price">€54.99</span></span>
-                  <span class="current-price">€25.00</span>
-                
-              </div>
-              <div class="click-more-hint">🔍 Виж</div>
-              
-              <div class="admin-controls" onclick="event.stopPropagation()">
-                <button class="btn-toggle" onclick="toggleSold(1785422086685)">Продаден</button>
-                <button class="btn-edit" onclick="openEditModal(1785422086685)">✏️</button>
-                <button class="btn-delete" onclick="deleteProduct(1785422086685)">✕</button>
-              </div>
-            </div>
-          </div>
-        
-          <div class="product-card " onclick="openProductModal(1785422007503)">
-            <div>
-              <div class="category-header-line">
-                <span class="category-tag">Дом и кухня</span>
-                
-              </div>
-              <div class="image-container">
-                <img src="https://assets.jobalots.com/product_image/dmNdrIYRm0f6zqyepBDeRF5xfqR7YHXeLDOBce9k.png?format=auto&amp;width=640&amp;quality=100" alt="Отварачка за буркани" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
-                <span class="badge-available">Налично</span>
-                <span class="badge-discount">-65%</span>
-              </div>
-              <div class="product-title">Отварачка за буркани</div>
-              <div class="product-desc"> Електрическа отварачка за консерви Chulovs, кухненски помощник, тежка автоматична отварачка за нови запечатани буркани, отварачка за консерви без ръце с по-малко усилия за отваряне (бяла)</div>
-              <div class="product-stock">Наличност: 1 бр.</div>
-            </div>
-            <div>
-              <div class="price-block">
-                
-                  <span class="old-price-container"><span class="old-price">€22.99</span></span>
-                  <span class="current-price">€8.00</span>
-                
-              </div>
-              <div class="click-more-hint">🔍 Виж</div>
-              
-              <div class="admin-controls" onclick="event.stopPropagation()">
-                <button class="btn-toggle" onclick="toggleSold(1785422007503)">Продаден</button>
-                <button class="btn-edit" onclick="openEditModal(1785422007503)">✏️</button>
-                <button class="btn-delete" onclick="deleteProduct(1785422007503)">✕</button>
-              </div>
-            </div>
-          </div>
-        
-          <div class="product-card " onclick="openProductModal(1785421945394)">
-            <div>
-              <div class="category-header-line">
-                <span class="category-tag">Дом и кухня</span>
-                
-              </div>
-              <div class="image-container">
-                <img src="https://assets.jobalots.com/product_image/NYjUTr4MXx86zfKd6wH9RbpA9FsKiLzEykX82IIa.png?format=auto&amp;width=640&amp;quality=100" alt="Електрическо одеяло 150 x 180 см" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
-                <span class="badge-available">Налично</span>
-                <span class="badge-discount">-58%</span>
-              </div>
-              <div class="product-title">Електрическо одеяло 150 x 180 см</div>
-              <div class="product-desc">Електрическо нагреваемо одеяло AdrreyuFny 180x150 см, фланелено електрическо нагреваемо одеяло с LCD дисплей, 5 настройки за време, 6 нива на отопление, бързо нагряване, може да се пере в пералня</div>
-              <div class="product-stock">Наличност: 1 бр.</div>
-            </div>
-            <div>
-              <div class="price-block">
-                
-                  <span class="old-price-container"><span class="old-price">€59.99</span></span>
-                  <span class="current-price">€25.00</span>
-                
-              </div>
-              <div class="click-more-hint">🔍 Виж</div>
-              
-              <div class="admin-controls" onclick="event.stopPropagation()">
-                <button class="btn-toggle" onclick="toggleSold(1785421945394)">Продаден</button>
-                <button class="btn-edit" onclick="openEditModal(1785421945394)">✏️</button>
-                <button class="btn-delete" onclick="deleteProduct(1785421945394)">✕</button>
-              </div>
-            </div>
-          </div>
-        
-          <div class="product-card " onclick="openProductModal(1785421847078)">
-            <div>
-              <div class="category-header-line">
-                <span class="category-tag">Дрехи</span>
-                
-              </div>
-              <div class="image-container">
-                <img src="https://assets.jobalots.com/product_image/iEiRCTgtFtrQeD7YH9m5gaRUixlyx8S4QKqvtSby.png?format=auto&amp;width=640&amp;quality=100" alt="Мъжка сатенена риза" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
-                <span class="badge-available">Налично</span>
-                <span class="badge-discount">-78%</span>
-              </div>
-              <div class="product-title">Мъжка сатенена риза</div>
-              <div class="product-desc">Мъжка сатенена риза къс ръкав жакард флорален лъскав - Различни размери</div>
-              <div class="product-stock">Наличност: 1 бр.</div>
-            </div>
-            <div>
-              <div class="price-block">
-                
-                  <span class="old-price-container"><span class="old-price">€27.22</span></span>
-                  <span class="current-price">€6.00</span>
-                
-              </div>
-              <div class="click-more-hint">🔍 Виж</div>
-              
-              <div class="admin-controls" onclick="event.stopPropagation()">
-                <button class="btn-toggle" onclick="toggleSold(1785421847078)">Продаден</button>
-                <button class="btn-edit" onclick="openEditModal(1785421847078)">✏️</button>
-                <button class="btn-delete" onclick="deleteProduct(1785421847078)">✕</button>
-              </div>
-            </div>
-          </div>
-        </div><div class="pagination"><button class="page-btn" disabled="" onclick="changePage(0)">‹ Предишна</button><button class="page-btn active" onclick="changePage(1)">1</button><button class="page-btn " onclick="changePage(2)">2</button><button class="page-btn " onclick="changePage(3)">3</button><button class="page-btn " onclick="changePage(4)">4</button><button class="page-btn " onclick="changePage(5)">5</button><button class="page-btn" onclick="changePage(2)">Следваща ›</button></div></div>
-
-  </div>
-
-  <div class="bottom-bar">
-    <button id="auth-btn" class="bottom-bar-btn" onclick="handleAuth()">Изход</button>
-  </div>
-
-  <!-- Основен модал за продукт -->
-  <div class="modal-overlay" id="product-modal" onclick="closeModalOnOverlay(event, 'product-modal')">
-    <div class="modal-content">
-      <button class="modal-close" onclick="closeModal('product-modal')">×</button>
-      
-      <div class="modal-grid">
-        <div>
-          <div class="gallery-main">
-            <img id="modal-main-img" src="" alt="Основна снимка" onclick="openLightbox(this.src)" title="Кликни за уголемяване на цял екран">
-          </div>
-          <div class="gallery-thumbs" id="modal-thumbs"></div>
+    <!-- Футър -->
+    <footer class="bg-emagDark text-gray-400 py-6 border-t border-gray-700 mt-12">
+        <div class="container mx-auto px-4 text-center text-sm">
+            <a href="#" onclick="openAdminLogin()" class="hover:text-emagOrange transition font-medium">Админ панел</a>
         </div>
+    </footer>
 
-        <div>
-          <div class="modal-category" id="modal-category"></div>
-          <div id="modal-size-container"></div>
-          <h1 class="modal-title" id="modal-title"></h1>
-          <div id="modal-status-badge" class="modal-status-badge"></div>
-          
-          <div class="modal-price-block" id="modal-price-block"></div>
-          
-          <div class="modal-stock-text" id="modal-stock"></div>
-          
-          <div style="font-weight: bold; margin-bottom: 4px; font-size: 13px; color: #333;">Подробно описание:</div>
-          <div class="modal-details" id="modal-details"></div>
-        </div>
-      </div>
+    <!-- Скриптове и бизнес логика -->
+    <script>
+        // GitHub конфигурация
+        const GITHUB_CONFIG = {
+            owner: "bgkn0x1",
+            repo: "onlineshop",
+            path: "data/products.json",
+            token: "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"
+        };
 
-      <div class="similar-section" id="similar-section" style="display: none;">
-        <h3>📦 Сходни артикули</h3>
-        <div class="similar-grid" id="similar-grid"></div>
-      </div>
-    </div>
-  </div>
+        let products = [];
+        let currentFilteredProducts = [];
+        let currentPage = 1;
+        const itemsPerPage = 16;
+        let currentCategoryFilter = 'Всички';
+        let currentSearchQuery = '';
+        let currentSort = 'default';
 
-  <!-- Lightbox за пълноекранен преглед на снимка -->
-  <div class="lightbox-overlay" id="image-lightbox" onclick="closeLightbox()">
-    <div class="lightbox-content" onclick="event.stopPropagation()">
-      <button class="lightbox-close" onclick="closeLightbox()">×</button>
-      <img id="lightbox-img" src="" alt="Пълноекранна снимка">
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="edit-modal" onclick="closeModalOnOverlay(event, 'edit-modal')">
-    <div class="modal-content" style="max-width: 600px;">
-      <button class="modal-close" onclick="closeModal('edit-modal')">×</button>
-      
-      <h2 style="margin-bottom: 15px; color: #333; font-size: 16px; border-bottom: 2px solid var(--emag-blue); padding-bottom: 6px;">✏️ Редактиране на продукт</h2>
-
-      <form id="edit-product-form">
-        <input type="hidden" id="edit-p-id" value="">
-        
-        <div style="margin-bottom: 8px;">
-          <label style="font-size: 11px; font-weight: bold;">Заглавие:</label>
-          <input type="text" id="edit-p-title" required="">
-        </div>
-
-        <div class="form-grid">
-          <div>
-            <label style="font-size: 11px; font-weight: bold;">Редовна цена (€):</label>
-            <input type="number" id="edit-p-regular-price" step="0.01" required="">
-          </div>
-          <div>
-            <label style="font-size: 11px; font-weight: bold;">Промо цена (€):</label>
-            <input type="number" id="edit-p-sale-price" step="0.01">
-          </div>
-          <div>
-            <label style="font-size: 11px; font-weight: bold;">Количество (бр.):</label>
-            <input type="number" id="edit-p-quantity" min="0" required="">
-          </div>
-        </div>
-
-        <div class="form-grid">
-          <div>
-            <label style="font-size: 11px; font-weight: bold;">Категория:</label>
-            <select id="edit-p-category" onchange="toggleSizeInput('edit-p-category', 'edit-p-size-container')" required="">
-              <option value="Електроника">Електроника</option>
-              <option value="Дом и кухня">Дом и кухня</option>
-              <option value="Здраве и красота">Здраве и красота</option>
-              <option value="Облекло">Облекло (Общо)</option>
-              <option value="Дрехи">Облекло -&gt; Дрехи</option>
-              <option value="Обувки">Облекло -&gt; Обувки</option>
-              <option value="За деца">Облекло -&gt; За деца</option>
-              <option value="Очила">Облекло -&gt; Очила</option>
-              <option value="Играчки и занятия">Играчки и занятия</option>
-              <option value="Спорт и на открито">Спорт и на открито</option>
-              <option value="Автомобилна">Автомобилна</option>
-              <option value="Домашни любимци">Домашни любимци</option>
-              <option value="Инструменти">Инструменти</option>
-              <option value="Градина">Градина</option>
-            </select>
-          </div>
-
-          <div id="edit-p-size-container" style="display: none;">
-            <label style="font-size: 11px; font-weight: bold;">Размер:</label>
-            <input type="text" id="edit-p-size">
-          </div>
-        </div>
-
-        <div style="margin-bottom: 8px;">
-          <label style="font-size: 11px; font-weight: bold;">Основна снимка URL:</label>
-          <input type="url" id="edit-p-image1" required="">
-        </div>
-        <div style="margin-bottom: 8px;">
-          <label style="font-size: 11px; font-weight: bold;">Втора снимка URL:</label>
-          <input type="url" id="edit-p-image2">
-        </div>
-        <div style="margin-bottom: 8px;">
-          <label style="font-size: 11px; font-weight: bold;">Трета снимка URL:</label>
-          <input type="url" id="edit-p-image3">
-        </div>
-
-        <div style="margin-bottom: 8px;">
-          <label style="font-size: 11px; font-weight: bold;">Кратко описание:</label>
-          <textarea id="edit-p-desc" style="height: 45px;" required=""></textarea>
-        </div>
-
-        <div style="margin-bottom: 8px;">
-          <label style="font-size: 11px; font-weight: bold;">Подробно описание:</label>
-          <textarea id="edit-p-details" style="height: 60px;"></textarea>
-        </div>
-
-        <div style="display: flex; gap: 8px; margin-top: 15px;">
-          <button type="submit" class="btn-add" style="background-color: #28a745; flex: 2;">💾 Запази</button>
-          <button type="button" class="btn-add" style="background-color: #6c757d; flex: 1;" onclick="closeModal('edit-modal')">Отказ</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    
-const token = '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';
-    const owner = 'bgkn0x1';
-    const repo = 'onlineshop';
-    const path = 'data/products.json';
-
-    async function saveProductsToGitHub() {
-  const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-  try {
-    const getRes = await fetch(url, {
-      cache: 'no-store',
-      headers: {
-        'Authorization': `token ${token}`,
-        'Accept': 'application/vnd.github.v3+json'
-      }
-    });
-    let sha = '';
-    if (getRes.ok) {
-      const fileData = await getRes.json();
-      sha = fileData.sha;
-    }
-    const jsonString = JSON.stringify(products, null, 2);
-    const base64Content = btoa(unescape(encodeURIComponent(jsonString)));
-    await fetch(url, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `token ${token}`,
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.github.v3+json'
-      },
-      body: JSON.stringify({
-        message: 'Auto-update products.json from admin panel',
-        content: base64Content,
-        sha: sha
-      })
-    });
-  } catch (error) {
-    console.error('GitHub Sync Error:', error);
-  }
-}
-
-    const ADMIN_PASSWORD = "onlineshop0000";
-    let isAdmin = false;
-    let currentCategory = 'home';
-    let currentPage = 1;
-    const PRODUCTS_PER_PAGE = 16;
-    let products = [];
-
-    const categoryIcons = {
-      "Електроника": "💻",
-      "Дом и кухня": "🏠",
-      "Здраве и красота": "💄",
-      "Облекло": "👕",
-      "Дрехи": "👗",
-      "Обувки": "👟",
-      "За деца": "🧸",
-      "Очила": "🕶️",
-      "Играчки и занятия": "🧩",
-      "Спорт и на открито": "⚽",
-      "Автомобилна": "🚗",
-      "Домашни любимци": "🐾",
-      "Инструменти": "🛠️",
-      "Градина": "🌱"
-    };
-
-    const mainCategoriesList = [
-      "Електроника",
-      "Дом и кухня",
-      "Здраве и красота",
-      "Облекло",
-      "Дрехи",
-      "Обувки",
-      "За деца",
-      "Очила",
-      "Играчки и занятия",
-      "Спорт и на открито",
-      "Автомобилна",
-      "Домашни любимци",
-      "Инструменти",
-      "Градина"
-    ];
-
-    async function loadProducts() {
-      try {
-        let response = await fetch('data/products.json');
-        if (!response.ok) throw new Error('Грешка при зареждане на products.json');
-        products = await response.json();
-        renderApp();
-      } catch (error) {
-        console.error("Грешка:", error);
-        document.getElementById('catalog-title').innerText = "Грешка при зареждане на данните";
-        document.getElementById('main-content-area').innerHTML = '<p style="color: red; text-align: center; padding: 20px;">Неуспешно зареждане на файла data/products.json. Уверете се, че отваряте страницата през локален сървър (Live Server) или хостинг.</p>';
-      }
-    }
-
-    function toggleDropdown(event) {
-      event.stopPropagation();
-      document.getElementById("dropdown-menu").classList.toggle("show");
-    }
-
-    function toggleSubmenu(event) {
-      event.stopPropagation();
-      const parent = event.currentTarget.parentElement;
-      parent.classList.toggle("open");
-    }
-
-    function toggleAdminDownloadDropdown(event) {
-      event.stopPropagation();
-      document.getElementById("admin-download-menu").classList.toggle("show");
-    }
-
-    window.onclick = function(event) {
-      if (!event.target.closest('.dropdown')) {
-        const dropdowns = document.getElementsByClassName("dropdown-content");
-        for (let i = 0; i < dropdowns.length; i++) {
-          dropdowns[i].classList.remove('show');
-        }
-      }
-      if (!event.target.closest('.admin-download-dropdown')) {
-        const adminDropdowns = document.getElementsByClassName("admin-dropdown-content");
-        for (let i = 0; i < adminDropdowns.length; i++) {
-          adminDropdowns[i].classList.remove('show');
-        }
-      }
-    }
-
-    function filterCategory(category) {
-      currentCategory = category;
-      currentPage = 1;
-      document.getElementById("dropdown-menu").classList.remove('show');
-      renderApp();
-    }
-
-    function onSearchInput() {
-      currentPage = 1;
-      renderApp();
-    }
-
-    function resetAllFilters() {
-      currentCategory = 'home';
-      currentPage = 1;
-      document.getElementById("search-input").value = '';
-      renderApp();
-    }
-
-    function changePage(page) {
-      currentPage = page;
-      renderApp();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function renderApp() {
-      const searchQuery = document.getElementById("search-input").value.trim().toLowerCase();
-      const titleEl = document.getElementById("catalog-title");
-      const resetBtn = document.getElementById("reset-filter-btn");
-      const contentArea = document.getElementById("main-content-area");
-
-      if (searchQuery !== '') {
-        titleEl.innerText = `Резултати от търсене: "${searchQuery}"`;
-        resetBtn.style.display = "inline-block";
-        renderProductsGrid(filterProductsBySearch(searchQuery), contentArea);
-        return;
-      }
-
-      if (currentCategory === 'home') {
-        titleEl.innerText = "Начало - Изберете категория";
-        resetBtn.style.display = "none";
-        renderCategoriesHome(contentArea);
-        return;
-      }
-
-      if (currentCategory === 'all') {
-        titleEl.innerText = "Всички категории";
-      } else {
-        titleEl.innerText = currentCategory;
-      }
-      resetBtn.style.display = "inline-block";
-
-      let filtered = products.filter(p => {
-        if (currentCategory === 'all') return true;
-        if (currentCategory === 'Облекло') {
-          return ['Облекло', 'Дрехи', 'Обувки', 'За деца', 'Очила'].includes(p.category);
-        }
-        return p.category === currentCategory;
-      });
-
-      renderProductsGrid(filtered, contentArea);
-    }
-
-    function filterProductsBySearch(query) {
-      return products.filter(p => 
-        p.title.toLowerCase().includes(query) || 
-        p.description.toLowerCase().includes(query) || 
-        p.category.toLowerCase().includes(query)
-      );
-    }
-
-    function renderCategoriesHome(container) {
-      let html = `<div class="categories-home-grid">`;
-      
-      html += `
-        <div class="category-card-all" onclick="filterCategory('all')">
-          <span>Всички категории</span>
-        </div>
-      `;
-
-      mainCategoriesList.forEach(cat => {
-        let count = products.filter(p => {
-          if (cat === 'Облекло') {
-            return ['Облекло', 'Дрехи', 'Обувки', 'За деца', 'Очила'].includes(p.category);
-          }
-          return p.category === cat;
-        }).length;
-
-        let icon = categoryIcons[cat] || "📁";
-
-        html += `
-          <div class="category-card" onclick="filterCategory('${cat}')">
-            <div class="category-card-icon">${icon}</div>
-            <div class="category-card-title">${cat}</div>
-            <div class="category-card-count">${count} артикула</div>
-          </div>
-        `;
-      });
-
-      html += `</div>`;
-      container.innerHTML = html;
-    }
-
-    function renderProductsGrid(list, container) {
-      if (list.length === 0) {
-        container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #777;">Няма намерени продукти.</div>`;
-        return;
-      }
-
-      const totalPages = Math.ceil(list.length / PRODUCTS_PER_PAGE);
-      if (currentPage > totalPages) currentPage = totalPages || 1;
-
-      const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
-      const paginatedList = list.slice(startIndex, startIndex + PRODUCTS_PER_PAGE);
-
-      let html = `<div class="product-grid">`;
-
-      paginatedList.forEach(p => {
-        const isSold = p.sold || p.quantity === 0;
-        const hasDiscount = p.salePrice && p.salePrice < p.regularPrice;
-        const discountPct = hasDiscount ? Math.round((1 - p.salePrice / p.regularPrice) * 100) : 0;
-        const mainImg = (p.images && p.images.length > 0) ? p.images[0] : 'https://via.placeholder.com/300x200?text=Няма+снимка';
-
-        html += `
-          <div class="product-card ${isSold ? 'sold-out' : ''}" onclick="openProductModal(${p.id})">
-            <div>
-              <div class="category-header-line">
-                <span class="category-tag">${p.category}</span>
-                ${p.size ? `<span class="size-badge">${p.size}</span>` : ''}
-              </div>
-              <div class="image-container">
-                <img src="${mainImg}" alt="${p.title}" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Няма+снимка'">
-                ${isSold ? '<span class="badge-sold">Изчерпано</span>' : '<span class="badge-available">Налично</span>'}
-                ${hasDiscount ? `<span class="badge-discount">-${discountPct}%</span>` : ''}
-              </div>
-              <div class="product-title">${p.title}</div>
-              <div class="product-desc">${p.description}</div>
-              <div class="product-stock">Наличност: ${p.quantity} бр.</div>
-            </div>
-            <div>
-              <div class="price-block">
-                ${hasDiscount ? `
-                  <span class="old-price-container"><span class="old-price">€${p.regularPrice.toFixed(2)}</span></span>
-                  <span class="current-price">€${p.salePrice.toFixed(2)}</span>
-                ` : `
-                  <span class="regular-price-only">€${p.regularPrice.toFixed(2)}</span>
-                `}
-              </div>
-              <div class="click-more-hint">🔍 Виж</div>
-              
-              <div class="admin-controls" onclick="event.stopPropagation()">
-                <button class="btn-toggle" onclick="toggleSold(${p.id})">${isSold ? 'Наличен' : 'Продаден'}</button>
-                <button class="btn-edit" onclick="openEditModal(${p.id})">✏️</button>
-                <button class="btn-delete" onclick="deleteProduct(${p.id})">✕</button>
-              </div>
-            </div>
-          </div>
-        `;
-      });
-
-      html += `</div>`;
-
-      if (totalPages > 1) {
-        html += `<div class="pagination">`;
-        html += `<button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(${currentPage - 1})">‹ Предишна</button>`;
-        
-        for (let i = 1; i <= totalPages; i++) {
-          html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
-        }
-
-        html += `<button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(${currentPage + 1})">Следваща ›</button>`;
-        html += `</div>`;
-      }
-
-      container.innerHTML = html;
-    }
-
-    function openProductModal(id) {
-      const p = products.find(item => item.id === id);
-      if (!p) return;
-
-      document.getElementById('modal-category').innerText = p.category;
-      document.getElementById('modal-title').innerText = p.title;
-      
-      const sizeContainer = document.getElementById('modal-size-container');
-      if (p.size) {
-        sizeContainer.innerHTML = `<span class="modal-size-badge">Размер: ${p.size}</span>`;
-      } else {
-        sizeContainer.innerHTML = '';
-      }
-
-      const isSold = p.sold || p.quantity === 0;
-      const statusBadge = document.getElementById('modal-status-badge');
-      if (isSold) {
-        statusBadge.innerText = "ИЗЧЕРПАНО";
-        statusBadge.style.background = "rgba(0,0,0,0.8)";
-      } else {
-        statusBadge.innerText = "НАЛИЧНО";
-        statusBadge.style.background = "#28a745";
-      }
-
-      const hasDiscount = p.salePrice && p.salePrice < p.regularPrice;
-      const priceBlock = document.getElementById('modal-price-block');
-      if (hasDiscount) {
-        const discountPct = Math.round((1 - p.salePrice / p.regularPrice) * 100);
-        priceBlock.innerHTML = `
-          <div class="modal-old-price-box"><span class="modal-old-price">€${p.regularPrice.toFixed(2)}</span></div>
-          <span class="modal-sale-price">€${p.salePrice.toFixed(2)}</span>
-          <span class="modal-discount-badge">-${discountPct}%</span>
-        `;
-      } else {
-        priceBlock.innerHTML = `<span class="modal-sale-price">€${p.regularPrice.toFixed(2)}</span>`;
-      }
-
-      const stockEl = document.getElementById('modal-stock');
-      stockEl.innerText = `Наличност: ${p.quantity} бр.`;
-      stockEl.style.color = isSold ? '#888' : '#28a745';
-
-      document.getElementById('modal-details').innerText = p.details || p.description;
-
-      const imgs = (p.images && p.images.length > 0) ? p.images : ['https://via.placeholder.com/300x200?text=Няма+снимка'];
-      document.getElementById('modal-main-img').src = imgs[0];
-
-      const thumbsContainer = document.getElementById('modal-thumbs');
-      let thumbsHtml = '';
-      imgs.forEach((img, idx) => {
-        thumbsHtml += `
-          <div class="thumb ${idx === 0 ? 'active' : ''}" onclick="changeMainImage('${img}', this)">
-            <img src="${img}" alt="thumb">
-          </div>
-        `;
-      });
-      thumbsContainer.innerHTML = thumbsHtml;
-
-      const similar = products.filter(item => item.category === p.category && item.id !== p.id).slice(0, 4);
-      const similarSection = document.getElementById('similar-section');
-      const similarGrid = document.getElementById('similar-grid');
-      
-      if (similar.length > 0) {
-        similarSection.style.display = 'block';
-        let simHtml = '';
-        similar.forEach(sim => {
-          const simImg = (sim.images && sim.images.length > 0) ? sim.images[0] : '';
-          const simPrice = (sim.salePrice && sim.salePrice < sim.regularPrice) ? sim.salePrice : sim.regularPrice;
-          simHtml += `
-            <div class="similar-card" onclick="openProductModal(${sim.id})">
-              <img src="${simImg}" alt="${sim.title}" onerror="this.src='https://via.placeholder.com/130x80?text=Снимка'">
-              <div class="similar-title">${sim.title}</div>
-              <div class="similar-price">€${simPrice.toFixed(2)}</div>
-            </div>
-          `;
+        // Инициализация при зареждане на страницата
+        window.addEventListener('DOMContentLoaded', async () => {
+            await loadProducts();
         });
-        similarGrid.innerHTML = simHtml;
-      } else {
-        similarSection.style.display = 'none';
-      }
 
-      document.getElementById('product-modal').classList.add('active');
-    }
-
-    function changeMainImage(src, thumbElement) {
-      document.getElementById('modal-main-img').src = src;
-      const thumbs = thumbElement.parentElement.getElementsByClassName('thumb');
-      for (let t of thumbs) t.classList.remove('active');
-      thumbElement.classList.add('active');
-    }
-
-    function openLightbox(imgSrc) {
-      document.getElementById('lightbox-img').src = imgSrc;
-      document.getElementById('image-lightbox').classList.add('active');
-    }
-
-    function closeLightbox() {
-      document.getElementById('image-lightbox').classList.remove('active');
-    }
-
-    function closeModal(modalId) {
-      document.getElementById(modalId).classList.remove('active');
-    }
-
-    function closeModalOnOverlay(event, modalId) {
-      if (event.target === document.getElementById(modalId)) {
-        closeModal(modalId);
-      }
-    }
-
-    function handleAuth() {
-      if (!isAdmin) {
-        let pass = prompt("Въведете администраторска парола:");
-        if (pass === ADMIN_PASSWORD) {
-          isAdmin = true;
-          document.getElementById('body-tag').classList.add('is-admin');
-          document.getElementById('admin-panel').classList.add('active');
-          document.getElementById('auth-btn').innerText = "Изход";
-          renderApp();
-        } else if (pass !== null) {
-          alert("Грешна парола!");
+        // Зареждане на продуктите от products.json (или fallback)
+        async function loadProducts() {
+            try {
+                const response = await fetch('data/products.json');
+                if (!response.ok) throw new Error('Грешка при зареждане');
+                products = await response.json();
+            } catch (error) {
+                console.warn('Неуспешно зареждане на products.json. Използват се примерни данни.', error);
+                products = getDefaultSampleProducts();
+            }
+            currentFilteredProducts = [...products];
+            renderHomeCategories();
+            renderCatalog();
         }
-      } else {
-        isAdmin = false;
-        document.getElementById('body-tag').classList.remove('is-admin');
-        document.getElementById('admin-panel').classList.remove('active');
-        document.getElementById('auth-btn').innerText = "Вход";
-        renderApp();
-      }
-    }
 
-    function toggleSizeInput(selectId, containerId) {
-      const select = document.getElementById(selectId);
-      const container = document.getElementById(containerId);
-      const val = select.value;
-      if (['Дрехи', 'Обувки', 'За деца', 'Очила', 'Облекло'].includes(val)) {
-        container.style.display = 'block';
-      } else {
-        container.style.display = 'none';
-      }
-    }
+        // Примерни данни, ако външния файл липсва
+        function getDefaultSampleProducts() {
+            return [
+                {
+                    id: 1,
+                    title: "Мъжко спортно яке Nike",
+                    category: "Дрехи",
+                    size: "L",
+                    regularPrice: 159.99,
+                    promoPrice: 119.99,
+                    stockStatus: "наличен",
+                    images: [
+                        "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600",
+                        "https://images.unsplash.com/photo-1544441893-675973e31985?w=600"
+                    ],
+                    description: "Висококачествено спортно яке подходящо за хладни дни и тренировки на открито."
+                },
+                {
+                    id: 2,
+                    title: "Дамски маратонки Adidas Ultraboost",
+                    category: "Обувки",
+                    size: "38",
+                    regularPrice: 280.00,
+                    promoPrice: 199.00,
+                    stockStatus: "наличен",
+                    images: [
+                        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600",
+                        "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600"
+                    ],
+                    description: "Максимален комфорт и омекотяване при бягане и ежедневна употреба."
+                },
+                {
+                    id: 3,
+                    title: "Детски комплект с качулка",
+                    category: "За деца",
+                    size: "128 см",
+                    regularPrice: 65.00,
+                    promoPrice: 45.00,
+                    stockStatus: "наличен",
+                    images: [
+                        "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=600"
+                    ],
+                    description: "Меко памучно детско облекло за игри и свободно време."
+                },
+                {
+                    id: 4,
+                    title: "Слънчеви очила Ray-Ban Aviator",
+                    category: "Очила",
+                    size: "Универсален",
+                    regularPrice: 240.00,
+                    promoPrice: 180.00,
+                    stockStatus: "продаден",
+                    images: [
+                        "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600"
+                    ],
+                    description: "Класически стил и пълна UV защита с поляризирани стъкла."
+                }
+            ];
+        }
 
-    document.getElementById('add-product-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const title = document.getElementById('p-title').value;
-      const regularPrice = parseFloat(document.getElementById('p-regular-price').value);
-      const salePriceVal = document.getElementById('p-sale-price').value;
-      const salePrice = salePriceVal ? parseFloat(salePriceVal) : null;
-      const quantity = parseInt(document.getElementById('p-quantity').value);
-      const category = document.getElementById('p-category').value;
-      const size = document.getElementById('p-size').value;
-      
-      const img1 = document.getElementById('p-image1').value;
-      const img2 = document.getElementById('p-image2').value;
-      const img3 = document.getElementById('p-image3').value;
-      const images = [img1, img2, img3].filter(img => img.trim() !== '');
+        // Превключване между изгледи (Начало / Каталог)
+        function switchView(view) {
+            const homeView = document.getElementById('homeView');
+            const catalogView = document.getElementById('catalogView');
+            if (view === 'home') {
+                homeView.classList.remove('hidden');
+                catalogView.classList.add('hidden');
+            } else {
+                homeView.classList.add('hidden');
+                catalogView.classList.remove('hidden');
+            }
+        }
 
-      const description = document.getElementById('p-desc').value;
-      const details = document.getElementById('p-details').value;
+        // Рендиране на начални категории с брой артикули
+        function renderHomeCategories() {
+            const grid = document.getElementById('categoryCardsGrid');
+            const categories = [
+                { name: 'Дрехи', icon: 'fa-shirt', color: 'bg-blue-50 text-blue-600' },
+                { name: 'Обувки', icon: 'fa-shoe-prints', color: 'bg-orange-50 text-emagOrange' },
+                { name: 'За деца', icon: 'fa-child-reaching', color: 'bg-green-50 text-green-600' },
+                { name: 'Очила', icon: 'fa-glasses', color: 'bg-purple-50 text-purple-600' },
+                { name: 'Електроника', icon: 'fa-laptop', color: 'bg-indigo-50 text-indigo-600' },
+                { name: 'Дом и Градина', icon: 'fa-house-chimney', color: 'bg-amber-50 text-amber-600' }
+            ];
 
-      const newProduct = {
-        id: Date.now(),
-        title,
-        regularPrice,
-        salePrice,
-        quantity,
-        category,
-        size,
-        images,
-        description,
-        details,
-        sold: false
-      };
+            grid.innerHTML = categories.map(cat => {
+                const count = products.filter(p => p.category === cat.name).length;
+                return `
+                    <div onclick="filterByCategory('${cat.name}')" class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition cursor-pointer text-center group border border-gray-100">
+                        <div class="w-12 h-12 mx-auto rounded-full ${cat.color} flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition">
+                            <i class="fa-solid ${cat.icon}"></i>
+                        </div>
+                        <h3 class="font-bold text-gray-800 text-sm mb-1">${cat.name}</h3>
+                        <p class="text-xs text-gray-500">${count} артикула</p>
+                    </div>
+                `;
+            }).join('');
+        }
 
-      products.unshift(newProduct);
-      this.reset();
-      document.getElementById('p-size-container').style.display = 'none';
-      renderApp();
-      saveProductsToGitHub();
-      alert("Продуктът е добавен успешно!");
-    });
+        // Филтриране по категория
+        function filterByCategory(categoryName) {
+            currentCategoryFilter = categoryName;
+            currentSearchQuery = '';
+            document.getElementById('searchInput').value = '';
+            
+            if (categoryName === 'Всички') {
+                currentFilteredProducts = [...products];
+                document.getElementById('catalogTitle').innerText = 'Всички продукти';
+            } else {
+                currentFilteredProducts = products.filter(p => p.category === categoryName);
+                document.getElementById('catalogTitle').innerText = `Категория: ${categoryName}`;
+            }
 
-    function toggleSold(id) {
-      const p = products.find(item => item.id === id);
-      if (p) {
-        p.sold = !p.sold;
-        renderApp();
-        saveProductsToGitHub();
-      }
-    }
+            currentPage = 1;
+            applySortingAndPagination();
+            switchView('catalog');
+        }
 
-    function deleteProduct(id) {
-      if (confirm("Сигурни ли сте, че искате да изтриете този продукт?")) {
-        products = products.filter(item => item.id !== id);
-        renderApp();
-        saveProductsToGitHub();
-      }
-    }
+        // Търсене в реално време
+        function handleSearch(query) {
+            currentSearchQuery = query.toLowerCase().trim();
+            if (currentSearchQuery === '') {
+                currentFilteredProducts = currentCategoryFilter === 'Всички' 
+                    ? [...products] 
+                    : products.filter(p => p.category === currentCategoryFilter);
+            } else {
+                currentFilteredProducts = products.filter(p => 
+                    p.title.toLowerCase().includes(currentSearchQuery) ||
+                    p.description.toLowerCase().includes(currentSearchQuery) ||
+                    p.category.toLowerCase().includes(currentSearchQuery)
+                );
+                document.getElementById('catalogTitle').innerText = `Търсене: "${query}"`;
+            }
+            currentPage = 1;
+            applySortingAndPagination();
+            switchView('catalog');
+        }
 
-    function openEditModal(id) {
-      const p = products.find(item => item.id === id);
-      if (!p) return;
+        // Сортиране
+        function sortProducts(sortType) {
+            currentSort = sortType;
+            if (sortType === 'price-asc') {
+                currentFilteredProducts.sort((a, b) => (a.promoPrice || a.regularPrice) - (b.promoPrice || b.regularPrice));
+            } else if (sortType === 'price-desc') {
+                currentFilteredProducts.sort((a, b) => (b.promoPrice || b.regularPrice) - (a.promoPrice || a.regularPrice));
+            } else if (sortType === 'discount') {
+                currentFilteredProducts.sort((a, b) => {
+                    const discA = a.promoPrice ? ((a.regularPrice - a.promoPrice) / a.regularPrice) : 0;
+                    const discB = b.promoPrice ? ((b.regularPrice - b.promoPrice) / b.regularPrice) : 0;
+                    return discB - discA;
+                });
+            }
+            renderCatalog();
+        }
 
-      document.getElementById('edit-p-id').value = p.id;
-      document.getElementById('edit-p-title').value = p.title;
-      document.getElementById('edit-p-regular-price').value = p.regularPrice;
-      document.getElementById('edit-p-sale-price').value = p.salePrice !== null ? p.salePrice : '';
-      document.getElementById('edit-p-quantity').value = p.quantity;
-      document.getElementById('edit-p-category').value = p.category;
-      
-      toggleSizeInput('edit-p-category', 'edit-p-size-container');
-      document.getElementById('edit-p-size').value = p.size || '';
+        function applySortingAndPagination() {
+            sortProducts(currentSort);
+        }
 
-      document.getElementById('edit-p-image1').value = p.images[0] || '';
-      document.getElementById('edit-p-image2').value = p.images[1] || '';
-      document.getElementById('edit-p-image3').value = p.images[2] || '';
-      document.getElementById('edit-p-desc').value = p.description || '';
-      document.getElementById('edit-p-details').value = p.details || '';
+        // Рендиране на продуктовия каталог с пагинация (16 продукта на страница)
+        function renderCatalog() {
+            const grid = document.getElementById('productsGrid');
+            const countElem = document.getElementById('catalogCount');
+            
+            countElem.innerText = `Показани ${currentFilteredProducts.length} артикула`;
 
-      document.getElementById('edit-modal').classList.add('active');
-    }
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const paginatedItems = currentFilteredProducts.slice(startIndex, endIndex);
 
-    document.getElementById('edit-product-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const id = parseInt(document.getElementById('edit-p-id').value);
-      const p = products.find(item => item.id === id);
-      if (!p) return;
+            if (paginatedItems.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-500">Няма намерени продукти.</div>`;
+                document.getElementById('paginationContainer').innerHTML = '';
+                return;
+            }
 
-      p.title = document.getElementById('edit-p-title').value;
-      p.regularPrice = parseFloat(document.getElementById('edit-p-regular-price').value);
-      const saleVal = document.getElementById('edit-p-sale-price').value;
-      p.salePrice = saleVal ? parseFloat(saleVal) : null;
-      p.quantity = parseInt(document.getElementById('edit-p-quantity').value);
-      p.category = document.getElementById('edit-p-category').value;
-      p.size = document.getElementById('edit-p-size').value;
+            grid.innerHTML = paginatedItems.map(p => {
+                const hasDiscount = p.promoPrice && p.promoPrice < p.regularPrice;
+                const discountPercent = hasDiscount ? Math.round(((p.regularPrice - p.promoPrice) / p.regularPrice) * 100) : 0;
+                const isSoldOut = p.stockStatus === 'продаден';
 
-      const img1 = document.getElementById('edit-p-image1').value;
-      const img2 = document.getElementById('edit-p-image2').value;
-      const img3 = document.getElementById('edit-p-image3').value;
-      p.images = [img1, img2, img3].filter(img => img.trim() !== '');
+                return `
+                    <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition p-4 flex flex-col justify-between relative border border-gray-100 group">
+                        <!-- Етикети -->
+                        <div class="absolute top-3 left-3 z-10 flex flex-col gap-1">
+                            ${hasDiscount ? `<span class="bg-emagOrange text-white text-xs font-black px-2 py-1 rounded">-${discountPercent}%</span>` : ''}
+                            ${isSoldOut ? `<span class="bg-gray-800 text-white text-xs font-bold px-2 py-1 rounded">Изчерпан</span>` : `<span class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">Наличен</span>`}
+                        </div>
 
-      p.description = document.getElementById('edit-p-desc').value;
-      p.details = document.getElementById('edit-p-details').value;
+                        <!-- Категория таг -->
+                        <div class="absolute top-3 right-3 z-10">
+                            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded font-medium">${p.category}</span>
+                        </div>
 
-      closeModal('edit-modal');
-      renderApp();
-      saveProductsToGitHub();
-      alert("Продуктът е обновен успешно!");
-    });
+                        <!-- Изображение с клик за детайли -->
+                        <div class="w-full h-48 mb-4 overflow-hidden rounded cursor-pointer flex items-center justify-center bg-gray-50" onclick="openProductModal(${p.id})">
+                            <img src="${p.images[0] || 'https://via.placeholder.com/300'}" alt="${p.title}" class="object-cover h-full w-full group-hover:scale-105 transition duration-300">
+                        </div>
 
-    function downloadProductsJson() {
-      let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(products, null, 2));
-      let a = document.createElement('a');
-      a.href = dataStr;
-      a.download = 'products.json';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      document.getElementById("admin-download-menu").classList.remove('show');
-    }
+                        <!-- Информация -->
+                        <div class="space-y-1 mb-4 flex-grow">
+                            <div class="text-xs text-gray-500">Размер: <span class="font-semibold text-gray-700">${p.size || 'N/A'}</span></div>
+                            <h3 class="font-bold text-gray-800 text-sm line-clamp-2 cursor-pointer hover:text-emagBlue transition" onclick="openProductModal(${p.id})">${p.title}</h3>
+                            <p class="text-xs text-gray-500 line-clamp-2">${p.description || ''}</p>
+                        </div>
 
-    function downloadIndexHtml() {
-      let htmlContent = document.documentElement.outerHTML;
-      let blob = new Blob(["<!DOCTYPE html>\n" + htmlContent], { type: "text/html;charset=utf-8" });
-      let a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'index.html';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      document.getElementById("admin-download-menu").classList.remove('show');
-    }
+                        <!-- Ценови блок -->
+                        <div class="border-t pt-3 mt-auto">
+                            <div class="flex items-baseline justify-between">
+                                <div>
+                                    <div class="text-xs text-gray-400 line-through">${hasDiscount ? p.regularPrice.toFixed(2) + ' лв.' : ''}</div>
+                                    <div class="text-xl font-black text-gray-900">${(p.promoPrice || p.regularPrice).toFixed(2)} лв.</div>
+                                </div>
+                                <button onclick="openProductModal(${p.id})" class="bg-emagBlue text-white p-2 rounded-lg hover:bg-blue-700 transition">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
 
-    window.addEventListener('DOMContentLoaded', loadProducts);
-  </script>
+            renderPagination();
+        }
 
-</body></html>
+        // Рендиране на пагинация
+        function renderPagination() {
+            const container = document.getElementById('paginationContainer');
+            const totalPages = Math.ceil(currentFilteredProducts.length / itemsPerPage);
+
+            if (totalPages <= 1) {
+                container.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            for (let i = 1; i <= totalPages; i++) {
+                html += `
+                    <button onclick="changePage(${i})" class="px-3 py-1.5 rounded text-sm font-bold ${i === currentPage ? 'bg-emagBlue text-white' : 'bg-white border text-gray-700 hover:bg-gray-50'}">
+                        ${i}
+                    </button>
+                `;
+            }
+            container.innerHTML = html;
+        }
+
+        function changePage(page) {
+            currentPage = page;
+            renderCatalog();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // МОДАЛ ЗА ДЕТАЙЛИ НА ПРОДУКТ
+        function openProductModal(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const modalContent = document.getElementById('modalContent');
+            const hasDiscount = product.promoPrice && product.promoPrice < product.regularPrice;
+
+            // Сходни артикули от същата категория
+            const similarProducts = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3);
+
+            modalContent.innerHTML = `
+                <!-- Галерия -->
+                <div class="space-y-4">
+                    <div class="h-80 bg-gray-50 rounded-lg overflow-hidden flex items-center justify-center border cursor-pointer" onclick="openLightbox('${product.images[0]}')">
+                        <img id="mainModalImg" src="${product.images[0]}" class="object-contain h-full w-full">
+                    </div>
+                    <div class="flex gap-2 overflow-x-auto pb-2">
+                        ${product.images.map((img, idx) => `
+                            <img src="${img}" onclick="changeMainImage('${img}')" class="w-16 h-16 object-cover rounded border-2 cursor-pointer hover:border-emagBlue transition">
+                        `).join('')}
+                    </div>
+                </div>
+
+                <!-- Детайли и покупка -->
+                <div class="space-y-4 flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs bg-blue-100 text-emagBlue px-2.5 py-1 rounded-full font-bold">${product.category}</span>
+                        <h2 class="text-2xl font-black text-gray-900 mt-2">${product.title}</h2>
+                        <div class="text-sm text-gray-600 mt-1">Размер: <span class="font-bold">${product.size || 'N/A'}</span></div>
+                        <div class="text-sm mt-2 text-gray-500">${product.description || 'Няма описание.'}</div>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg border">
+                        <div class="text-sm text-gray-500">Статус: <span class="font-bold ${product.stockStatus === 'продаден' ? 'text-red-500' : 'text-green-600'}">${product.stockStatus.toUpperCase()}</span></div>
+                        <div class="mt-2">
+                            <span class="text-sm text-gray-400 line-through">${hasDiscount ? product.regularPrice.toFixed(2) + ' лв.' : ''}</span>
+                            <div class="text-3xl font-black text-gray-900">${(product.promoPrice || product.regularPrice).toFixed(2)} лв.</div>
+                        </div>
+                    </div>
+
+                    <!-- Сходни артикули -->
+                    <div>
+                        <h4 class="text-sm font-bold text-gray-700 mb-2">Сходни артикули:</h4>
+                        <div class="grid grid-cols-3 gap-2">
+                            ${similarProducts.length > 0 ? similarProducts.map(sim => `
+                                <div onclick="openProductModal(${sim.id})" class="border rounded p-2 text-center cursor-pointer hover:border-emagBlue transition">
+                                    <img src="${sim.images[0]}" class="h-16 w-full object-cover rounded mb-1">
+                                    <div class="text-xs truncate font-medium">${sim.title}</div>
+                                    <div class="text-xs font-bold text-emagOrange">${(sim.promoPrice || sim.regularPrice).toFixed(2)} лв.</div>
+                                </div>
+                            `).join('') : '<p class="text-xs text-gray-400 col-span-3">Няма сходни артикули.</p>'}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('productModal').classList.remove('hidden');
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.add('hidden');
+        }
+
+        function changeMainImage(src) {
+            document.getElementById('mainModalImg').src = src;
+        }
+
+        // Lightbox функции
+        function openLightbox(src) {
+            document.getElementById('lightboxImg').src = src;
+            document.getElementById('lightboxModal').classList.remove('hidden');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightboxModal').classList.add('hidden');
+        }
+
+        // АДМИНИСТРАТОРСКИ ПАНЕЛ
+        function openAdminLogin() {
+            document.getElementById('adminLoginSection').classList.remove('hidden');
+            document.getElementById('adminDashboardSection').classList.add('hidden');
+            document.getElementById('adminPasswordInput').value = '';
+            document.getElementById('adminLoginError').classList.add('hidden');
+            document.getElementById('adminModal').classList.remove('hidden');
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.add('hidden');
+        }
+
+        function verifyAdminPassword() {
+            const pass = document.getElementById('adminPasswordInput').value;
+            if (pass === 'onlineshop0000') {
+                document.getElementById('adminLoginSection').classList.add('hidden');
+                document.getElementById('adminDashboardSection').classList.remove('hidden');
+                renderAdminProductsList();
+            } else {
+                document.getElementById('adminLoginError').classList.remove('hidden');
+            }
+        }
+
+        function renderAdminProductsList() {
+            const list = document.getElementById('adminProductsList');
+            list.innerHTML = products.map(p => `
+                <div class="flex items-center justify-between bg-white p-3 rounded border shadow-sm">
+                    <div class="flex items-center gap-3">
+                        <img src="${p.images[0]}" class="w-12 h-12 object-cover rounded">
+                        <div>
+                            <div class="font-bold text-sm">${p.title}</div>
+                            <div class="text-xs text-gray-500">${p.category} | ${(p.promoPrice || p.regularPrice).toFixed(2)} лв. | <span class="${p.stockStatus === 'продаден' ? 'text-red-500' : 'text-green-600'} font-semibold">${p.stockStatus}</span></div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="toggleProductStock(${p.id})" class="px-2.5 py-1 text-xs rounded font-medium ${p.stockStatus === 'наличен' ? 'bg-amber-100 text-amber-700 hover:bg-amber-200' : 'bg-green-100 text-green-700 hover:bg-green-200'}">
+                            ${p.stockStatus === 'наличен' ? 'Маркирай продаден' : 'Маркирай наличен'}
+                        </button>
+                        <button onclick="openEditProductForm(${p.id})" class="bg-blue-100 text-blue-700 hover:bg-blue-200 p-2 rounded text-xs"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="deleteProduct(${p.id})" class="bg-red-100 text-red-700 hover:bg-red-200 p-2 rounded text-xs"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openProductForm() {
+            document.getElementById('formTitle').innerText = 'Добавяне на нов продукт';
+            document.getElementById('productForm').reset();
+            document.getElementById('editProductId').value = '';
+            document.getElementById('productFormContainer').classList.remove('hidden');
+        }
+
+        function openEditProductForm(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            document.getElementById('formTitle').innerText = 'Редакция на продукт';
+            document.getElementById('editProductId').value = product.id;
+            document.getElementById('formTitleInput').value = product.title;
+            document.getElementById('formCategoryInput').value = product.category;
+            document.getElementById('formRegularPrice').value = product.regularPrice;
+            document.getElementById('formPromoPrice').value = product.promoPrice || '';
+            document.getElementById('formSize').value = product.size || '';
+            document.getElementById('formStockStatus').value = product.stockStatus;
+            document.getElementById('formImages').value = product.images.join(', ');
+            document.getElementById('formDescription').value = product.description || '';
+
+            document.getElementById('productFormContainer').classList.remove('hidden');
+        }
+
+        function cancelProductForm() {
+            document.getElementById('productFormContainer').classList.add('hidden');
+        }
+
+        async function handleProductFormSubmit(e) {
+            e.preventDefault();
+            const editId = document.getElementById('editProductId').value;
+            const imagesArr = document.getElementById('formImages').value.split(',').map(s => s.trim()).filter(Boolean);
+
+            const productData = {
+                id: editId ? parseInt(editId) : (products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1),
+                title: document.getElementById('formTitleInput').value,
+                category: document.getElementById('formCategoryInput').value,
+                regularPrice: parseFloat(document.getElementById('formRegularPrice').value),
+                promoPrice: document.getElementById('formPromoPrice').value ? parseFloat(document.getElementById('formPromoPrice').value) : null,
+                size: document.getElementById('formSize').value,
+                stockStatus: document.getElementById('formStockStatus').value,
+                images: imagesArr.length > 0 ? imagesArr : ['https://via.placeholder.com/300'],
+                description: document.getElementById('formDescription').value
+            };
+
+            if (editId) {
+                const index = products.findIndex(p => p.id === parseInt(editId));
+                if (index !== -1) products[index] = productData;
+            } else {
+                products.unshift(productData);
+            }
+
+            cancelProductForm();
+            renderAdminProductsList();
+            renderHomeCategories();
+            filterByCategory(currentCategoryFilter);
+
+            // Синхронизация с GitHub
+            await syncWithGitHub();
+        }
+
+        async function deleteProduct(id) {
+            if (!confirm('Сигурни ли сте, че искате да изтриете този продукт?')) return;
+            products = products.filter(p => p.id !== id);
+            renderAdminProductsList();
+            renderHomeCategories();
+            filterByCategory(currentCategoryFilter);
+            await syncWithGitHub();
+        }
+
+        async function toggleProductStock(id) {
+            const product = products.find(p => p.id === id);
+            if (product) {
+                product.stockStatus = product.stockStatus === 'наличен' ? 'продаден' : 'наличен';
+                renderAdminProductsList();
+                renderHomeCategories();
+                filterByCategory(currentCategoryFilter);
+                await syncWithGitHub();
+            }
+        }
+
+        // Изтегляне на products.json файл
+        function downloadProductsJson() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(products, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "products.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        // Изтегляне на целия index.html файл с актуалните данни вградени или готови за експорт
+        function downloadFullIndexHtml() {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", url);
+            downloadAnchor.setAttribute("download", "index.html");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        // Автоматична GitHub интеграция (синхронизация при промяна)
+        async function syncWithGitHub() {
+            const { owner, repo, path, token } = GITHUB_CONFIG;
+            const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+
+            try {
+                // 1. Взимаме актуалното SHA на файла в репозиторито
+                const getResponse = await fetch(url, {
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Accept": "application/vnd.github+json"
+                    }
+                });
+
+                let sha = "";
+                if (getResponse.ok) {
+                    const fileData = await getResponse.json();
+                    sha = fileData.sha;
+                }
+
+                // 2. Кодираме новия JSON съдържащ се в products масива в Base64 (поддържа UTF-8 кирилица)
+                const jsonString = JSON.stringify(products, null, 2);
+                const contentEncoded = btoa(unescape(encodeURIComponent(jsonString)));
+
+                // 3. Изпращаме PUT заявка за обновяване на файла в GitHub
+                const putResponse = await fetch(url, {
+                    method: "PUT",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Accept": "application/vnd.github+json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        message: "Auto-update products.json from eShop admin panel",
+                        content: contentEncoded,
+                        sha: sha ? sha : undefined
+                    })
+                });
+
+                if (putResponse.ok) {
+                    console.log("Успешна синхронизация с GitHub репозиторито!");
+                } else {
+                    const err = await putResponse.json();
+                    console.error("Грешка при GitHub синхронизация:", err.message);
+                }
+            } catch (error) {
+                console.error("Мрежова грешка при връзка с GitHub API:", error);
+            }
+        }
+    </script>
+</body>
+</html>
