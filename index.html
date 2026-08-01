@@ -54,24 +54,11 @@
                         <span class="font-semibold">Категории</span>
                     </button>
                     
-                    <!-- Падащо меню с категории -->
-                    <div id="categoryDropdownMenu" class="absolute left-0 mt-2 w-64 bg-white text-gray-800 rounded-xl shadow-2xl py-2 hidden z-50 border border-gray-100">
+                    <!-- Падащо меню с подкатегории -->
+                    <div id="categoryDropdownMenu" class="absolute left-0 mt-2 w-72 bg-white text-gray-800 rounded-xl shadow-2xl py-2 hidden z-50 border border-gray-100">
                         <div class="px-4 py-2 font-bold text-xs uppercase tracking-wider text-gray-400 border-b">Категории</div>
-                        <div class="max-h-[70vh] overflow-y-auto">
-                            <a href="#" onclick="filterByCategory('Всички'); closeCategoryDropdown();" class="block px-4 py-2.5 text-sm hover:bg-gray-100 font-medium transition"><i class="fa-solid fa-house mr-2 text-emagOrange"></i> Всички продукти</a>
-                            <a href="#" onclick="filterByCategory('Дрехи'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-shirt mr-2 text-gray-400"></i> Дрехи</a>
-                            <a href="#" onclick="filterByCategory('Обувки'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-shoe-prints mr-2 text-gray-400"></i> Обувки</a>
-                            <a href="#" onclick="filterByCategory('За деца'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-child mr-2 text-gray-400"></i> За деца</a>
-                            <a href="#" onclick="filterByCategory('Очила'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-glasses mr-2 text-gray-400"></i> Очила</a>
-                            <a href="#" onclick="filterByCategory('Електроника'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-laptop mr-2 text-gray-400"></i> Електроника</a>
-                            <a href="#" onclick="filterByCategory('Дом и кухня'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-house-chimney mr-2 text-gray-400"></i> Дом и кухня</a>
-                            <a href="#" onclick="filterByCategory('Здраве и красота'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-heart-pulse mr-2 text-gray-400"></i> Здраве и красота</a>
-                            <a href="#" onclick="filterByCategory('Играчки и занятия'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-puzzle-piece mr-2 text-gray-400"></i> Играчки и занятия</a>
-                            <a href="#" onclick="filterByCategory('Спорт и на открито'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-person-running mr-2 text-gray-400"></i> Спорт и на открито</a>
-                            <a href="#" onclick="filterByCategory('Автомобилна'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-car mr-2 text-gray-400"></i> Автомобилна</a>
-                            <a href="#" onclick="filterByCategory('Домашни любимци'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-paw mr-2 text-gray-400"></i> Домашни любимци</a>
-                            <a href="#" onclick="filterByCategory('Инструменти'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-screwdriver-wrench mr-2 text-gray-400"></i> Инструменти</a>
-                            <a href="#" onclick="filterByCategory('Градина'); closeCategoryDropdown();" class="block px-4 py-2 text-sm hover:bg-gray-100 transition"><i class="fa-solid fa-seedling mr-2 text-gray-400"></i> Градина</a>
+                        <div id="categoryDropdownItems" class="max-h-[70vh] overflow-y-auto">
+                            <!-- Динамично генерирани категории и подкатегории -->
                         </div>
                     </div>
                 </div>
@@ -137,7 +124,7 @@
                 </div>
             </div>
 
-            <!-- Адаптивна мрежа за продукти (2 на ред на мобилни, 4 на ред на компютри) -->
+            <!-- Адаптивна мрежа за продукти -->
             <div id="productsGrid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
                 <!-- Продуктови карти ще се зареждат тук -->
             </div>
@@ -214,6 +201,7 @@
                         <div>
                             <label class="block text-sm font-medium mb-1">Категория</label>
                             <select id="formCategoryInput" required class="w-full border p-2 rounded bg-white">
+                                <option value="Облекло" selected>Облекло</option>
                                 <option value="Дрехи">Дрехи</option>
                                 <option value="Обувки">Обувки</option>
                                 <option value="За деца">За деца</option>
@@ -327,6 +315,104 @@
         let currentSort = 'default';
         let isAdminLoggedIn = false;
 
+        // Структура на категориите с подкатегории (лесна за бъдещо надграждане)
+        const categoriesStructure = [
+            { 
+                name: 'Облекло', 
+                icon: 'fa-shirt', 
+                subcategories: ['Всичко от облекло', 'Дрехи', 'Обувки', 'За деца', 'Очила'] 
+            },
+            { 
+                name: 'Електроника', 
+                icon: 'fa-laptop', 
+                subcategories: [] 
+            },
+            { 
+                name: 'Дом и кухня', 
+                icon: 'fa-house-chimney', 
+                subcategories: [] 
+            },
+            { name: 'Здраве и красота', icon: 'fa-heart-pulse' },
+            { name: 'Играчки и занятия', icon: 'fa-puzzle-piece' },
+            { name: 'Спорт и на открито', icon: 'fa-person-running' },
+            { name: 'Автомобилна', icon: 'fa-car' },
+            { name: 'Домашни любимци', icon: 'fa-paw' },
+            { name: 'Инструменти', icon: 'fa-screwdriver-wrench' },
+            { name: 'Градина', icon: 'fa-seedling' }
+        ];
+
+        // Рендиране на падащото меню с подкатегории
+        function renderCategoryDropdownMenu() {
+            const container = document.getElementById('categoryDropdownItems');
+            if (!container) return;
+
+            let html = `
+                <a href="#" onclick="filterByCategory('Всички'); closeCategoryDropdown();" class="block px-4 py-2.5 text-sm hover:bg-gray-100 font-medium transition border-b">
+                    <i class="fa-solid fa-house mr-2 text-emagOrange"></i> Всички продукти
+                </a>
+            `;
+
+            categoriesStructure.forEach((cat, index) => {
+                const hasSubs = cat.subcategories && cat.subcategories.length > 0;
+                if (hasSubs) {
+                    html += `
+                        <div class="border-b border-gray-50 last:border-b-0">
+                            <div onclick="toggleSubmenu(event, 'sub-${index}')" class="flex items-center justify-between px-4 py-2.5 text-sm hover:bg-gray-100 cursor-pointer transition select-none font-medium text-gray-800">
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid ${cat.icon} text-gray-400 w-5"></i>
+                                    <span>${cat.name}</span>
+                                </div>
+                                <i id="arrow-${index}" class="fa-solid fa-chevron-right text-xs text-gray-400 transition-transform duration-200"></i>
+                            </div>
+                            <div id="sub-${index}" class="hidden bg-gray-50 py-1 pl-8 pr-2 space-y-1">
+                                ${cat.subcategories.map(sub => {
+                                    const filterTarget = (sub.startsWith('Всичко от')) ? cat.name : sub;
+                                    return `
+                                        <a href="#" onclick="filterByCategory('${filterTarget}'); closeCategoryDropdown();" class="block py-1.5 px-2 text-xs text-gray-600 hover:text-emagBlue hover:bg-gray-100 rounded transition font-medium">
+                                            ${sub}
+                                        </a>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="border-b border-gray-50 last:border-b-0">
+                            <a href="#" onclick="filterByCategory('${cat.name}'); closeCategoryDropdown();" class="flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-gray-100 transition text-gray-800 font-medium">
+                                <i class="fa-solid ${cat.icon} text-gray-400 w-5"></i>
+                                <span>${cat.name}</span>
+                            </a>
+                        </div>
+                    `;
+                }
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Отваряне/затваряне на подменю с въртене на стрелката
+        function toggleSubmenu(event, subId) {
+            event.stopPropagation(); // Предотвратява затварянето на цялото главно меню
+            const submenu = document.getElementById(subId);
+            const arrowIndex = subId.split('-')[1];
+            const arrow = document.getElementById('arrow-' + arrowIndex);
+            
+            if (submenu.classList.contains('hidden')) {
+                submenu.classList.remove('hidden');
+                if (arrow) {
+                    arrow.classList.remove('fa-chevron-right');
+                    arrow.classList.add('fa-chevron-down');
+                }
+            } else {
+                submenu.classList.add('hidden');
+                if (arrow) {
+                    arrow.classList.remove('fa-chevron-down');
+                    arrow.classList.add('fa-chevron-right');
+                }
+            }
+        }
+
         // Управление на падащото меню с категории отляво
         function toggleCategoryDropdown(event) {
             event.stopPropagation();
@@ -339,6 +425,7 @@
             menu.classList.add('hidden');
         }
 
+        // Менюто не се затваря при движение или клик вътре в него, а само при клик извън него
         window.addEventListener('click', (e) => {
             const menu = document.getElementById('categoryDropdownMenu');
             const btn = document.getElementById('categoryDropdownBtn');
@@ -365,6 +452,7 @@
 
         // Инициализация при зареждане на страницата
         window.addEventListener('DOMContentLoaded', async () => {
+            renderCategoryDropdownMenu();
             await loadProducts();
         });
 
@@ -616,7 +704,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // МОДАЛ ЗА ДЕТАЙЛИ НА ПРОДУКТ (Миниатюри и Сходни артикули най-долу)
+        // МОДАЛ ЗА ДЕТАЙЛИ НА ПРОДУКТ
         function openProductModal(productId) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
@@ -940,5 +1028,20 @@
             }
         }
     </script>
+
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+ const cat=document.getElementById('formCategoryInput');
+ if(cat){
+   const sizeInput=document.getElementById('formSize');
+   const wrapper=sizeInput.closest('div');
+   function upd(){
+      const show=cat.value==='Облекло';
+      wrapper.style.display=show?'':'none';
+   }
+   cat.addEventListener('change',upd);upd();
+ }
+});
+</script>
 </body>
 </html>
