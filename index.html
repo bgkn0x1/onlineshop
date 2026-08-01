@@ -325,13 +325,20 @@
         let currentSort = 'default';
         let isAdminLoggedIn = false;
 
-        // Помощна функция за вземане на активната цена (поддържа и promoPrice, и salePrice)
+        // Помощна функция за активна цена (поддържа promoPrice и salePrice)
         function getActivePrice(p) {
             const promo = p.promoPrice !== undefined && p.promoPrice !== null && p.promoPrice !== '' ? Number(p.promoPrice) : null;
             if (promo !== null && !isNaN(promo)) return promo;
             const sale = p.salePrice !== undefined && p.salePrice !== null && p.salePrice !== '' ? Number(p.salePrice) : null;
             if (sale !== null && !isNaN(sale)) return sale;
             return Number(p.regularPrice) || 0;
+        }
+
+        // Помощна функция за статус (поддържа както stockStatus, така и sold: true/false)
+        function getStockStatus(p) {
+            if (p.stockStatus) return p.stockStatus;
+            if (p.sold === true) return 'продаден';
+            return 'наличен';
         }
 
         // Инициализация при зареждане на страницата
@@ -370,20 +377,6 @@
                         "https://images.unsplash.com/photo-1544441893-675973e31985?w=600"
                     ],
                     description: "Висококачествено спортно яке подходящо за хладни дни и тренировки на открито."
-                },
-                {
-                    id: 2,
-                    title: "Дамски маратонки Adidas Ultraboost",
-                    category: "Обувки",
-                    size: "38",
-                    regularPrice: 280.00,
-                    salePrice: 199.00,
-                    stockStatus: "наличен",
-                    images: [
-                        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600",
-                        "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600"
-                    ],
-                    description: "Максимален комфорт и омекотяване при бягане и ежедневна употреба."
                 }
             ];
         }
@@ -461,7 +454,7 @@
             } else {
                 currentFilteredProducts = products.filter(p => 
                     p.title.toLowerCase().includes(currentSearchQuery) ||
-                    p.description.toLowerCase().includes(currentSearchQuery) ||
+                    (p.description && p.description.toLowerCase().includes(currentSearchQuery)) ||
                     p.category.toLowerCase().includes(currentSearchQuery)
                 );
                 document.getElementById('catalogTitle').innerText = `Търсене: "${query}"`;
@@ -494,7 +487,7 @@
             sortProducts(currentSort);
         }
 
-        // Рендиране на продуктовия каталог с пагинация
+        // Рендиране на каталога
         function renderCatalog() {
             const grid = document.getElementById('productsGrid');
             const countElem = document.getElementById('catalogCount');
@@ -515,7 +508,8 @@
                 const activePrice = getActivePrice(p);
                 const hasDiscount = p.regularPrice > activePrice;
                 const discountPercent = hasDiscount ? Math.round(((p.regularPrice - activePrice) / p.regularPrice) * 100) : 0;
-                const isSoldOut = p.stockStatus === 'продаден';
+                const status = getStockStatus(p);
+                const isSoldOut = status === 'продаден';
 
                 return `
                     <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition p-4 flex flex-col justify-between relative border border-gray-100 group">
@@ -525,7 +519,7 @@
                             ${isSoldOut ? `<span class="bg-gray-800 text-white text-xs font-bold px-2 py-1 rounded">Изчерпан</span>` : `<span class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">Наличен</span>`}
                         </div>
 
-                        <!-- Категория таг / Бутон за бърза редакция ако е админ -->
+                        <!-- Бутон за бърза редакция ако е админ -->
                         <div class="absolute top-3 right-3 z-10 flex items-center gap-1">
                             ${isAdminLoggedIn ? `
                                 <button onclick="openEditProductFormDirect(${p.id})" title="Редактирай продукта" class="bg-blue-600 hover:bg-blue-700 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs shadow transition">
@@ -537,7 +531,7 @@
 
                         <!-- Изображение -->
                         <div class="w-full h-48 mb-4 overflow-hidden rounded cursor-pointer flex items-center justify-center bg-gray-50" onclick="openProductModal(${p.id})">
-                            <img src="${p.images[0] || 'https://via.placeholder.com/300'}" alt="${p.title}" class="object-cover h-full w-full group-hover:scale-105 transition duration-300">
+                            <img src="${(p.images && p.images[0]) ? p.images[0] : 'https://via.placeholder.com/300'}" alt="${p.title}" class="object-cover h-full w-full group-hover:scale-105 transition duration-300">
                         </div>
 
                         <!-- Информация -->
@@ -601,16 +595,19 @@
             const modalContent = document.getElementById('modalContent');
             const activePrice = getActivePrice(product);
             const hasDiscount = product.regularPrice > activePrice;
+            const status = getStockStatus(product);
+            const isSold = status === 'продаден';
+            const images = (product.images && product.images.length > 0) ? product.images : ['https://via.placeholder.com/300'];
             const similarProducts = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3);
 
             modalContent.innerHTML = `
                 <!-- Галерия -->
                 <div class="space-y-4">
-                    <div class="h-80 bg-gray-50 rounded-lg overflow-hidden flex items-center justify-center border cursor-pointer" onclick="openLightbox('${product.images[0]}')">
-                        <img id="mainModalImg" src="${product.images[0]}" class="object-contain h-full w-full">
+                    <div class="h-80 bg-gray-50 rounded-lg overflow-hidden flex items-center justify-center border cursor-pointer" onclick="openLightbox('${images[0]}')">
+                        <img id="mainModalImg" src="${images[0]}" class="object-contain h-full w-full">
                     </div>
                     <div class="flex gap-2 overflow-x-auto pb-2">
-                        ${product.images.map((img, idx) => `
+                        ${images.map((img) => `
                             <img src="${img}" onclick="changeMainImage('${img}')" class="w-16 h-16 object-cover rounded border-2 cursor-pointer hover:border-emagBlue transition">
                         `).join('')}
                     </div>
@@ -622,11 +619,11 @@
                         <span class="text-xs bg-blue-100 text-emagBlue px-2.5 py-1 rounded-full font-bold">${product.category}</span>
                         <h2 class="text-2xl font-black text-gray-900 mt-2">${product.title}</h2>
                         <div class="text-sm text-gray-600 mt-1">Размер: <span class="font-bold">${product.size || 'N/A'}</span></div>
-                        <div class="text-sm mt-2 text-gray-500">${product.description || 'Няма описание.'}</div>
+                        <div class="text-sm mt-2 text-gray-500">${product.description || product.details || 'Няма описание.'}</div>
                     </div>
 
                     <div class="bg-gray-50 p-4 rounded-lg border">
-                        <div class="text-sm text-gray-500">Статус: <span class="font-bold ${product.stockStatus === 'продаден' ? 'text-red-500' : 'text-green-600'}">${product.stockStatus.toUpperCase()}</span></div>
+                        <div class="text-sm text-gray-500">Статус: <span class="font-bold ${isSold ? 'text-red-500' : 'text-green-600'}">${status.toUpperCase()}</span></div>
                         <div class="mt-2">
                             <span class="text-sm text-gray-400 line-through">${hasDiscount ? Number(product.regularPrice).toFixed(2) + ' лв.' : ''}</span>
                             <div class="text-3xl font-black text-gray-900">${activePrice.toFixed(2)} лв.</div>
@@ -639,9 +636,10 @@
                         <div class="grid grid-cols-3 gap-2">
                             ${similarProducts.length > 0 ? similarProducts.map(sim => {
                                 const simPrice = getActivePrice(sim);
+                                const simImg = (sim.images && sim.images[0]) ? sim.images[0] : 'https://via.placeholder.com/300';
                                 return `
                                     <div onclick="openProductModal(${sim.id})" class="border rounded p-2 text-center cursor-pointer hover:border-emagBlue transition">
-                                        <img src="${sim.images[0]}" class="h-16 w-full object-cover rounded mb-1">
+                                        <img src="${simImg}" class="h-16 w-full object-cover rounded mb-1">
                                         <div class="text-xs truncate font-medium">${sim.title}</div>
                                         <div class="text-xs font-bold text-emagOrange">${simPrice.toFixed(2)} лв.</div>
                                     </div>
@@ -720,18 +718,20 @@
             const list = document.getElementById('adminProductsList');
             list.innerHTML = products.map(p => {
                 const activePrice = getActivePrice(p);
+                const status = getStockStatus(p);
+                const img = (p.images && p.images[0]) ? p.images[0] : 'https://via.placeholder.com/300';
                 return `
                     <div class="flex items-center justify-between bg-white p-3 rounded border shadow-sm">
                         <div class="flex items-center gap-3">
-                            <img src="${p.images[0]}" class="w-12 h-12 object-cover rounded">
+                            <img src="${img}" class="w-12 h-12 object-cover rounded">
                             <div>
                                 <div class="font-bold text-sm">${p.title}</div>
-                                <div class="text-xs text-gray-500">${p.category} | ${activePrice.toFixed(2)} лв. | <span class="${p.stockStatus === 'продаден' ? 'text-red-500' : 'text-green-600'} font-semibold">${p.stockStatus}</span></div>
+                                <div class="text-xs text-gray-500">${p.category} | ${activePrice.toFixed(2)} лв. | <span class="${status === 'продаден' ? 'text-red-500' : 'text-green-600'} font-semibold">${status}</span></div>
                             </div>
                         </div>
                         <div class="flex items-center gap-2">
-                            <button onclick="toggleProductStock(${p.id})" class="px-2.5 py-1 text-xs rounded font-medium ${p.stockStatus === 'наличен' ? 'bg-amber-100 text-amber-700 hover:bg-amber-200' : 'bg-green-100 text-green-700 hover:bg-green-200'}">
-                                ${p.stockStatus === 'наличен' ? 'Маркирай продаден' : 'Маркирай наличен'}
+                            <button onclick="toggleProductStock(${p.id})" class="px-2.5 py-1 text-xs rounded font-medium ${status === 'наличен' ? 'bg-amber-100 text-amber-700 hover:bg-amber-200' : 'bg-green-100 text-green-700 hover:bg-green-200'}">
+                                ${status === 'наличен' ? 'Маркирай продаден' : 'Маркирай наличен'}
                             </button>
                             <button onclick="openEditProductForm(${p.id})" class="bg-blue-100 text-blue-700 hover:bg-blue-200 p-2 rounded text-xs"><i class="fa-solid fa-pen"></i></button>
                             <button onclick="deleteProduct(${p.id})" class="bg-red-100 text-red-700 hover:bg-red-200 p-2 rounded text-xs"><i class="fa-solid fa-trash"></i></button>
@@ -759,13 +759,14 @@
             document.getElementById('formRegularPrice').value = product.regularPrice;
             document.getElementById('formPromoPrice').value = product.promoPrice !== undefined ? product.promoPrice : (product.salePrice !== undefined ? product.salePrice : '');
             document.getElementById('formSize').value = product.size || '';
-            document.getElementById('formStockStatus').value = product.stockStatus;
+            document.getElementById('formStockStatus').value = getStockStatus(product);
             
-            document.getElementById('formImage1').value = product.images[0] || '';
-            document.getElementById('formImage2').value = product.images[1] || '';
-            document.getElementById('formImage3').value = product.images[2] || '';
+            const imgs = product.images || [];
+            document.getElementById('formImage1').value = imgs[0] || '';
+            document.getElementById('formImage2').value = imgs[1] || '';
+            document.getElementById('formImage3').value = imgs[2] || '';
 
-            document.getElementById('formDescription').value = product.description || '';
+            document.getElementById('formDescription').value = product.description || product.details || '';
             document.getElementById('productFormContainer').classList.remove('hidden');
         }
 
@@ -788,15 +789,17 @@
             const imagesArr = [img1, img2, img3].filter(Boolean);
 
             const promoVal = document.getElementById('formPromoPrice').value;
+            const stockStatusVal = document.getElementById('formStockStatus').value;
 
             const productData = {
                 id: editId ? parseInt(editId) : (products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1),
                 title: document.getElementById('formTitleInput').value,
                 category: document.getElementById('formCategoryInput').value,
                 regularPrice: parseFloat(document.getElementById('formRegularPrice').value),
-                promoPrice: promoVal ? parseFloat(promoVal) : null,
+                salePrice: promoVal ? parseFloat(promoVal) : null,
                 size: document.getElementById('formSize').value,
-                stockStatus: document.getElementById('formStockStatus').value,
+                stockStatus: stockStatusVal,
+                sold: stockStatusVal === 'продаден',
                 images: imagesArr.length > 0 ? imagesArr : ['https://via.placeholder.com/300'],
                 description: document.getElementById('formDescription').value
             };
@@ -828,7 +831,9 @@
         async function toggleProductStock(id) {
             const product = products.find(p => p.id === id);
             if (product) {
-                product.stockStatus = product.stockStatus === 'наличен' ? 'продаден' : 'наличен';
+                const currentStatus = getStockStatus(product);
+                product.stockStatus = currentStatus === 'наличен' ? 'продаден' : 'наличен';
+                product.sold = product.stockStatus === 'продаден';
                 renderAdminProductsList();
                 renderHomeCategories();
                 filterByCategory(currentCategoryFilter);
