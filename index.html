@@ -149,13 +149,13 @@
         </section>
     </main>
 
-    <!-- МОДАЛ: Детайли за продукт и Галерия -->
+    <!-- МОДАЛ: Детайли за продукт и Галерия (Преработен с "Сходни артикули" най-долу) -->
     <div id="productModal" class="fixed inset-0 bg-black bg-opacity-60 hidden z-50 flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 relative shadow-2xl">
-            <button onclick="closeProductModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl font-bold">
+            <button onclick="closeProductModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl font-bold z-20">
                 <i class="fa-solid fa-xmark"></i>
             </button>
-            <div id="modalContent" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div id="modalContent" class="flex flex-col gap-6">
                 <!-- Динамично съдържание на модала -->
             </div>
         </div>
@@ -325,7 +325,7 @@
         let currentSort = 'default';
         let isAdminLoggedIn = false;
 
-        // Помощна функция за активна цена (поддържа promoPrice и salePrice)
+        // Помощна функция за активна цена
         function getActivePrice(p) {
             const promo = p.promoPrice !== undefined && p.promoPrice !== null && p.promoPrice !== '' ? Number(p.promoPrice) : null;
             if (promo !== null && !isNaN(promo)) return promo;
@@ -334,7 +334,7 @@
             return Number(p.regularPrice) || 0;
         }
 
-        // Помощна функция за статус (поддържа както stockStatus, така и sold: true/false)
+        // Помощна функция за статус
         function getStockStatus(p) {
             if (p.stockStatus) return p.stockStatus;
             if (p.sold === true) return 'продаден';
@@ -489,83 +489,83 @@
 
         // Рендиране на каталога
         function renderCatalog() {
-    const grid = document.getElementById('productsGrid');
-    const countElem = document.getElementById('catalogCount');
-    
-    if (!grid) return;
-    
-    if (countElem) {
-        countElem.innerText = `Показани ${currentFilteredProducts.length} артикула`;
-    }
+            const grid = document.getElementById('productsGrid');
+            const countElem = document.getElementById('catalogCount');
+            
+            if (!grid) return;
+            
+            if (countElem) {
+                countElem.innerText = `Показани ${currentFilteredProducts.length} артикула`;
+            }
 
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const paginatedItems = currentFilteredProducts.slice(startIndex, endIndex);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const paginatedItems = currentFilteredProducts.slice(startIndex, endIndex);
 
-    if (paginatedItems.length === 0) {
-        grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-500">Няма намерени продукти.</div>`;
-        const paginationContainer = document.getElementById('paginationContainer');
-        if (paginationContainer) paginationContainer.innerHTML = '';
-        return;
-    }
+            if (paginatedItems.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-500">Няма намерени продукти.</div>`;
+                const paginationContainer = document.getElementById('paginationContainer');
+                if (paginationContainer) paginationContainer.innerHTML = '';
+                return;
+            }
 
-    grid.innerHTML = paginatedItems.map(p => {
-        const activePrice = getActivePrice(p);
-        const hasDiscount = p.regularPrice > activePrice;
-        const discountPercent = hasDiscount ? Math.round(((p.regularPrice - activePrice) / p.regularPrice) * 100) : 0;
-        const status = getStockStatus(p);
-        const isSoldOut = status === 'продаден';
+            grid.innerHTML = paginatedItems.map(p => {
+                const activePrice = getActivePrice(p);
+                const hasDiscount = p.regularPrice > activePrice;
+                const discountPercent = hasDiscount ? Math.round(((p.regularPrice - activePrice) / p.regularPrice) * 100) : 0;
+                const status = getStockStatus(p);
+                const isSoldOut = status === 'продаден';
 
-        return `
-            <div onclick="openProductModal(${p.id})" class="bg-white rounded-lg shadow-sm hover:shadow-lg transition p-4 flex flex-col justify-between relative border border-gray-100 group cursor-pointer">
-                <!-- Етикети за отстъпка и статус -->
-                <div class="absolute top-3 left-3 z-10 flex flex-col gap-1 pointer-events-none">
-                    ${hasDiscount ? `<span class="bg-orange-500 text-white text-xs font-black px-2 py-1 rounded">-${discountPercent}%</span>` : ''}
-                    ${isSoldOut ? `<span class="bg-gray-800 text-white text-xs font-bold px-2 py-1 rounded">Изчерпан</span>` : `<span class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">Наличен</span>`}
-                </div>
-
-                <!-- Админ бутон за редакция (ако е активен) -->
-                <div class="absolute top-3 right-3 z-10 flex items-center gap-1">
-                    ${typeof isAdminLoggedIn !== 'undefined' && isAdminLoggedIn ? `
-                        <button onclick="event.stopPropagation(); openEditProductFormDirect(${p.id})" title="Редактирай" class="bg-blue-600 hover:bg-blue-700 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs shadow transition">
-                            <i class="fa-solid fa-pen"></i>
-                        </button>
-                    ` : ''}
-                    <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded font-medium">${p.category || ''}</span>
-                </div>
-
-                <!-- Изображение на продукта -->
-                <div class="w-full h-48 mb-4 overflow-hidden rounded flex items-center justify-center bg-gray-50">
-                    <img src="${(p.images && p.images[0]) ? p.images[0] : 'https://via.placeholder.com/300'}" alt="${p.title}" class="object-cover h-full w-full group-hover:scale-105 transition duration-300">
-                </div>
-
-                <!-- Текстова информация -->
-                <div class="space-y-1 mb-4 flex-grow">
-                    <div class="text-xs text-gray-500">Размер: <span class="font-semibold text-gray-700">${p.size || 'N/A'}</span></div>
-                    <h3 class="font-bold text-gray-800 text-sm line-clamp-2">${p.title}</h3>
-                    <p class="text-xs text-gray-500 line-clamp-2">${p.description || ''}</p>
-                </div>
-
-                <!-- Ценови блок и бутон за преглед -->
-                <div class="border-t pt-3 mt-auto">
-                    <div class="flex items-baseline justify-between">
-                        <div>
-                            <div class="text-xs text-gray-400 line-through">${hasDiscount ? Number(p.regularPrice).toFixed(2) + ' лв.' : ''}</div>
-                            <div class="text-xl font-black text-gray-900">${activePrice.toFixed(2)} лв.</div>
+                return `
+                    <div onclick="openProductModal(${p.id})" class="bg-white rounded-lg shadow-sm hover:shadow-lg transition p-4 flex flex-col justify-between relative border border-gray-100 group cursor-pointer">
+                        <!-- Етикети за отстъпка и статус -->
+                        <div class="absolute top-3 left-3 z-10 flex flex-col gap-1 pointer-events-none">
+                            ${hasDiscount ? `<span class="bg-orange-500 text-white text-xs font-black px-2 py-1 rounded">-${discountPercent}%</span>` : ''}
+                            ${isSoldOut ? `<span class="bg-gray-800 text-white text-xs font-bold px-2 py-1 rounded">Изчерпан</span>` : `<span class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">Наличен</span>`}
                         </div>
-                        <div class="bg-blue-600 text-white p-2 rounded-lg pointer-events-none">
-                            <i class="fa-solid fa-eye"></i>
+
+                        <!-- Админ бутон за редакция (ако е активен) -->
+                        <div class="absolute top-3 right-3 z-10 flex items-center gap-1">
+                            ${typeof isAdminLoggedIn !== 'undefined' && isAdminLoggedIn ? `
+                                <button onclick="event.stopPropagation(); openEditProductFormDirect(${p.id})" title="Редактирай" class="bg-blue-600 hover:bg-blue-700 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs shadow transition">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                            ` : ''}
+                            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded font-medium">${p.category || ''}</span>
+                        </div>
+
+                        <!-- Изображение на продукта -->
+                        <div class="w-full h-48 mb-4 overflow-hidden rounded flex items-center justify-center bg-gray-50">
+                            <img src="${(p.images && p.images[0]) ? p.images[0] : 'https://via.placeholder.com/300'}" alt="${p.title}" class="object-cover h-full w-full group-hover:scale-105 transition duration-300">
+                        </div>
+
+                        <!-- Текстова информация -->
+                        <div class="space-y-1 mb-4 flex-grow">
+                            <div class="text-xs text-gray-500">Размер: <span class="font-semibold text-gray-700">${p.size || 'N/A'}</span></div>
+                            <h3 class="font-bold text-gray-800 text-sm line-clamp-2">${p.title}</h3>
+                            <p class="text-xs text-gray-500 line-clamp-2">${p.description || ''}</p>
+                        </div>
+
+                        <!-- Ценови блок и бутон за преглед -->
+                        <div class="border-t pt-3 mt-auto">
+                            <div class="flex items-baseline justify-between">
+                               <div>
+                                    <div class="text-xs text-gray-400 line-through">${hasDiscount ? Number(p.regularPrice).toFixed(2) + ' лв.' : ''}</div>
+                                    <div class="text-xl font-black text-gray-900">${activePrice.toFixed(2)} лв.</div>
+                                </div>
+                                <div class="bg-blue-600 text-white p-2 rounded-lg pointer-events-none">
+                                    <i class="fa-solid fa-eye"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        `;
-    }).join('');
+                `;
+            }).join('');
 
-    if (typeof renderPagination === 'function') {
-        renderPagination();
-    }
-}
+            if (typeof renderPagination === 'function') {
+                renderPagination();
+            }
+        }
 
         // Рендиране на пагинация
         function renderPagination() {
@@ -594,7 +594,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // МОДАЛ ЗА ДЕТАЙЛИ НА ПРОДУКТ
+        // МОДАЛ ЗА ДЕТАЙЛИ НА ПРОДУКТ (Коригирани миниатюри и "Сходни артикули" най-долу)
         function openProductModal(productId) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
@@ -605,56 +605,64 @@
             const status = getStockStatus(product);
             const isSold = status === 'продаден';
             const images = (product.images && product.images.length > 0) ? product.images : ['https://via.placeholder.com/300'];
-            const similarProducts = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3);
+            
+            // Намиране на сходни артикули по категория
+            const similarProducts = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
 
-            modalContent.innerHTML = `
-                <!-- Галерия -->
-                <div class="space-y-4">
-                    <div class="h-80 bg-gray-50 rounded-lg overflow-hidden flex items-center justify-center border cursor-pointer" onclick="openLightbox('${images[0]}')">
-                        <img id="mainModalImg" src="${images[0]}" class="object-contain h-full w-full">
-                    </div>
-                    <div class="flex gap-2 overflow-x-auto pb-2">
-                        ${images.map((img) => `
-                            <img src="${img}" onclick="changeMainImage('${img}')" class="w-16 h-16 object-cover rounded border-2 cursor-pointer hover:border-emagBlue transition">
+            // Корекция 1: Всяка миниатюра подава точно своя URL адрес към основното изображение
+            const thumbnailsHTML = images.map(img => `
+                <img src="${img}" onclick="document.getElementById('mainModalImg').src='${img}'" class="w-16 h-16 object-cover rounded cursor-pointer border-2 border-transparent hover:border-emagBlue transition flex-shrink-0">
+            `).join('');
+
+            // Корекция 2: Блок за сходни артикули позициониран най-долу в прозореца
+            const similarHTML = similarProducts.length > 0 ? `
+                <div class="mt-6 pt-6 border-t border-gray-200 w-full">
+                    <h4 class="font-bold text-gray-800 text-base mb-4">Сходни артикули</h4>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        ${similarProducts.map(sim => `
+                            <div onclick="openProductModal(${sim.id})" class="bg-gray-50 p-2 rounded-lg border hover:shadow-md transition cursor-pointer flex flex-col justify-between">
+                                <img src="${sim.images && sim.images[0] ? sim.images[0] : 'https://via.placeholder.com/150'}" class="w-full h-28 object-cover rounded mb-2">
+                                <div class="text-xs font-semibold text-gray-800 line-clamp-1">${sim.title}</div>
+                                <div class="text-xs font-bold text-emagOrange mt-1">${getActivePrice(sim).toFixed(2)} лв.</div>
+                            </div>
                         `).join('')}
                     </div>
                 </div>
+            ` : '';
 
-                <!-- Детайли и покупка -->
-                <div class="space-y-4 flex flex-col justify-between">
-                    <div>
-                        <span class="text-xs bg-blue-100 text-emagBlue px-2.5 py-1 rounded-full font-bold">${product.category}</span>
-                        <h2 class="text-2xl font-black text-gray-900 mt-2">${product.title}</h2>
-                        <div class="text-sm text-gray-600 mt-1">Размер: <span class="font-bold">${product.size || 'N/A'}</span></div>
-                        <div class="text-sm mt-2 text-gray-500">${product.description || product.details || 'Няма описание.'}</div>
-                    </div>
-
-                    <div class="bg-gray-50 p-4 rounded-lg border">
-                        <div class="text-sm text-gray-500">Статус: <span class="font-bold ${isSold ? 'text-red-500' : 'text-green-600'}">${status.toUpperCase()}</span></div>
-                        <div class="mt-2">
-                            <span class="text-sm text-gray-400 line-through">${hasDiscount ? Number(product.regularPrice).toFixed(2) + ' лв.' : ''}</span>
-                            <div class="text-3xl font-black text-gray-900">${activePrice.toFixed(2)} лв.</div>
+            modalContent.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Галерия -->
+                    <div class="space-y-4">
+                        <div class="h-80 bg-gray-50 rounded-lg overflow-hidden flex items-center justify-center border cursor-pointer" onclick="openLightbox(document.getElementById('mainModalImg').src)">
+                            <img id="mainModalImg" src="${images[0]}" class="object-cover h-full w-full">
+                        </div>
+                        <div class="flex gap-2 overflow-x-auto pb-2">
+                            ${thumbnailsHTML}
                         </div>
                     </div>
 
-                    <!-- Сходни артикули -->
-                    <div>
-                        <h4 class="text-sm font-bold text-gray-700 mb-2">Сходни артикули:</h4>
-                        <div class="grid grid-cols-3 gap-2">
-                            ${similarProducts.length > 0 ? similarProducts.map(sim => {
-                                const simPrice = getActivePrice(sim);
-                                const simImg = (sim.images && sim.images[0]) ? sim.images[0] : 'https://via.placeholder.com/300';
-                                return `
-                                    <div onclick="openProductModal(${sim.id})" class="border rounded p-2 text-center cursor-pointer hover:border-emagBlue transition">
-                                        <img src="${simImg}" class="h-16 w-full object-cover rounded mb-1">
-                                        <div class="text-xs truncate font-medium">${sim.title}</div>
-                                        <div class="text-xs font-bold text-emagOrange">${simPrice.toFixed(2)} лв.</div>
-                                    </div>
-                                `;
-                            }).join('') : '<p class="text-xs text-gray-400 col-span-3">Няма сходни артикули.</p>'}
+                    <!-- Детайли и покупка -->
+                    <div class="space-y-4 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs bg-blue-100 text-emagBlue px-2.5 py-1 rounded-full font-bold">${product.category}</span>
+                            <h2 class="text-2xl font-black text-gray-900 mt-2">${product.title}</h2>
+                            <div class="text-sm text-gray-600 mt-1">Размер: <span class="font-bold">${product.size || 'N/A'}</span></div>
+                            <div class="text-sm mt-2 text-gray-500">${product.description || product.details || 'Няма описание.'}</div>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg border">
+                            <div class="text-sm text-gray-500">Статус: <span class="font-bold ${isSold ? 'text-red-500' : 'text-green-600'}">${status.toUpperCase()}</span></div>
+                            <div class="mt-2">
+                                <span class="text-sm text-gray-400 line-through">${hasDiscount ? Number(product.regularPrice).toFixed(2) + ' лв.' : ''}</span>
+                                <div class="text-3xl font-black text-gray-900">${activePrice.toFixed(2)} лв.</div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Сходни артикули най-долу в модалния прозорец -->
+                ${similarHTML}
             `;
 
             document.getElementById('productModal').classList.remove('hidden');
@@ -662,10 +670,6 @@
 
         function closeProductModal() {
             document.getElementById('productModal').classList.add('hidden');
-        }
-
-        function changeMainImage(src) {
-            document.getElementById('mainModalImg').src = src;
         }
 
         // Lightbox функции
@@ -786,6 +790,7 @@
             document.getElementById('productFormContainer').classList.add('hidden');
         }
 
+        // При добавяне, редакция, изтриване или смяна на статус, кодът автоматично задейства syncWithGitHub()
         async function handleProductFormSubmit(e) {
             e.preventDefault();
             const editId = document.getElementById('editProductId').value;
@@ -870,6 +875,7 @@
             downloadAnchor.remove();
         }
 
+        // Автоматична синхронизация с GitHub API
         async function syncWithGitHub() {
             const { owner, repo, path, token } = GITHUB_CONFIG;
             const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
