@@ -175,6 +175,13 @@
                 <div class="flex flex-col sm:flex-row justify-between items-center border-b pb-4 gap-4">
                     <h3 class="text-2xl font-bold">Администраторски панел</h3>
                     <div class="flex flex-wrap gap-2">
+                        <button id="syncGithubBtn" onclick="manualSyncGitHub()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded text-sm font-medium transition relative">
+                            <i class="fa-solid fa-cloud-arrow-up mr-1"></i> Запази в GitHub
+                            <span id="unsavedBadge" class="hidden absolute -top-1 -right-1 flex h-3 w-3">
+                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                              <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                            </span>
+                        </button>
                         <button onclick="openProductForm()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm font-medium transition">
                             <i class="fa-solid fa-plus mr-1"></i> Нов продукт
                         </button>
@@ -271,8 +278,14 @@
         <div class="flex items-center gap-2 text-sm font-medium">
             <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
             <span>Админ сесията е активна</span>
+            <span id="bottomUnsavedWarning" class="hidden text-amber-400 font-bold ml-2 text-xs bg-amber-950 px-2 py-0.5 rounded border border-amber-700">
+                <i class="fa-solid fa-triangle-exclamation mr-1"></i> Незапазени промени
+            </span>
         </div>
         <div class="flex items-center gap-3">
+            <button onclick="manualSyncGitHub()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded text-sm font-bold transition flex items-center gap-1">
+                <i class="fa-solid fa-cloud-arrow-up text-xs"></i> Запази в GitHub
+            </button>
             <button onclick="openAdminDashboardModal()" class="bg-emagBlue hover:bg-blue-600 text-white px-4 py-1.5 rounded text-sm font-bold transition flex items-center gap-1">
                 <i class="fa-solid fa-gauge text-xs"></i> Админ панел
             </button>
@@ -313,13 +326,33 @@
         let currentSearchQuery = '';
         let currentSort = 'default';
         let isAdminLoggedIn = false;
+        let hasUnsavedChanges = false;
+
+        // Защита при затваряне/презареждане на страницата
+        window.addEventListener('beforeunload', (e) => {
+            if (hasUnsavedChanges) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+
+        function updateUnsavedStatus() {
+            const badge = document.getElementById('unsavedBadge');
+            const bottomWarning = document.getElementById('bottomUnsavedWarning');
+            if (hasUnsavedChanges) {
+                if (badge) badge.classList.remove('hidden');
+                if (bottomWarning) bottomWarning.classList.remove('hidden');
+            } else {
+                if (badge) badge.classList.add('hidden');
+                if (bottomWarning) bottomWarning.classList.add('hidden');
+            }
+        }
 
         // Помощна функция за скриване/маскиране на оригиналния домейн (jobalots)
         function getImageUrl(url) {
             if (!url || typeof url !== 'string' || url.trim() === '') {
                 return 'https://via.placeholder.com/300';
             }
-            // Рутираме линка през Image CDN Proxy (wsrv.nl), така че в сайта/инспектора да се вижда wsrv.nl
             return `https://wsrv.nl/?url=${encodeURIComponent(url.trim())}`;
         }
 
@@ -829,6 +862,9 @@
         }
 
         function adminLogout() {
+            if (hasUnsavedChanges && !confirm('Имате незапазени промени! Сигурни ли сте, че искате да излезете без да запазите в GitHub?')) {
+                return;
+            }
             isAdminLoggedIn = false;
             document.getElementById('adminBottomBar').classList.add('hidden');
             renderCatalog();
@@ -939,7 +975,8 @@
             renderHomeCategories();
             filterByCategory(currentCategoryFilter);
 
-            await syncWithGitHub();
+            hasUnsavedChanges = true;
+            updateUnsavedStatus();
         }
 
         async function deleteProduct(id) {
@@ -948,7 +985,9 @@
             renderAdminProductsList();
             renderHomeCategories();
             filterByCategory(currentCategoryFilter);
-            await syncWithGitHub();
+
+            hasUnsavedChanges = true;
+            updateUnsavedStatus();
         }
 
         async function toggleProductStock(id) {
@@ -960,7 +999,9 @@
                 renderAdminProductsList();
                 renderHomeCategories();
                 filterByCategory(currentCategoryFilter);
-                await syncWithGitHub();
+
+                hasUnsavedChanges = true;
+                updateUnsavedStatus();
             }
         }
 
@@ -984,6 +1025,30 @@
             document.body.appendChild(downloadAnchor);
             downloadAnchor.click();
             downloadAnchor.remove();
+        }
+
+        async function manualSyncGitHub() {
+            const btn = document.getElementById('syncGithubBtn');
+            const originalText = btn ? btn.innerHTML : '';
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Запазване...';
+            }
+
+            const success = await syncWithGitHub();
+            
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+
+            if (success) {
+                hasUnsavedChanges = false;
+                updateUnsavedStatus();
+                alert('Промените са качени успешно в GitHub!');
+            } else {
+                alert('Възникна грешка при качването в GitHub. Моля, опитайте отново.');
+            }
         }
 
         async function syncWithGitHub() {
@@ -1015,7 +1080,7 @@
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        message: "Auto-update products.json from eShop admin panel",
+                        message: "Manual update products.json from eShop admin panel",
                         content: contentEncoded,
                         sha: sha ? sha : undefined
                     })
@@ -1023,12 +1088,15 @@
 
                 if (putResponse.ok) {
                     console.log("Успешна синхронизация с GitHub репозиторито!");
+                    return true;
                 } else {
                     const err = await putResponse.json();
                     console.error("Грешка при GitHub синхронизация:", err.message);
+                    return false;
                 }
             } catch (error) {
                 console.error("Мрежова грешка при връзка с GitHub API:", error);
+                return false;
             }
         }
     </script>
