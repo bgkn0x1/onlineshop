@@ -2,19 +2,18 @@
   {
     "id": 1785423034116,
     "title": "Уред за приготвяне на сухо мляко",
+    "category": "Инструменти",
     "regularPrice": 64.99,
     "salePrice": 30,
-    "quantity": 1,
-    "category": "Инструменти",
     "size": "",
+    "stockStatus": "наличен",
+    "sold": false,
     "images": [
       "https://assets.jobalots.com/product_image/YE96dlDWNFobPR1ourwDYJok969Gt7bRb8bVjDbA.png?format=auto&width=640&quality=100",
       "https://assets.jobalots.com/product_image/Bhmoy3o9FdPf16hZv2kZIIOByUjKYIStmWoCJxVF.png?format=auto&width=640&quality=100",
       "https://assets.jobalots.com/product_image/kx2Dz8rEoALWrlIq5JXIQ7ifYbCXAvfPER1gdgsP.png?format=auto&width=640&quality=100"
     ],
-    "description": "Устройство за приготвяне на бебешки шишета и незабавно разпределяне на вода за адаптирано мляко с 4 температури, 72ч интелигентен термостат",
-    "details": "",
-    "sold": false
+    "description": "Устройство за приготвяне на бебешки шишета и незабавно разпределяне на вода за адаптирано мляко с 4 температури, 72ч интелигентен термостат"
   },
   {
     "id": 1785422829725,
