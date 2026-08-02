@@ -154,18 +154,18 @@
   {
     "id": 1785422424735,
     "title": "Самобръсначка Wahl Mobile Shaver",
+    "category": "Здраве и красота",
     "regularPrice": 37,
     "salePrice": 12,
-    "quantity": 1,
-    "category": "Здраве и красота",
     "size": "",
+    "stockStatus": "продаден",
+    "sold": true,
     "images": [
       "https://assets.jobalots.com/product_image/aZRZ3QPuA1DnhglZm77XrWjbkwDZ54vHi44fhBE5.png?format=auto&width=640&quality=100",
       "https://assets.jobalots.com/product_image/nbfucyar5KtPLOvme7bWa5eKPsPWCFdmYMxrFf0y.png?format=auto&width=640&quality=100"
     ],
     "description": "Wahl Mobile Shaver - Безжична електрическа самобръсначка с калъф за пътуване - За глава и брада",
-    "details": "",
-    "sold": false
+    "details": ""
   },
   {
     "id": 1785422291735,
