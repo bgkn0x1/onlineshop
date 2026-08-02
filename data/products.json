@@ -1045,19 +1045,19 @@
   {
     "id": 1785340621147,
     "title": "Електрическа шейкър",
+    "category": "Спорт и на открито",
     "regularPrice": 40,
     "salePrice": 20,
-    "quantity": 2,
-    "category": "Спорт и на открито",
     "size": "",
+    "stockStatus": "наличен",
+    "sold": false,
     "images": [
       "https://m.media-amazon.com/images/I/61olQ9wZnbL._AC_SL1500_.jpg",
       "https://m.media-amazon.com/images/I/71UACHnQWHL._AC_SL1500_.jpg",
       "https://m.media-amazon.com/images/I/61PMfWDdNZL._AC_SL1500_.jpg"
     ],
-    "description": "Електрическа шейкър бутилка USB-C презареждаема изолирана неръждаема стомана ",
-    "details": "VOLTRX ChillMix Shaker Bottle Insulated Stainless Steel – Електрически шейкър за протеин от неръждаема стомана с термоизолация, презареждащ се през USB-C, чаша-шейкър за протеинови шейкове и заместители на хранене, Sunset Rose, 16 oz (470 ml)",
-    "sold": false
+    "description": "Електрическа акумулаторна шейкър бутилка VOLTRX ChillMix с термоизолация от неръждаема стомана.",
+    "details": "VOLTRX ChillMix Shaker Bottle Insulated Stainless Steel – Електрически шейкър за протеин от неръждаема стомана с термоизолация, презареждащ се през USB-C, чаша-шейкър за протеинови шейкове и заместители на хранене, Sunset Rose, 16 oz (470 ml)"
   },
   {
     "id": 1785336926429,
