@@ -845,18 +845,17 @@
   {
     "id": 1785417853028,
     "title": "Загряващи ръкавици 7.4V ",
+    "category": "Дрехи",
     "regularPrice": 95.99,
     "salePrice": 40,
-    "quantity": 1,
-    "category": "Облекло",
     "size": "",
+    "stockStatus": "наличен",
+    "sold": false,
     "images": [
       "https://assets.jobalots.com/product_image/6fuQLc0AInhEjNdonC6lLU3xkBQxVD6P88nHx8NM.png?format=auto&width=640&quality=100",
       "https://assets.jobalots.com/product_image/x01cQpzPKqPna1TxcuCmI2SXrfXg5yWFoppXncKq.png?format=auto&width=640&quality=100"
     ],
-    "description": "day wolf Загряващи ръкавици 7.4V Презареждаща се батерия 3 нива на топлина ",
-    "details": "",
-    "sold": false
+    "description": "day wolf Загряващи ръкавици 7.4V Презареждаща се батерия 3 нива на топлина "
   },
   {
     "id": 1785341641755,
