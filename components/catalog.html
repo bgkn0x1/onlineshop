@@ -1,0 +1,17 @@
+<section id="catalogView" class="hidden space-y-6">
+    <div class="flex flex-col sm:flex-row justify-between items-center bg-white p-4 rounded-lg shadow-sm gap-4">
+        <div>
+            <h2 id="catalogTitle" class="text-xl font-bold">Всички продукти</h2>
+            <p id="catalogCount" class="text-sm text-gray-500">Показани артикули</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <label class="text-sm font-medium">Сортиране:</label>
+            <select id="sortSelect" onchange="sortProducts(this.value)" class="border rounded px-3 py-1.5 text-sm bg-white focus:outline-none">
+                <option value="default">По подразбиране</option>
+                <option value="price-asc">Цена: Ниска към Висока</option>
+                <option value="price-desc">Цена: Висока към Ниска</option>
+            </select>
+        </div>
+    </div>
+    <div id="productsGrid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6"></div>
+</section>
