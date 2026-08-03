@@ -878,23 +878,6 @@
     "sold": false
   },
   {
-    "id": 1785418560228,
-    "title": "LED лента с дистанционно управление",
-    "regularPrice": 29.99,
-    "salePrice": 12,
-    "quantity": 1,
-    "category": "Електроника",
-    "size": "",
-    "images": [
-      "https://assets.jobalots.com/product_image/VSV7IrQhCFoQN5nmMdG8vD9qGzUzPt66Yu2OaTfY.png?format=auto&width=640&quality=100",
-      "https://assets.jobalots.com/product_image/7hX0skoT8Hfybp86j6Tne4uLtKEe5gn5ZfevjDcS.png?format=auto&width=640&quality=100",
-      "https://assets.jobalots.com/product_image/JaLuOARa8miNdhbjGolUid2ZgezmFptInKPat1b0.png?format=auto&width=640&quality=100"
-    ],
-    "description": "COB LED лента с дистанционно управление – 5M, 2700K",
-    "details": "Luktix COB LED лента 5M, 2700K топло бяла LED лента, 24V димируема светлинна лента, CRI92, ширина 8mm, с дистанционно управление и захранване, за дома, кухнята, декорация на огледала (2700k, 5m)",
-    "sold": false
-  },
-  {
     "id": 1785418480053,
     "title": "LED лампи 24м ",
     "regularPrice": 46.81,
@@ -1029,18 +1012,18 @@
   },
   {
     "id": 1785341641755,
-    "title": "Електрическа машина за нокти",
+    "title": "Електрическа пила за нокти",
+    "category": "Инструменти",
     "regularPrice": 172.99,
     "salePrice": 45,
-    "quantity": 1,
-    "category": "Инструменти",
     "size": "",
+    "stockStatus": "наличен",
+    "sold": false,
     "images": [
       "https://s13emagst.akamaized.net/products/94560/94559275/images/res_70b8757cafb223f29ed925f989374271.jpg"
     ],
     "description": "Електрическа машина за нокти, JCMASTER, Touchpro+, 35000 об/мин, професионален комплект за гел и акрилни нокти, устройство за грижа за краката",
-    "details": "Jcmaster Touchpro+ Машинка за нокти 35000 оборота в минута - Немска марка - Професионален комплект за гел и акрилни нокти, основен електрически пакет, вкл. 4 бита, устройство за грижа за краката, изкуствени нокти, непрекъснато регулиране, работа с докосване",
-    "sold": false
+    "details": "Jcmaster Touchpro+ Машинка за нокти 35000 оборота в минута - Немска марка - Професионален комплект за гел и акрилни нокти, основен електрически пакет, вкл. 4 бита, устройство за грижа за краката, изкуствени нокти, непрекъснато регулиране, работа с докосване"
   },
   {
     "id": 1785341490663,
