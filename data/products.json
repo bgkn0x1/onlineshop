@@ -120,10 +120,10 @@
   },
   {
     "id": 1785423034129,
-    "title": "Електрическа Четка за скара",
+    "title": "Електрическа Четка за скара 2 ръка",
     "category": "Градина",
     "regularPrice": 57.97,
-    "salePrice": 30,
+    "salePrice": 10,
     "size": "",
     "stockStatus": "наличен",
     "sold": false,
@@ -173,8 +173,8 @@
     "id": 1785423034126,
     "title": "Детски Нощен Проектор Звездно Небе URAQT (360° Въртене)",
     "category": "Играчки и занятия",
-    "regularPrice": 19.86,
-    "salePrice": 9.99,
+    "regularPrice": 23.49,
+    "salePrice": 15,
     "size": "",
     "stockStatus": "наличен",
     "sold": false,
@@ -241,8 +241,8 @@
     "id": 1785423034122,
     "title": "Акумулаторна Полираща Машина ETOOLAB за Автомобили (С Батерии и Приставки)",
     "category": "Инструменти",
-    "regularPrice": 60.49,
-    "salePrice": 35,
+    "regularPrice": 80.49,
+    "salePrice": 45,
     "size": "",
     "stockStatus": "наличен",
     "sold": false,
@@ -340,10 +340,10 @@
   },
   {
     "id": 1785423034116,
-    "title": "Уред за приготвяне на сухо мляко",
+    "title": "Уред за затопляне на вода на сухо мляко",
     "category": "Инструменти",
     "regularPrice": 64.99,
-    "salePrice": 30,
+    "salePrice": 25,
     "size": "",
     "stockStatus": "наличен",
     "sold": false,
@@ -352,7 +352,8 @@
       "https://assets.jobalots.com/product_image/Bhmoy3o9FdPf16hZv2kZIIOByUjKYIStmWoCJxVF.png?format=auto&width=640&quality=100",
       "https://assets.jobalots.com/product_image/kx2Dz8rEoALWrlIq5JXIQ7ifYbCXAvfPER1gdgsP.png?format=auto&width=640&quality=100"
     ],
-    "description": "Устройство за приготвяне на бебешки шишета и незабавно разпределяне на вода за адаптирано мляко с 4 температури, 72ч интелигентен термостат"
+    "description": "Устройство за приготвяне на бебешки шишета и незабавно разпределяне на вода за адаптирано мляко с 4 температури, 72ч интелигентен термостат",
+    "details": ""
   },
   {
     "id": 1785422829725,
