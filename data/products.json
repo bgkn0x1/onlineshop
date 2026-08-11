@@ -91,8 +91,8 @@
     "regularPrice": 33.26,
     "salePrice": 15,
     "size": "",
-    "stockStatus": "наличен",
-    "sold": false,
+    "stockStatus": "продаден",
+    "sold": true,
     "images": [
       "https://assets.jobalots.com/product_image/veQCpOvqu3OWUjojChg6oXBfgwD6y7uaJW3ZLvtW.png?format=auto&width=640&quality=100",
       "https://m.media-amazon.com/images/I/81rmdzMsXxL._AC_SL1500_.jpg",
@@ -210,8 +210,8 @@
     "regularPrice": 35.99,
     "salePrice": 20,
     "size": "",
-    "stockStatus": "наличен",
-    "sold": false,
+    "stockStatus": "продаден",
+    "sold": true,
     "images": [
       "https://m.media-amazon.com/images/I/71Kgi0ArfhL._AC_SL1500_.jpg",
       "https://m.media-amazon.com/images/I/71m45oRxtCL._AC_SL1500_.jpg",
@@ -328,8 +328,8 @@
     "regularPrice": 64.99,
     "salePrice": 25,
     "size": "",
-    "stockStatus": "наличен",
-    "sold": false,
+    "stockStatus": "продаден",
+    "sold": true,
     "images": [
       "https://assets.jobalots.com/product_image/YE96dlDWNFobPR1ourwDYJok969Gt7bRb8bVjDbA.png?format=auto&width=640&quality=100",
       "https://assets.jobalots.com/product_image/Bhmoy3o9FdPf16hZv2kZIIOByUjKYIStmWoCJxVF.png?format=auto&width=640&quality=100",
@@ -763,18 +763,18 @@
   {
     "id": 1785420587546,
     "title": "Сушилня и озонова дезинфектация на обувки",
-    "regularPrice": 79.67,
-    "salePrice": 40,
-    "quantity": 1,
     "category": "Инструменти",
+    "regularPrice": 79.67,
+    "salePrice": 25,
     "size": "",
+    "stockStatus": "наличен",
+    "sold": false,
     "images": [
       "https://assets.jobalots.com/product_image/wc7mARTM94LjpUY2OLXAEq5l733GglQTKuOlxb6v.png?format=auto&width=640&quality=100",
       "https://assets.jobalots.com/product_image/gAxM9r4ybEsXdy3xf8UARiuvaEHOnoWnZCmeUaYC.png?format=auto&width=640&quality=100"
     ],
     "description": "Преносима сушилня за обувки Shoefresh Opod Mini, озонова дезинфекция с активен кислород, сушене с топъл въздух 40°C, USB-C зареждане, таймер (4/8ч), за маратонки, ботуши, каски и ръкавици.",
-    "details": "",
-    "sold": false
+    "details": ""
   },
   {
     "id": 1785420405928,
@@ -791,7 +791,8 @@
     ],
     "description": "Спортен комплект Navneet Дамски комплект за фитнес тренировка Дълъг спортен комплект Екипиране Фитнес комплект с дълъг ръкав Горнище без гръб Скрънч клинове V талия Клин от две части Черен S",
     "details": "",
-    "sold": false
+    "sold": true,
+    "stockStatus": "продаден"
   },
   {
     "id": 1785420336861,
