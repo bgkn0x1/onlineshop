@@ -480,6 +480,10 @@
         let currentFilteredProducts = [];
         let currentPage = 1;
         const itemsPerPage = 16;
+        let totalPages = 1;
+        let currentSortOption = 'default';
+        let activeCategory = 'all';
+        let searchQuery = '';
         let currentCategoryFilter = 'Всички';
         let currentSearchQuery = '';
         let currentSort = 'default';
@@ -810,9 +814,125 @@ function showCatalogView() {
         }
 
         function applySortingAndPagination() {
-            sortProducts(currentSort);
-        }
+    let sorted = [...currentFilteredProducts];
 
+    // Помощна проверка дали продуктът е изчерпан/продаден
+    const isSoldOut = p => p.sold === true || p.stockStatus === 'изчерпан' || Number(p.quantity) === 0;
+
+    // Сортиране по цена / заглавие
+    if (currentSortOption === 'price-asc') {
+        sorted.sort((a, b) => getActivePrice(a) - getActivePrice(b));
+    } else if (currentSortOption === 'price-desc') {
+        sorted.sort((a, b) => getActivePrice(b) - getActivePrice(a));
+    } else if (currentSortOption === 'title-asc') {
+        sorted.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+    }
+
+    // Разделяне: Налични отпред, Изчерпани НАЙ-ОТЗАД
+    const available = sorted.filter(p => !isSoldOut(p));
+    const soldOut = sorted.filter(p => isSoldOut(p));
+
+    currentFilteredProducts = [...available, ...soldOut];
+
+    // Странициране
+    totalPages = Math.ceil(currentFilteredProducts.length / itemsPerPage) || 1;
+    if (currentPage > totalPages) currentPage = totalPages;
+
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedProducts = currentFilteredProducts.slice(startIndex, endIndex);
+
+    // Извикване на реалната функция от index.html за показване на мрежата
+    renderProductsGrid(paginatedProducts);
+    renderPaginationControls();
+
+    // Обновяване на брояча
+    const countElem = document.getElementById('productsCount');
+    if (countElem) {
+        countElem.innerText = `Намерени: ${currentFilteredProducts.length} артикула`;
+    }
+}
+        function renderProductsGrid(productsToRender) {
+    const grid = document.getElementById('productGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    if (!productsToRender || productsToRender.length === 0) {
+        grid.innerHTML = `
+            <div class="col-span-full text-center py-12 text-gray-500">
+                <i class="fa-solid fa-box-open text-5xl mb-3 text-gray-300"></i>
+                <p class="text-lg font-semibold">Няма намерени продукти</p>
+                <p class="text-sm">Опитайте с друг критерий за търсене или филтър.</p>
+            </div>
+        `;
+        return;
+    }
+
+    productsToRender.forEach(product => {
+        const isSoldOut = product.sold === true || product.stockStatus === 'изчерпан' || Number(product.quantity) === 0;
+
+        const mainImage = (product.images && product.images.length > 0) ? product.images[0] : '';
+        const displayPrice = getActivePrice(product);
+        const hasDiscount = product.salePrice && Number(product.salePrice) < Number(product.regularPrice);
+
+        const card = document.createElement('div');
+        card.className = `bg-white rounded-xl shadow-sm hover:shadow-md transition duration-200 overflow-hidden flex flex-col justify-between border border-gray-100 group relative ${isSoldOut ? 'bg-gray-50' : ''}`;
+
+        card.innerHTML = `
+            <div class="relative overflow-hidden aspect-square bg-gray-100 cursor-pointer" onclick="openProductModal(${product.id})">
+                <img src="${getImageUrl(mainImage)}" alt="${product.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 ${isSoldOut ? 'grayscale opacity-60' : ''}">
+                
+                ${hasDiscount && !isSoldOut ? `
+                    <span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow">
+                        ПРОМО
+                    </span>
+                ` : ''}
+
+                ${isSoldOut ? `
+                    <span class="absolute top-2 right-2 bg-gray-800 text-white text-[10px] font-bold px-2 py-1 rounded shadow z-10">
+                        ИЗЧЕРПАН
+                    </span>
+                ` : ''}
+            </div>
+
+            <div class="p-4 flex flex-col flex-grow justify-between">
+                <div>
+                    <span class="text-[11px] text-gray-400 font-semibold uppercase tracking-wider block mb-1">
+                        ${product.category || 'Общи'}
+                    </span>
+                    <h3 class="font-bold ${isSoldOut ? 'text-gray-400 line-through' : 'text-gray-800'} text-sm line-clamp-2 hover:text-emagBlue transition cursor-pointer mb-2" onclick="openProductModal(${product.id})">
+                        ${product.title}
+                    </h3>
+                </div>
+
+                <div class="pt-3 border-t border-gray-50 flex items-center justify-between mt-auto">
+                    <div>
+                        <div class="text-base font-black ${isSoldOut ? 'text-gray-400' : 'text-emagBlue'}">
+                            ${Number(displayPrice).toFixed(2)} <span class="text-xs font-normal">лв.</span>
+                        </div>
+                        ${hasDiscount && !isSoldOut ? `
+                            <div class="text-xs text-gray-400 line-through">
+                                ${Number(product.regularPrice).toFixed(2)} лв.
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    ${isSoldOut ? `
+                        <button disabled class="bg-gray-200 text-gray-400 text-xs px-3 py-2 rounded-lg font-bold cursor-not-allowed">
+                            Изчерпан
+                        </button>
+                    ` : `
+                        <button onclick="openProductModal(${product.id})" class="bg-emagOrange hover:bg-orange-600 text-white text-xs px-3 py-2 rounded-lg font-bold transition shadow-sm hover:shadow">
+                            Преглед
+                        </button>
+                    `}
+                </div>
+            </div>
+        `;
+
+        grid.appendChild(card);
+    });
+}
         function renderCatalog() {
             const grid = document.getElementById('productsGrid');
             const countElem = document.getElementById('catalogCount');
