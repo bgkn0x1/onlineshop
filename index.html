@@ -877,7 +877,7 @@ function showCatalogView() {
                 return `
                     <div onclick="openProductModal(${p.id})" class="bg-white rounded-lg shadow-sm hover:shadow-lg transition p-3 sm:p-4 flex flex-col justify-between relative border border-gray-100 group cursor-pointer">
                         <div class="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 flex flex-col gap-1 pointer-events-none">
-                            ${p.priority ? `<span class="bg-amber-400 text-white text-[10px] sm:text-xs font-black px-1.5 sm:px-2 py-0.5 sm:py-1 rounded flex items-center gap-1"><i class="fa-solid fa-star"></i> Приоритетен</span>` : ''}
+                            ${p.priority && typeof isAdminLoggedIn !== 'undefined' && isAdminLoggedIn ? `<span class="bg-amber-400 text-white text-[10px] sm:text-xs font-black px-1.5 sm:px-2 py-0.5 sm:py-1 rounded flex items-center gap-1"><i class="fa-solid fa-star"></i> Приоритетен</span>` : ''}
                             ${hasDiscount ? `<span class="bg-orange-500 text-white text-[10px] sm:text-xs font-black px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">-${discountPercent}%</span>` : ''}
                             ${isSoldOut ? `<span class="bg-gray-800 text-white text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">Изчерпан</span>` : `<span class="bg-green-600 text-white text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">Наличен</span>`}
                         </div>
