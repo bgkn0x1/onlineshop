@@ -103,74 +103,163 @@
                         🔥 Пълен Каталог
                     </span>
                     <h2 class="text-3xl sm:text-5xl font-black leading-tight">
-                        Всички Артикули
+                        Всички продукти
                     </h2>
                     <p class="text-blue-100 text-sm sm:text-base">
-                        Вижте пълната колекция от всички налични продукти на едно място.
+                        Вижте пълната колекция от всички налични артикули на едно място.
                     </p>
                     <div class="pt-2">
                         <span class="inline-flex items-center gap-2 bg-white text-emagBlue font-extrabold px-6 py-3 rounded-xl shadow hover:bg-gray-100 transition">
-                            <span>Към всички артикули</span>
+                            <span>Към всички продукти</span>
                             <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
                         </span>
                     </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
 
                 <div onclick="showCatalogView(); filterByCategory('Облекло');" 
-                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white p-6 h-56 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                    <i class="fa-solid fa-shirt text-6xl opacity-25 absolute right-4 bottom-4 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
-                    <span class="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold w-fit border border-white/20">
-                        Хит Мода
+                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-800 text-white p-5 h-52 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300 col-span-2 sm:col-span-1 lg:col-span-1">
+                    <i class="fa-solid fa-shirt text-6xl opacity-15 absolute right-2 bottom-2 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
+                    
+                    <span class="bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold w-fit border border-white/20">
+                        Мода & Стил
                     </span>
-                    <div class="relative z-10">
-                        <h3 class="text-2xl font-extrabold">Дрехи & Обувки</h3>
-                        <p class="text-xs text-blue-100 mt-1 flex items-center gap-1 group-hover:underline">
-                            Разгледай <i class="fa-solid fa-chevron-right text-[10px]"></i>
-                        </p>
+
+                    <div class="relative z-10 space-y-1">
+                        <h3 class="text-2xl font-black leading-tight">Облекло</h3>
+                        <div class="flex flex-wrap gap-1 pt-1">
+                            <span onclick="event.stopPropagation(); showCatalogView(); filterByCategory('Дрехи');" class="bg-black/20 hover:bg-white hover:text-blue-900 transition px-2 py-0.5 rounded text-[10px] font-semibold">Дрехи</span>
+                            <span onclick="event.stopPropagation(); showCatalogView(); filterByCategory('Обувки');" class="bg-black/20 hover:bg-white hover:text-blue-900 transition px-2 py-0.5 rounded text-[10px] font-semibold">Обувки</span>
+                            <span onclick="event.stopPropagation(); showCatalogView(); filterByCategory('За деца');" class="bg-black/20 hover:bg-white hover:text-blue-900 transition px-2 py-0.5 rounded text-[10px] font-semibold">За деца</span>
+                            <span onclick="event.stopPropagation(); showCatalogView(); filterByCategory('Очила');" class="bg-black/20 hover:bg-white hover:text-blue-900 transition px-2 py-0.5 rounded text-[10px] font-semibold">Очила</span>
+                        </div>
                     </div>
                 </div>
 
                 <div onclick="showCatalogView(); filterByCategory('Електроника');" 
-                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 text-white p-6 h-56 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                    <i class="fa-solid fa-laptop text-6xl opacity-25 absolute right-4 bottom-4 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
-                    <span class="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold w-fit border border-white/20">
+                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 text-white p-5 h-52 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                    <i class="fa-solid fa-laptop text-5xl opacity-20 absolute right-3 bottom-3 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
+                    <span class="bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold w-fit border border-white/20">
                         Техника
                     </span>
                     <div class="relative z-10">
-                        <h3 class="text-2xl font-extrabold">Електроника</h3>
-                        <p class="text-xs text-amber-100 mt-1 flex items-center gap-1 group-hover:underline">
-                            Разгледай <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        <h3 class="text-xl font-extrabold leading-tight">Електроника</h3>
+                        <p class="text-[11px] text-cyan-100 mt-2 flex items-center gap-1 group-hover:underline">
+                            Разгледай <i class="fa-solid fa-chevron-right text-[9px]"></i>
                         </p>
                     </div>
                 </div>
 
-                <div onclick="showCatalogView(); filterByCategory('Дом и градина');" 
-                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-700 text-white p-6 h-56 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                    <i class="fa-solid fa-house-chimney text-6xl opacity-25 absolute right-4 bottom-4 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
-                    <span class="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold w-fit border border-white/20">
-                        За дома
+                <div onclick="showCatalogView(); filterByCategory('Дом и кухня');" 
+                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-700 text-white p-5 h-52 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                    <i class="fa-solid fa-house-user text-5xl opacity-20 absolute right-3 bottom-3 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
+                    <span class="bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold w-fit border border-white/20">
+                        Уют & Уреди
                     </span>
                     <div class="relative z-10">
-                        <h3 class="text-2xl font-extrabold">Дом & Кухня</h3>
-                        <p class="text-xs text-emerald-100 mt-1 flex items-center gap-1 group-hover:underline">
-                            Разгледай <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        <h3 class="text-xl font-extrabold leading-tight">Дом и кухня</h3>
+                        <p class="text-[11px] text-emerald-100 mt-2 flex items-center gap-1 group-hover:underline">
+                            Разгледай <i class="fa-solid fa-chevron-right text-[9px]"></i>
                         </p>
                     </div>
                 </div>
 
-                <div onclick="showCatalogView(); filterByCategory('Авто');" 
-                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600 to-pink-600 text-white p-6 h-56 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                    <i class="fa-solid fa-screwdriver-wrench text-6xl opacity-25 absolute right-4 bottom-4 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
-                    <span class="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold w-fit border border-white/20">
+                <div onclick="showCatalogView(); filterByCategory('Здраве и красота');" 
+                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-pink-500 to-rose-600 text-white p-5 h-52 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                    <i class="fa-solid fa-heart-pulse text-5xl opacity-20 absolute right-3 bottom-3 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
+                    <span class="bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold w-fit border border-white/20">
+                        Грижа
+                    </span>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-extrabold leading-tight">Здраве и красота</h3>
+                        <p class="text-[11px] text-pink-100 mt-2 flex items-center gap-1 group-hover:underline">
+                            Разгледай <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                        </p>
+                    </div>
+                </div>
+
+                <div onclick="showCatalogView(); filterByCategory('Играчки и занятия');" 
+                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-white p-5 h-52 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                    <i class="fa-solid fa-gamepad text-5xl opacity-20 absolute right-3 bottom-3 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
+                    <span class="bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold w-fit border border-white/20">
+                        Забава
+                    </span>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-extrabold leading-tight">Играчки и занятия</h3>
+                        <p class="text-[11px] text-amber-100 mt-2 flex items-center gap-1 group-hover:underline">
+                            Разгледай <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                        </p>
+                    </div>
+                </div>
+
+                <div onclick="showCatalogView(); filterByCategory('Спорт и на открито');" 
+                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-700 text-white p-5 h-52 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                    <i class="fa-solid fa-person-biking text-5xl opacity-20 absolute right-3 bottom-3 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
+                    <span class="bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold w-fit border border-white/20">
+                        Активност
+                    </span>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-extrabold leading-tight">Спорт и на открито</h3>
+                        <p class="text-[11px] text-teal-100 mt-2 flex items-center gap-1 group-hover:underline">
+                            Разгледай <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                        </p>
+                    </div>
+                </div>
+
+                <div onclick="showCatalogView(); filterByCategory('Автомобилна');" 
+                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-red-600 to-rose-700 text-white p-5 h-52 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                    <i class="fa-solid fa-car text-5xl opacity-20 absolute right-3 bottom-3 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
+                    <span class="bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold w-fit border border-white/20">
+                        За колата
+                    </span>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-extrabold leading-tight">Автомобилна</h3>
+                        <p class="text-[11px] text-red-100 mt-2 flex items-center gap-1 group-hover:underline">
+                            Разгледай <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                        </p>
+                    </div>
+                </div>
+
+                <div onclick="showCatalogView(); filterByCategory('Домашни любимци');" 
+                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-700 text-white p-5 h-52 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                    <i class="fa-solid fa-paw text-5xl opacity-20 absolute right-3 bottom-3 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
+                    <span class="bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold w-fit border border-white/20">
+                        Любимци
+                    </span>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-extrabold leading-tight">Домашни любимци</h3>
+                        <p class="text-[11px] text-purple-100 mt-2 flex items-center gap-1 group-hover:underline">
+                            Разгледай <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                        </p>
+                    </div>
+                </div>
+
+                <div onclick="showCatalogView(); filterByCategory('Инструменти');" 
+                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-600 to-slate-800 text-white p-5 h-52 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                    <i class="fa-solid fa-screwdriver-wrench text-5xl opacity-20 absolute right-3 bottom-3 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
+                    <span class="bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold w-fit border border-white/20">
                         Майстори
                     </span>
                     <div class="relative z-10">
-                        <h3 class="text-2xl font-extrabold">Инструменти</h3>
-                        <p class="text-xs text-purple-100 mt-1 flex items-center gap-1 group-hover:underline">
-                            Разгледай <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        <h3 class="text-xl font-extrabold leading-tight">Инструменти</h3>
+                        <p class="text-[11px] text-slate-200 mt-2 flex items-center gap-1 group-hover:underline">
+                            Разгледай <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                        </p>
+                    </div>
+                </div>
+
+                <div onclick="showCatalogView(); filterByCategory('Градина');" 
+                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-green-500 to-emerald-700 text-white p-5 h-52 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                    <i class="fa-solid fa-leaf text-5xl opacity-20 absolute right-3 bottom-3 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
+                    <span class="bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold w-fit border border-white/20">
+                        Двор & Градина
+                    </span>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-extrabold leading-tight">Градина</h3>
+                        <p class="text-[11px] text-green-100 mt-2 flex items-center gap-1 group-hover:underline">
+                            Разгледай <i class="fa-solid fa-chevron-right text-[9px]"></i>
                         </p>
                     </div>
                 </div>
