@@ -810,32 +810,8 @@ function showCatalogView() {
         }
 
         function applySortingAndPagination() {
-    // 1. Дефинираме кои продукти се считат за изчерпани
-    const isSoldOut = (p) => p.sold === true || p.stockStatus === 'изчерпан' || p.quantity === 0;
-
-    // 2. Разделяме продуктите на Налични и Изчерпани
-    const availableProducts = currentFilteredProducts.filter(p => !isSoldOut(p));
-    const soldOutProducts = currentFilteredProducts.filter(p => isSoldOut(p));
-
-    // 3. Сортираме наличните според избрания критерий
-    sortProductArray(availableProducts);
-    // По избор сортираме и изчерпаните
-    sortProductArray(soldOutProducts);
-
-    // 4. Обединяваме ги: Наличните са първи, изчерпаните отиват най-отзад
-    currentFilteredProducts = [...availableProducts, ...soldOutProducts];
-
-    // 5. Изчисляване на страниците и показване
-    totalPages = Math.ceil(currentFilteredProducts.length / itemsPerPage) || 1;
-    if (currentPage > totalPages) currentPage = totalPages;
-
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const productsToDisplay = currentFilteredProducts.slice(startIndex, endIndex);
-
-    renderProductGrid(productsToDisplay);
-    renderPaginationControls();
-}
+            sortProducts(currentSort);
+        }
 
         function renderCatalog() {
             const grid = document.getElementById('productsGrid');
