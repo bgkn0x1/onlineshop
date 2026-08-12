@@ -806,6 +806,14 @@ function showCatalogView() {
                     return discB - discA;
                 });
             }
+
+            // Изчерпаните продукти винаги отиват най-отзад, независимо от избраната подредба
+            currentFilteredProducts.sort((a, b) => {
+                const aSold = getStockStatus(a) === 'продаден' ? 1 : 0;
+                const bSold = getStockStatus(b) === 'продаден' ? 1 : 0;
+                return aSold - bSold;
+            });
+
             renderCatalog();
         }
 
@@ -858,16 +866,16 @@ function showCatalogView() {
                         </div>
 
                         <div class="w-full h-36 sm:h-48 mb-3 sm:mb-4 overflow-hidden rounded flex items-center justify-center bg-gray-50">
-                            <img src="${displayImg}" alt="${p.title}" class="object-cover h-full w-full group-hover:scale-105 transition duration-300">
+                            <img src="${displayImg}" alt="${p.title}" class="object-cover h-full w-full group-hover:scale-105 transition duration-300 ${isSoldOut ? 'grayscale opacity-60' : ''}">
                         </div>
 
-                        <div class="space-y-1 mb-3 sm:mb-4 flex-grow">
+                        <div class="space-y-1 mb-3 sm:mb-4 flex-grow ${isSoldOut ? 'opacity-60' : ''}">
                             <div class="text-[10px] sm:text-xs text-gray-500">Размер: <span class="font-semibold text-gray-700">${p.size || 'N/A'}</span></div>
                             <h3 class="font-bold text-gray-800 text-xs sm:text-sm line-clamp-2">${p.title}</h3>
                             <p class="text-[11px] text-gray-500 line-clamp-2">${p.description || ''}</p>
                         </div>
 
-                        <div class="border-t pt-2 sm:pt-3 mt-auto">
+                        <div class="border-t pt-2 sm:pt-3 mt-auto ${isSoldOut ? 'opacity-60' : ''}">
                             <div class="flex items-baseline justify-between">
                                <div>
                                     <div class="text-[10px] sm:text-xs text-gray-400 line-through">${hasDiscount ? Number(p.regularPrice).toFixed(2) + ' €' : ''}</div>
