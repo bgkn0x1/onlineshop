@@ -44,8 +44,8 @@
     "regularPrice": 22.99,
     "salePrice": 10,
     "size": "",
-    "stockStatus": "продаден",
-    "sold": true,
+    "stockStatus": "наличен",
+    "sold": false,
     "shipment": "",
     "itemNumber": "",
     "images": [
