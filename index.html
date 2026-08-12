@@ -810,19 +810,8 @@ function showCatalogView() {
         }
 
         function applySortingAndPagination() {
-    // 1. Първо отделяме наличните и изчерпаните продукти
-    const availableProducts = currentFilteredProducts.filter(p => !p.sold && p.quantity !== 0);
-    const soldOutProducts = currentFilteredProducts.filter(p => p.sold || p.quantity === 0);
-
-    // 2. Сортираме наличните според избрания критерий (напр. цена, най-нови и т.н.)
-    sortProductArray(availableProducts);
-
-    // 3. Обединяваме ги: Наличните са отпред, изчерпаните са най-отзад
-    currentFilteredProducts = [...availableProducts, ...soldOutProducts];
-
-    // След това продължава твоята стандартна пагинация и рендериране
-    renderCurrentPage();
-}
+            sortProducts(currentSort);
+        }
 
         function renderCatalog() {
             const grid = document.getElementById('productsGrid');
@@ -847,18 +836,8 @@ function showCatalogView() {
                 const hasDiscount = p.regularPrice > activePrice;
                 const discountPercent = hasDiscount ? Math.round(((p.regularPrice - activePrice) / p.regularPrice) * 100) : 0;
                 const status = getStockStatus(p);
-                // Проверяваме дали продуктът е изчерпан/продаден
-const isSoldOut = product.sold || product.stockStatus === 'изчерпан' || product.quantity === 0;
+                const isSoldOut = status === 'продаден';
 
-// Класове за снимката: ако е изчерпан -> grayscale (черно-бяла) и малко прозрачна
-const imageClasses = isSoldOut 
-    ? "w-full h-48 object-cover grayscale opacity-60 filter" 
-    : "w-full h-48 object-cover";
-
-// (По желание) Бадж "Изчерпан" върху снимката
-const soldBadge = isSoldOut 
-    ? `<span class="absolute top-2 right-2 bg-gray-800 text-white text-xs font-bold px-2 py-1 rounded shadow">Изчерпан</span>` 
-    : '';
                 const mainImage = p.images && p.images[0] ? p.images[0] : '';
                 const displayImg = getImageUrl(mainImage);
 
