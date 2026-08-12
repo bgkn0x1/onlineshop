@@ -25,8 +25,8 @@
     "regularPrice": 60.49,
     "salePrice": 25,
     "size": "",
-    "stockStatus": "продаден",
-    "sold": true,
+    "stockStatus": "наличен",
+    "sold": false,
     "shipment": "",
     "itemNumber": "",
     "images": [
@@ -44,8 +44,10 @@
     "regularPrice": 22.99,
     "salePrice": 10,
     "size": "",
-    "stockStatus": "наличен",
-    "sold": false,
+    "stockStatus": "продаден",
+    "sold": true,
+    "shipment": "",
+    "itemNumber": "",
     "images": [
       "https://assets.jobalots.com/product_image/PcpEpVRelsZBkYXwIRqVQXE2zPAmnWZ60igfMC80.png?format=auto&width=640&quality=100",
       "https://assets.jobalots.com/product_image/O1eNFO6M9ULnkAht8b9HRCuXvp5z5mdtBYK6SCyJ.png?format=auto&width=640&quality=100",
