@@ -810,45 +810,8 @@ function showCatalogView() {
         }
 
         function applySortingAndPagination() {
-    let sorted = [...currentFilteredProducts];
-
-    // Функция за проверка дали даден продукт е изчерпан/продаден
-    const isSoldOut = p => p.sold === true || p.stockStatus === 'изчерпан' || Number(p.quantity) === 0;
-
-    // Сортиране по цена/име
-    if (currentSortOption === 'price-asc') {
-        sorted.sort((a, b) => (a.salePrice || a.regularPrice) - (b.salePrice || b.regularPrice));
-    } else if (currentSortOption === 'price-desc') {
-        sorted.sort((a, b) => (b.salePrice || b.regularPrice) - (a.salePrice || a.regularPrice));
-    } else if (currentSortOption === 'title-asc') {
-        sorted.sort((a, b) => a.title.localeCompare(b.title));
-    }
-
-    // РАЗДЕЛЯНЕ: Наличните отиват отпред, а изчерпаните БЕЗУСЛОВНО най-отзад
-    const available = sorted.filter(p => !isSoldOut(p));
-    const soldOut = sorted.filter(p => isSoldOut(p));
-    
-    // Обединяваме ги отново
-    currentFilteredProducts = [...available, ...soldOut];
-
-    // Изчисляване на страниците
-    totalPages = Math.ceil(currentFilteredProducts.length / itemsPerPage) || 1;
-    if (currentPage > totalPages) currentPage = totalPages;
-
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const paginatedProducts = currentFilteredProducts.slice(startIndex, endIndex);
-
-    // Извикваме ТВОИТЕ реални функции от index.html
-    renderProducts(paginatedProducts);
-    renderPaginationControls();
-    
-    // Обновяваме брояча
-    const countElem = document.getElementById('productsCount');
-    if (countElem) {
-        countElem.innerText = `Намерени: ${currentFilteredProducts.length} артикула`;
-    }
-}
+            sortProducts(currentSort);
+        }
 
         function renderCatalog() {
             const grid = document.getElementById('productsGrid');
@@ -1099,38 +1062,31 @@ function showCatalogView() {
         }
 
         function renderAdminProductsList() {
-    const list = document.getElementById('adminProductsList');
-    if (!list) return;
-
-    list.innerHTML = products.map(p => {
-        const activePrice = getActivePrice(p);
-        const status = getStockStatus(p);
-        const img = (p.images && p.images[0]) ? p.images[0] : '';
-        const isSold = status === 'продаден' || p.sold === true;
-
-        return `
-            <div class="flex items-center justify-between bg-white p-3 rounded border shadow-sm ${isSold ? 'bg-gray-50 opacity-80' : ''}">
-                <div class="flex items-center gap-3">
-                    <img src="${getImageUrl(img)}" class="w-12 h-12 object-cover rounded ${isSold ? 'grayscale opacity-60' : ''}">
-                    <div>
-                        <div class="font-bold text-sm ${isSold ? 'text-gray-500 line-through' : 'text-gray-800'}">${p.title}</div>
-                        <div class="text-xs text-gray-500">
-                            ${p.category} | ${activePrice.toFixed(2)} лв. | 
-                            <span class="${isSold ? 'text-red-500' : 'text-green-600'} font-semibold">${status}</span>
+            const list = document.getElementById('adminProductsList');
+            list.innerHTML = products.map(p => {
+                const activePrice = getActivePrice(p);
+                const status = getStockStatus(p);
+                const img = (p.images && p.images[0]) ? p.images[0] : '';
+                return `
+                    <div class="flex items-center justify-between bg-white p-3 rounded border shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <img src="${getImageUrl(img)}" class="w-12 h-12 object-cover rounded">
+                            <div>
+                                <div class="font-bold text-sm">${p.title}</div>
+                                <div class="text-xs text-gray-500">${p.category} | ${activePrice.toFixed(2)} € | <span class="${status === 'продаден' ? 'text-red-500' : 'text-green-600'} font-semibold">${status}</span></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="toggleProductStock(${p.id})" class="px-2.5 py-1 text-xs rounded font-medium ${status === 'наличен' ? 'bg-amber-100 text-amber-700 hover:bg-amber-200' : 'bg-green-100 text-green-700 hover:bg-green-200'}">
+                                ${status === 'наличен' ? 'Маркирай продаден' : 'Маркирай наличен'}
+                            </button>
+                            <button onclick="openEditProductForm(${p.id})" class="bg-blue-100 text-blue-700 hover:bg-blue-200 p-2 rounded text-xs"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="deleteProduct(${p.id})" class="bg-red-100 text-red-700 hover:bg-red-200 p-2 rounded text-xs"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button onclick="toggleProductStock(${p.id})" class="px-2.5 py-1 text-xs rounded font-medium ${status === 'наличен' ? 'bg-amber-100 text-amber-700 hover:bg-amber-200' : 'bg-green-100 text-green-700 hover:bg-green-200'}">
-                        ${status === 'наличен' ? 'Маркирай продаден' : 'Маркирай наличен'}
-                    </button>
-                    <button onclick="openEditProductForm(${p.id})" class="bg-blue-100 text-blue-700 hover:bg-blue-200 p-2 rounded text-xs"><i class="fa-solid fa-pen"></i></button>
-                    <button onclick="deleteProduct(${p.id})" class="bg-red-100 text-red-700 hover:bg-red-200 p-2 rounded text-xs"><i class="fa-solid fa-trash"></i></button>
-                </div>
-            </div>
-        `;
-    }).join('');
-}
+                `;
+            }).join('');
+        }
 
         function openProductForm() {
             document.getElementById('formTitle').innerText = 'Добавяне на нов продукт';
