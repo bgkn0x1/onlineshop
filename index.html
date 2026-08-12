@@ -79,45 +79,204 @@
     </header>
 
     <!-- Основно съдържание -->
-    <main class="container mx-auto px-4 py-6 flex-grow">
+    <main class="container mx-auto px-4 py-8 flex-grow space-y-8">
 
-        <!-- НАЧАЛЕН ИЗГЛЕД -->
         <section id="homeView" class="space-y-8">
-            <div class="bg-gradient-to-r from-emagBlue to-blue-700 text-white rounded-2xl p-8 shadow-lg flex flex-col md:flex-row items-center justify-between">
-                <div class="space-y-4 max-w-lg">
-                    <span class="bg-emagOrange text-xs uppercase px-3 py-1 rounded-full font-bold">ТвоятШанс да удариш кьоравото.</span>
-                    <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">Просто хубави неща на по-добри цени.</h1>
-                    <p class="text-blue-100">Не ги хвалим много, просто си струват.</p>
-                    <button onclick="filterByCategory('Всички')" class="bg-emagOrange text-white font-bold px-6 py-3 rounded-lg shadow hover:bg-opacity-90 transition">
-                        Към каталога <i class="fa-solid fa-arrow-right ml-2"></i>
-                    </button>
-                </div>
-                <div class="mt-6 md:mt-0 text-6xl opacity-20 md:opacity-100">
-                    <i class="fa-solid fa-bag-shopping text-9xl"></i>
+
+            <div class="text-center max-w-2xl mx-auto space-y-2">
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+                    Открийте страхотни оферти
+                </h1>
+                <p class="text-gray-500 text-base">
+                    Изберете категория или разгледайте целия ни каталог
+                </p>
+            </div>
+
+            <div onclick="showCatalogView(); filterByCategory('Всички');" 
+                 class="group relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-700 via-indigo-600 to-purple-700 text-white p-8 sm:p-10 shadow-xl cursor-pointer hover:shadow-2xl hover:-translate-y-1 transition duration-300">
+                
+                <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition duration-500"></div>
+                <i class="fa-solid fa-boxes-stacked text-8xl sm:text-9xl opacity-20 absolute right-6 bottom-2 group-hover:scale-110 group-hover:rotate-3 transition duration-500"></i>
+
+                <div class="relative z-10 space-y-4 max-w-lg">
+                    <span class="bg-emagOrange text-white text-xs uppercase px-3 py-1 rounded-full font-bold shadow-md inline-block">
+                        🔥 Пълен Каталог
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-black leading-tight">
+                        Всички продукти
+                    </h2>
+                    <p class="text-blue-100 text-sm sm:text-base">
+                        Вижте пълната колекция от всички налични артикули на едно място.
+                    </p>
+                    <div class="pt-2">
+                        <span class="inline-flex items-center gap-2 bg-white text-emagBlue font-extrabold px-6 py-3 rounded-xl shadow hover:bg-gray-100 transition">
+                            <span>Към всички продукти</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </span>
+                    </div>
                 </div>
             </div>
 
-            <div>
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-2xl font-bold text-gray-800">Популярни категории</h2>
-                    <button onclick="filterByCategory('Всички')" class="text-emagBlue font-medium hover:underline">Виж всички категории &rarr;</button>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+
+                <div onclick="showCatalogView(); filterByCategory('Облекло');" 
+     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-800 text-white p-5 h-52 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300 col-span-2 sm:col-span-1 lg:col-span-1">
+    <i class="fa-solid fa-shirt text-6xl opacity-15 absolute right-2 bottom-2 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
+    
+    <span class="bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold w-fit border border-white/20">
+        Мода & Стил
+    </span>
+
+    <div class="relative z-10 space-y-1">
+        <h3 class="text-2xl font-black leading-tight">Облекло</h3>
+        <div class="flex flex-wrap gap-1 pt-1">
+            <span onclick="event.stopPropagation(); showCatalogView(); filterByCategory('Дрехи');" class="bg-black/20 hover:bg-white hover:text-blue-900 transition px-2 py-0.5 rounded text-[10px] font-semibold">Дрехи</span>
+            <span onclick="event.stopPropagation(); showCatalogView(); filterByCategory('Обувки');" class="bg-black/20 hover:bg-white hover:text-blue-900 transition px-2 py-0.5 rounded text-[10px] font-semibold">Обувки</span>
+            <span onclick="event.stopPropagation(); showCatalogView(); filterByCategory('За деца');" class="bg-black/20 hover:bg-white hover:text-blue-900 transition px-2 py-0.5 rounded text-[10px] font-semibold">За деца</span>
+            <span onclick="event.stopPropagation(); showCatalogView(); filterByCategory('Очила');" class="bg-black/20 hover:bg-white hover:text-blue-900 transition px-2 py-0.5 rounded text-[10px] font-semibold">Очила</span>
+        </div>
+    </div>
+</div>
+
+                <div onclick="showCatalogView(); filterByCategory('Електроника');" 
+                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 text-white p-5 h-52 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                    <i class="fa-solid fa-laptop text-5xl opacity-20 absolute right-3 bottom-3 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
+                    <span class="bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold w-fit border border-white/20">
+                        Техника
+                    </span>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-extrabold leading-tight">Електроника</h3>
+                        <p class="text-[11px] text-cyan-100 mt-2 flex items-center gap-1 group-hover:underline">
+                            Разгледай <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                        </p>
+                    </div>
                 </div>
-                <div id="categoryCardsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                    <!-- Категории -->
+
+                <div onclick="showCatalogView(); filterByCategory('Дом и кухня');" 
+                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-700 text-white p-5 h-52 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                    <i class="fa-solid fa-house-user text-5xl opacity-20 absolute right-3 bottom-3 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
+                    <span class="bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold w-fit border border-white/20">
+                        Уют & Уреди
+                    </span>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-extrabold leading-tight">Дом и кухня</h3>
+                        <p class="text-[11px] text-emerald-100 mt-2 flex items-center gap-1 group-hover:underline">
+                            Разгледай <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                        </p>
+                    </div>
                 </div>
+
+                <div onclick="showCatalogView(); filterByCategory('Здраве и красота');" 
+                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-pink-500 to-rose-600 text-white p-5 h-52 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                    <i class="fa-solid fa-heart-pulse text-5xl opacity-20 absolute right-3 bottom-3 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
+                    <span class="bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold w-fit border border-white/20">
+                        Грижа
+                    </span>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-extrabold leading-tight">Здраве и красота</h3>
+                        <p class="text-[11px] text-pink-100 mt-2 flex items-center gap-1 group-hover:underline">
+                            Разгледай <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                        </p>
+                    </div>
+                </div>
+
+                <div onclick="showCatalogView(); filterByCategory('Играчки и занятия');" 
+                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-white p-5 h-52 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                    <i class="fa-solid fa-gamepad text-5xl opacity-20 absolute right-3 bottom-3 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
+                    <span class="bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold w-fit border border-white/20">
+                        Забава
+                    </span>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-extrabold leading-tight">Играчки и занятия</h3>
+                        <p class="text-[11px] text-amber-100 mt-2 flex items-center gap-1 group-hover:underline">
+                            Разгледай <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                        </p>
+                    </div>
+                </div>
+
+                <div onclick="showCatalogView(); filterByCategory('Спорт и на открито');" 
+                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-700 text-white p-5 h-52 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                    <i class="fa-solid fa-person-biking text-5xl opacity-20 absolute right-3 bottom-3 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
+                    <span class="bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold w-fit border border-white/20">
+                        Активност
+                    </span>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-extrabold leading-tight">Спорт и на открито</h3>
+                        <p class="text-[11px] text-teal-100 mt-2 flex items-center gap-1 group-hover:underline">
+                            Разгледай <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                        </p>
+                    </div>
+                </div>
+
+                <div onclick="showCatalogView(); filterByCategory('Автомобилна');" 
+                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-red-600 to-rose-700 text-white p-5 h-52 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                    <i class="fa-solid fa-car text-5xl opacity-20 absolute right-3 bottom-3 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
+                    <span class="bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold w-fit border border-white/20">
+                        За колата
+                    </span>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-extrabold leading-tight">Автомобилна</h3>
+                        <p class="text-[11px] text-red-100 mt-2 flex items-center gap-1 group-hover:underline">
+                            Разгледай <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                        </p>
+                    </div>
+                </div>
+
+                <div onclick="showCatalogView(); filterByCategory('Домашни любимци');" 
+                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-700 text-white p-5 h-52 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                    <i class="fa-solid fa-paw text-5xl opacity-20 absolute right-3 bottom-3 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
+                    <span class="bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold w-fit border border-white/20">
+                        Любимци
+                    </span>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-extrabold leading-tight">Домашни любимци</h3>
+                        <p class="text-[11px] text-purple-100 mt-2 flex items-center gap-1 group-hover:underline">
+                            Разгледай <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                        </p>
+                    </div>
+                </div>
+
+                <div onclick="showCatalogView(); filterByCategory('Инструменти');" 
+                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-600 to-slate-800 text-white p-5 h-52 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                    <i class="fa-solid fa-screwdriver-wrench text-5xl opacity-20 absolute right-3 bottom-3 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
+                    <span class="bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold w-fit border border-white/20">
+                        Майстори
+                    </span>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-extrabold leading-tight">Инструменти</h3>
+                        <p class="text-[11px] text-slate-200 mt-2 flex items-center gap-1 group-hover:underline">
+                            Разгледай <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                        </p>
+                    </div>
+                </div>
+
+                <div onclick="showCatalogView(); filterByCategory('Градина');" 
+                     class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-green-500 to-emerald-700 text-white p-5 h-52 flex flex-col justify-between shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                    <i class="fa-solid fa-leaf text-5xl opacity-20 absolute right-3 bottom-3 group-hover:scale-125 group-hover:-rotate-6 transition duration-300"></i>
+                    <span class="bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold w-fit border border-white/20">
+                        Двор & Градина
+                    </span>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-extrabold leading-tight">Градина</h3>
+                        <p class="text-[11px] text-green-100 mt-2 flex items-center gap-1 group-hover:underline">
+                            Разгледай <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                        </p>
+                    </div>
+                </div>
+
             </div>
+
         </section>
 
-        <!-- КАТАЛОГ -->
         <section id="catalogView" class="hidden space-y-6">
-            <div class="flex flex-col sm:flex-row justify-between items-center bg-white p-4 rounded-lg shadow-sm gap-4">
+            <div class="flex flex-col sm:flex-row justify-between items-center bg-white p-4 rounded-xl shadow-sm gap-4 border border-gray-100">
                 <div>
-                    <h2 id="catalogTitle" class="text-xl font-bold">Всички продукти</h2>
-                    <p id="catalogCount" class="text-sm text-gray-500">Показване на резултати</p>
+                    <h2 id="catalogTitle" class="text-2xl font-extrabold text-gray-800">Каталог продукти</h2>
+                    <p id="catalogCount" class="text-sm text-gray-500">Зареждане на продукти...</p>
                 </div>
-                <div class="flex items-center gap-3">
-                    <label class="text-sm font-medium">Сортиране:</label>
-                    <select id="sortSelect" onchange="sortProducts(this.value)" class="border rounded px-3 py-1.5 text-sm bg-white focus:outline-none">
+                <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+                    <label class="text-sm font-medium text-gray-600">Сортиране:</label>
+                    <select id="sortSelect" onchange="sortProducts(this.value)" class="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emagBlue">
                         <option value="default">По подразбиране</option>
                         <option value="price-asc">Цена: Ниска към Висока</option>
                         <option value="price-desc">Цена: Висока към Ниска</option>
@@ -127,13 +286,12 @@
             </div>
 
             <div id="productsGrid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
-                <!-- Продукти -->
-            </div>
+                </div>
 
             <div id="paginationContainer" class="flex justify-center items-center gap-2 pt-6">
-                <!-- Странициране -->
-            </div>
+                </div>
         </section>
+
     </main>
 
     <!-- МОДАЛ: Детайли за продукт -->
@@ -516,7 +674,9 @@
                 }
             ];
         }
-
+function showCatalogView() {
+            switchView('catalog');
+        }
         function switchView(view) {
             const homeView = document.getElementById('homeView');
             const catalogView = document.getElementById('catalogView');
@@ -563,30 +723,49 @@
     currentCategoryFilter = categoryName;
     currentSearchQuery = '';
     
-    // Зачистваме полетата за търсене
+    // Зачистване на търсачките (ако съществуват)
     const desktopSearch = document.getElementById('searchInputDesktop');
     const mobileSearch = document.getElementById('searchInputMobile');
     if (desktopSearch) desktopSearch.value = '';
     if (mobileSearch) mobileSearch.value = '';
     
-    // Списък с подкатегориите, които влизат в "Облекло"
-    const clothingSubcategories = ['Облекло', 'Дрехи', 'Обувки', 'За деца', 'Очила'];
+    // Списък с всички подкатегории, които се броят за "Облекло"
+    const clothingSubcategories = ['облекло', 'дрехи', 'обувки', 'за деца', 'очила'];
 
     if (categoryName === 'Всички') {
         currentFilteredProducts = [...products];
-        document.getElementById('catalogTitle').innerText = 'Всички продукти';
+        const titleElem = document.getElementById('catalogTitle');
+        if (titleElem) titleElem.innerText = 'Всички продукти';
     } else if (categoryName === 'Облекло') {
-        // Показва всички продукти, чиято категория е Дрехи, Обувки, За деца, Очила или Облекло
-        currentFilteredProducts = products.filter(p => p.category && clothingSubcategories.includes(p.category.trim()));
-        document.getElementById('catalogTitle').innerText = 'Категория: Облекло';
+        // Показва всички продукти, чиято категория съвпада с някоя от подкатегориите за облекло
+        currentFilteredProducts = products.filter(p => {
+            if (!p.category) return false;
+            const catClean = p.category.toString().trim().toLowerCase();
+            return clothingSubcategories.includes(catClean);
+        });
+        
+        const titleElem = document.getElementById('catalogTitle');
+        if (titleElem) titleElem.innerText = 'Категория: Облекло';
     } else {
-        currentFilteredProducts = products.filter(p => p.category && p.category.trim() === categoryName.trim());
-        document.getElementById('catalogTitle').innerText = `Категория: ${categoryName}`;
+        // За всички останали единични категории (съпоставяне без значение от празни места и регистър)
+        const targetCategory = categoryName.toString().trim().toLowerCase();
+        
+        currentFilteredProducts = products.filter(p => {
+            if (!p.category) return false;
+            return p.category.toString().trim().toLowerCase() === targetCategory;
+        });
+
+        const titleElem = document.getElementById('catalogTitle');
+        if (titleElem) titleElem.innerText = `Категория: ${categoryName}`;
     }
 
     currentPage = 1;
     applySortingAndPagination();
-    switchView('catalog');
+    
+    // Превключваме към изгледа с каталога
+    if (typeof switchView === 'function') {
+        switchView('catalog');
+    }
 }
 
         function handleSearch(query) {
