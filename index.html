@@ -1112,6 +1112,57 @@ function showCatalogView() {
             }).join('');
         }
 
+        function createProductCard(product) {
+    // Проверка дали е изчерпан
+    const isSoldOut = product.sold === true || product.stockStatus === 'изчерпан' || product.quantity === 0;
+
+    // Динамични класове за снимката - ако е изчерпан, я правим сива (grayscale)
+    const imgClass = isSoldOut 
+        ? "w-full h-48 object-cover grayscale opacity-60 filter transition-all duration-300" 
+        : "w-full h-48 object-cover transition-all duration-300 group-hover:scale-105";
+
+    // Бадж "Изчерпан", който се появява върху снимката
+    const soldBadge = isSoldOut 
+        ? `<span class="absolute top-2 right-2 bg-gray-800 text-white text-xs font-bold px-2 py-1 rounded shadow z-10">Изчерпан</span>` 
+        : '';
+
+    // Заглавната снимка
+    const mainImg = (product.images && product.images.length > 0) 
+        ? product.images[0] 
+        : 'https://via.placeholder.com/300x200?text=Няма+снимка';
+
+    return `
+        <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col justify-between relative border border-gray-100 ${isSoldOut ? 'bg-gray-50' : ''}">
+            ${soldBadge}
+            
+            <div class="relative overflow-hidden cursor-pointer" onclick="openProductModal(${product.id})">
+                <img src="${mainImg}" alt="${product.title}" class="${imgClass}">
+            </div>
+
+            <div class="p-4 flex flex-col justify-between flex-grow">
+                <div>
+                    <span class="text-xs text-gray-500 uppercase font-semibold">${product.category || 'Общи'}</span>
+                    <h3 class="font-bold text-gray-800 text-sm mt-1 line-clamp-2 cursor-pointer hover:text-emagBlue" onclick="openProductModal(${product.id})">
+                        ${product.title}
+                    </h3>
+                </div>
+
+                <div class="mt-4 flex items-center justify-between">
+                    <div>
+                        <span class="text-lg font-extrabold text-emagBlue">${Number(product.salePrice || product.regularPrice).toFixed(2)} лв.</span>
+                        ${product.salePrice && product.regularPrice > product.salePrice ? `<span class="text-xs text-gray-400 line-through ml-1">${Number(product.regularPrice).toFixed(2)} лв.</span>` : ''}
+                    </div>
+                    
+                    ${isSoldOut 
+                        ? `<button disabled class="bg-gray-300 text-gray-600 px-3 py-1.5 rounded text-xs font-semibold cursor-not-allowed">Изчерпан</button>`
+                        : `<button onclick="openProductModal(${product.id})" class="bg-emagOrange hover:bg-orange-600 text-white px-3 py-1.5 rounded text-xs font-semibold transition">Преглед</button>`
+                    }
+                </div>
+            </div>
+        </div>
+    `;
+}
+
         function openProductForm() {
             document.getElementById('formTitle').innerText = 'Добавяне на нов продукт';
             document.getElementById('productForm').reset();
