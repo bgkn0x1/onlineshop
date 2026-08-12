@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Твоят Шанс - Онлайн витрина</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
@@ -24,13 +22,10 @@
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col justify-between pb-16">
 
-    <!-- Хедър и Навигация -->
     <header class="bg-emagDark text-white sticky top-0 z-50 shadow-md">
         <div class="container mx-auto px-4 py-3 flex flex-col gap-3 relative">
             
-            <!-- РЕД 1 -->
             <div class="flex items-center justify-between">
-                <!-- ЛЯВО: Категории меню -->
                 <div class="relative">
                     <button id="categoryDropdownBtn" onclick="toggleCategoryDropdown(event)" class="text-sm bg-gray-800 hover:bg-gray-700 px-3.5 py-2 rounded-lg focus:outline-none flex items-center gap-2 transition border border-gray-700">
                         <i class="fa-solid fa-bars text-emagOrange text-base"></i>
@@ -40,18 +35,15 @@
                     <div id="categoryDropdownMenu" class="absolute left-0 mt-2 w-72 bg-white text-gray-800 rounded-xl shadow-2xl py-2 hidden z-50 border border-gray-100">
                         <div class="px-4 py-2 font-bold text-xs uppercase tracking-wider text-gray-400 border-b">Категории</div>
                         <div id="categoryDropdownItems" class="max-h-[70vh] overflow-y-auto">
-                            <!-- Динамични категории -->
-                        </div>
+                            </div>
                     </div>
                 </div>
 
-                <!-- СРЕДА: Търсене (Десктоп) -->
                 <div class="hidden md:flex flex-1 mx-6 relative">
                     <input type="text" id="searchInputDesktop" placeholder="Търсене на продукти, марки, категории..." 
                         class="w-full py-2.5 px-4 rounded-l-lg bg-white text-gray-800 focus:outline-none text-sm" oninput="handleSearch(this.value)">
                 </div>
 
-                <!-- ДЯСНО: Лого -->
                 <div class="flex items-center gap-2">
                     <button onclick="switchView('home')" class="text-gray-300 hover:text-white px-1 py-2 text-lg focus:outline-none transition md:hidden" title="Начало">
                         <i class="fa-solid fa-arrow-left"></i>
@@ -64,7 +56,6 @@
                 </div>
             </div>
 
-            <!-- РЕД 2 (Мобилни) -->
             <div class="flex md:hidden items-center gap-2 w-full">
                 <div class="flex-1 relative">
                     <input type="text" id="searchInputMobile" placeholder="Търсене на продукти, марки, категории..." 
@@ -78,37 +69,113 @@
         </div>
     </header>
 
-    <!-- Основно съдържание -->
     <main class="container mx-auto px-4 py-6 flex-grow">
 
-        <!-- НАЧАЛЕН ИЗГЛЕД -->
         <section id="homeView" class="space-y-8">
-            <div class="bg-gradient-to-r from-emagBlue to-blue-700 text-white rounded-2xl p-8 shadow-lg flex flex-col md:flex-row items-center justify-between">
-                <div class="space-y-4 max-w-lg">
-                    <span class="bg-emagOrange text-xs uppercase px-3 py-1 rounded-full font-bold">ТвоятШанс да удариш кьоравото.</span>
-                    <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">Просто хубави неща на по-добри цени.</h1>
-                    <p class="text-blue-100">Не ги хвалим много, просто си струват.</p>
-                    <button onclick="filterByCategory('Всички')" class="bg-emagOrange text-white font-bold px-6 py-3 rounded-lg shadow hover:bg-opacity-90 transition">
-                        Към каталога <i class="fa-solid fa-arrow-right ml-2"></i>
-                    </button>
-                </div>
-                <div class="mt-6 md:mt-0 text-6xl opacity-20 md:opacity-100">
-                    <i class="fa-solid fa-bag-shopping text-9xl"></i>
-                </div>
+            
+            <div class="text-center max-w-2xl mx-auto space-y-2">
+                <h1 class="text-3xl sm:text-4xl font-black text-gray-900">
+                    Открийте страхотни оферти и промоции
+                </h1>
+                <p class="text-gray-600 text-sm sm:text-base">
+                    Изберете категория по-долу или разгледайте пълния ни каталог с един клик.
+                </p>
             </div>
 
-            <div>
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-2xl font-bold text-gray-800">Популярни категории</h2>
-                    <button onclick="filterByCategory('Всички')" class="text-emagBlue font-medium hover:underline">Виж всички категории &rarr;</button>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                
+                <div onclick="filterByCategory('Всички')" class="cursor-pointer group relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-700 via-indigo-600 to-purple-700 text-white p-8 md:col-span-2 lg:col-span-4 flex flex-col sm:flex-row items-center justify-between shadow-2xl hover:shadow-blue-500/20 hover:scale-[1.01] transition-all duration-300 border border-white/10">
+                    <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition duration-700"></div>
+                    <i class="fa-solid fa-boxes-stacked text-8xl opacity-15 absolute right-6 bottom-2 group-hover:scale-110 group-hover:rotate-6 transition duration-500"></i>
+                    
+                    <div class="space-y-3 z-10 text-center sm:text-left">
+                        <span class="bg-emagOrange text-white text-xs uppercase px-3 py-1 rounded-full font-extrabold tracking-wider shadow">
+                            🔥 Най-популярно
+                        </span>
+                        <h2 class="text-3xl sm:text-4xl font-black tracking-tight">Всички артикули & каталози</h2>
+                        <p class="text-blue-100 text-sm max-w-md">
+                            Разгледайте пълния ни асортимент от дрехи, електроника, стоки за дома и инструменти на едно място.
+                        </p>
+                    </div>
+
+                    <div class="mt-6 sm:mt-0 z-10">
+                        <span class="bg-white text-emagBlue font-black px-7 py-3.5 rounded-2xl shadow-xl group-hover:bg-emagOrange group-hover:text-white transition duration-300 flex items-center gap-3 text-base">
+                            Виж целия каталог <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </span>
+                    </div>
                 </div>
-                <div id="categoryCardsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                    <!-- Категории -->
+
+                <div onclick="filterByCategory('Облекло')" class="cursor-pointer group relative overflow-hidden rounded-3xl bg-gradient-to-br from-pink-500 via-rose-500 to-red-600 text-white p-6 h-52 flex flex-col justify-between shadow-lg hover:shadow-xl hover:-translate-y-1 transition duration-300 border border-white/10">
+                    <div class="absolute -right-6 -bottom-6 w-28 h-28 bg-white/20 rounded-full blur-xl group-hover:scale-125 transition"></div>
+                    <i class="fa-solid fa-shirt text-6xl opacity-20 absolute right-4 bottom-4 group-hover:scale-125 group-hover:-rotate-12 transition duration-500"></i>
+                    
+                    <div class="z-10">
+                        <span class="bg-white/20 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-full border border-white/20">
+                            👗 Мода
+                        </span>
+                    </div>
+                    <div class="z-10">
+                        <h3 class="text-2xl font-black">Дрехи & Обувки</h3>
+                        <p class="text-xs text-rose-100 mt-1 font-medium flex items-center gap-1 group-hover:underline">
+                            Разгледай витрината <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </p>
+                    </div>
                 </div>
+
+                <div onclick="filterByCategory('Електроника')" class="cursor-pointer group relative overflow-hidden rounded-3xl bg-gradient-to-br from-amber-500 via-orange-500 to-emagOrange text-white p-6 h-52 flex flex-col justify-between shadow-lg hover:shadow-xl hover:-translate-y-1 transition duration-300 border border-white/10">
+                    <div class="absolute -right-6 -bottom-6 w-28 h-28 bg-white/20 rounded-full blur-xl group-hover:scale-125 transition"></div>
+                    <i class="fa-solid fa-laptop text-6xl opacity-20 absolute right-4 bottom-4 group-hover:scale-125 group-hover:rotate-12 transition duration-500"></i>
+                    
+                    <div class="z-10">
+                        <span class="bg-white/20 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-full border border-white/20">
+                            ⚡ Техника
+                        </span>
+                    </div>
+                    <div class="z-10">
+                        <h3 class="text-2xl font-black">Електроника</h3>
+                        <p class="text-xs text-amber-100 mt-1 font-medium flex items-center gap-1 group-hover:underline">
+                            Разгледай витрината <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </p>
+                    </div>
+                </div>
+
+                <div onclick="filterByCategory('Дом и кухня')" class="cursor-pointer group relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-700 text-white p-6 h-52 flex flex-col justify-between shadow-lg hover:shadow-xl hover:-translate-y-1 transition duration-300 border border-white/10">
+                    <div class="absolute -right-6 -bottom-6 w-28 h-28 bg-white/20 rounded-full blur-xl group-hover:scale-125 transition"></div>
+                    <i class="fa-solid fa-house-chimney text-6xl opacity-20 absolute right-4 bottom-4 group-hover:scale-125 group-hover:-rotate-12 transition duration-500"></i>
+                    
+                    <div class="z-10">
+                        <span class="bg-white/20 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-full border border-white/20">
+                            🏡 За дома
+                        </span>
+                    </div>
+                    <div class="z-10">
+                        <h3 class="text-2xl font-black">Дом & Кухня</h3>
+                        <p class="text-xs text-emerald-100 mt-1 font-medium flex items-center gap-1 group-hover:underline">
+                            Разгледай витрината <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </p>
+                    </div>
+                </div>
+
+                <div onclick="filterByCategory('Инструменти')" class="cursor-pointer group relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-600 via-violet-600 to-indigo-800 text-white p-6 h-52 flex flex-col justify-between shadow-lg hover:shadow-xl hover:-translate-y-1 transition duration-300 border border-white/10">
+                    <div class="absolute -right-6 -bottom-6 w-28 h-28 bg-white/20 rounded-full blur-xl group-hover:scale-125 transition"></div>
+                    <i class="fa-solid fa-screwdriver-wrench text-6xl opacity-20 absolute right-4 bottom-4 group-hover:scale-125 group-hover:rotate-12 transition duration-500"></i>
+                    
+                    <div class="z-10">
+                        <span class="bg-white/20 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-full border border-white/20">
+                            🛠️ Майстори
+                        </span>
+                    </div>
+                    <div class="z-10">
+                        <h3 class="text-2xl font-black">Инструменти</h3>
+                        <p class="text-xs text-purple-100 mt-1 font-medium flex items-center gap-1 group-hover:underline">
+                            Разгледай витрината <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </p>
+                    </div>
+                </div>
+
             </div>
         </section>
 
-        <!-- КАТАЛОГ -->
         <section id="catalogView" class="hidden space-y-6">
             <div class="flex flex-col sm:flex-row justify-between items-center bg-white p-4 rounded-lg shadow-sm gap-4">
                 <div>
@@ -127,28 +194,23 @@
             </div>
 
             <div id="productsGrid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
-                <!-- Продукти -->
-            </div>
+                </div>
 
             <div id="paginationContainer" class="flex justify-center items-center gap-2 pt-6">
-                <!-- Странициране -->
-            </div>
+                </div>
         </section>
     </main>
 
-    <!-- МОДАЛ: Детайли за продукт -->
     <div id="productModal" class="fixed inset-0 bg-black bg-opacity-60 hidden z-50 flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 relative shadow-2xl">
             <button onclick="closeProductModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl font-bold z-20">
                 <i class="fa-solid fa-xmark"></i>
             </button>
             <div id="modalContent" class="flex flex-col gap-6">
-                <!-- Съдържание на модала -->
-            </div>
+                </div>
         </div>
     </div>
 
-    <!-- МОДАЛ: Lightbox -->
     <div id="lightboxModal" class="fixed inset-0 bg-black bg-opacity-90 hidden z-50 flex items-center justify-center p-4">
         <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white text-3xl hover:text-gray-300">
             <i class="fa-solid fa-xmark"></i>
@@ -156,7 +218,6 @@
         <img id="lightboxImg" src="" class="max-h-[90vh] max-w-[90vw] object-contain rounded">
     </div>
 
-    <!-- МОДАЛ: АДМИН ПАНЕЛ -->
     <div id="adminModal" class="fixed inset-0 bg-black bg-opacity-60 hidden z-50 flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 relative shadow-2xl">
             <button onclick="closeAdminModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl font-bold">
@@ -266,14 +327,12 @@
                 <div>
                     <h4 class="text-lg font-bold mb-3">Управление на съществуващи продукти</h4>
                     <div id="adminProductsList" class="space-y-2 max-h-96 overflow-y-auto pr-2">
-                        <!-- Списък с продукти -->
-                    </div>
+                        </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ФИКСИРАНА АДМИН ЛЕНТА -->
     <div id="adminBottomBar" class="fixed bottom-0 left-0 right-0 bg-gray-900 text-white px-6 py-3 shadow-2xl z-40 flex items-center justify-between border-t border-gray-700 hidden">
         <div class="flex items-center gap-2 text-sm font-medium">
             <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
@@ -290,24 +349,8 @@
                 <i class="fa-solid fa-gauge text-xs"></i> Админ панел
             </button>
             <button onclick="adminLogout()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded text-sm font-bold transition flex items-center gap-1">
-                <i class="fa-solid fa-right-from-bracket text-xs"></i> Изход
-            </button>
-        </div>
-    </div>
-
-    <!-- Футър -->
-    <footer class="bg-emagDark text-gray-400 py-4 border-t border-gray-700 mt-12">
-        <div class="container mx-auto px-4 text-center text-sm space-y-2">
-            <div>
-                <a href="#" onclick="openAdminLogin()" class="text-xs text-gray-500 hover:text-gray-300 transition inline-flex items-center gap-1">
-                    <i class="fa-solid fa-lock text-[10px]"></i> Админ панел
-                </a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Скриптове и бизнес логика -->
-    <script>
+                <i class="fa-solid
+                <script>
         // GitHub Конфигурация
         const part1 = "ghp_uTGBxhCAo0WSq";
         const part2 = "M1a10Up8C3ODQUxbw0bR0Fg";
@@ -465,8 +508,10 @@
         function getActivePrice(p) {
             const promo = p.promoPrice !== undefined && p.promoPrice !== null && p.promoPrice !== '' ? Number(p.promoPrice) : null;
             if (promo !== null && !isNaN(promo)) return promo;
+
             const sale = p.salePrice !== undefined && p.salePrice !== null && p.salePrice !== '' ? Number(p.salePrice) : null;
             if (sale !== null && !isNaN(sale)) return sale;
+
             return Number(p.regularPrice) || 0;
         }
 
@@ -494,7 +539,6 @@
                 products = getDefaultSampleProducts();
             }
             currentFilteredProducts = [...products];
-            renderHomeCategories();
             renderCatalog();
         }
 
@@ -529,189 +573,167 @@
             }
         }
 
-        function renderHomeCategories() {
-            const grid = document.getElementById('categoryCardsGrid');
-            const categories = [
-                { name: 'Дрехи', icon: 'fa-shirt', color: 'bg-blue-50 text-blue-600' },
-                { name: 'Обувки', icon: 'fa-shoe-prints', color: 'bg-orange-50 text-emagOrange' },
-                { name: 'Електроника', icon: 'fa-laptop', color: 'bg-indigo-50 text-indigo-600' },
-                { name: 'Дом и кухня', icon: 'fa-house-chimney', color: 'bg-amber-50 text-amber-600' },
-                { name: 'Здраве и красота', icon: 'fa-heart-pulse', color: 'bg-rose-50 text-rose-600' },
-                { name: 'Играчки и занятия', icon: 'fa-puzzle-piece', color: 'bg-emerald-50 text-emerald-600' },
-                { name: 'Спорт и на открито', icon: 'fa-person-running', color: 'bg-cyan-50 text-cyan-600' },
-                { name: 'Автомобилна', icon: 'fa-car', color: 'bg-zinc-50 text-zinc-700' },
-                { name: 'Домашни любимци', icon: 'fa-paw', color: 'bg-yellow-50 text-yellow-600' },
-                { name: 'Инструменти', icon: 'fa-screwdriver-wrench', color: 'bg-stone-50 text-stone-600' },
-                { name: 'Градина', icon: 'fa-seedling', color: 'bg-green-50 text-green-600' }
-            ];
-
-            grid.innerHTML = categories.map(cat => {
-                const count = products.filter(p => p.category === cat.name).length;
-                return `
-                    <div onclick="filterByCategory('${cat.name}')" class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition cursor-pointer text-center group border border-gray-100">
-                        <div class="w-12 h-12 mx-auto rounded-full ${cat.color} flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition">
-                            <i class="fa-solid ${cat.icon}"></i>
-                        </div>
-                        <h3 class="font-bold text-gray-800 text-sm mb-1">${cat.name}</h3>
-                        <p class="text-xs text-gray-500">${count} артикула</p>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function filterByCategory(categoryName) {
-            currentCategoryFilter = categoryName;
-            currentSearchQuery = '';
-            document.getElementById('searchInputDesktop').value = '';
-            document.getElementById('searchInputMobile').value = '';
-            
-            if (categoryName === 'Всички') {
-                currentFilteredProducts = [...products];
-                document.getElementById('catalogTitle').innerText = 'Всички продукти';
-            } else {
-                currentFilteredProducts = products.filter(p => p.category === categoryName);
-                document.getElementById('catalogTitle').innerText = `Категория: ${categoryName}`;
-            }
-
+        function filterByCategory(cat) {
+            currentCategoryFilter = cat;
             currentPage = 1;
-            applySortingAndPagination();
             switchView('catalog');
+            applyFiltersAndSort();
         }
 
         function handleSearch(query) {
-            currentSearchQuery = query.toLowerCase().trim();
-            document.getElementById('searchInputDesktop').value = query;
-            document.getElementById('searchInputMobile').value = query;
-
-            if (currentSearchQuery === '') {
-                currentFilteredProducts = currentCategoryFilter === 'Всички' 
-                    ? [...products] 
-                    : products.filter(p => p.category === currentCategoryFilter);
-            } else {
-                currentFilteredProducts = products.filter(p => 
-                    p.title.toLowerCase().includes(currentSearchQuery) ||
-                    (p.description && p.description.toLowerCase().includes(currentSearchQuery)) ||
-                    (p.details && p.details.toLowerCase().includes(currentSearchQuery)) ||
-                    p.category.toLowerCase().includes(currentSearchQuery)
-                );
-                document.getElementById('catalogTitle').innerText = `Търсене: "${query}"`;
-            }
+            currentSearchQuery = query;
             currentPage = 1;
-            applySortingAndPagination();
-            switchView('catalog');
+            if (query.trim() !== '') {
+                switchView('catalog');
+            }
+            applyFiltersAndSort();
         }
 
         function sortProducts(sortType) {
             currentSort = sortType;
-            if (sortType === 'price-asc') {
-                currentFilteredProducts.sort((a, b) => getActivePrice(a) - getActivePrice(b));
-            } else if (sortType === 'price-desc') {
-                currentFilteredProducts.sort((a, b) => getActivePrice(b) - getActivePrice(a));
-            } else if (sortType === 'discount') {
-                currentFilteredProducts.sort((a, b) => {
-                    const priceA = getActivePrice(a);
-                    const priceB = getActivePrice(b);
-                    const discA = a.regularPrice > priceA ? ((a.regularPrice - priceA) / a.regularPrice) : 0;
-                    const discB = b.regularPrice > priceB ? ((b.regularPrice - priceB) / b.regularPrice) : 0;
+            applyFiltersAndSort();
+        }
+
+        function applyFiltersAndSort() {
+            let result = [...products];
+
+            if (currentCategoryFilter !== 'Всички') {
+                result = result.filter(p => {
+                    const category = p.category ? p.category.toLowerCase() : '';
+                    const filter = currentCategoryFilter.toLowerCase();
+                    if (filter === 'облекло') {
+                        return category === 'облекло' || category === 'дрехи' || category === 'обувки' || category === 'за деца' || category === 'очила';
+                    }
+                    return category === filter;
+                });
+            }
+
+            if (currentSearchQuery.trim() !== '') {
+                const q = currentSearchQuery.toLowerCase();
+                result = result.filter(p => 
+                    (p.title && p.title.toLowerCase().includes(q)) ||
+                    (p.category && p.category.toLowerCase().includes(q)) ||
+                    (p.description && p.description.toLowerCase().includes(q))
+                );
+            }
+
+            if (currentSort === 'price-asc') {
+                result.sort((a, b) => getActivePrice(a) - getActivePrice(b));
+            } else if (currentSort === 'price-desc') {
+                result.sort((a, b) => getActivePrice(b) - getActivePrice(a));
+            } else if (currentSort === 'discount') {
+                result.sort((a, b) => {
+                    const discA = a.promoPrice ? (a.regularPrice - a.promoPrice) : 0;
+                    const discB = b.promoPrice ? (b.regularPrice - b.promoPrice) : 0;
                     return discB - discA;
                 });
             }
-            renderCatalog();
-        }
 
-        function applySortingAndPagination() {
-            sortProducts(currentSort);
+            currentFilteredProducts = result;
+            renderCatalog();
         }
 
         function renderCatalog() {
             const grid = document.getElementById('productsGrid');
-            const countElem = document.getElementById('catalogCount');
-            
+            const titleEl = document.getElementById('catalogTitle');
+            const countEl = document.getElementById('catalogCount');
+            const paginationEl = document.getElementById('paginationContainer');
+
             if (!grid) return;
-            if (countElem) countElem.innerText = `Показани ${currentFilteredProducts.length} артикула`;
 
-            const startIndex = (currentPage - 1) * itemsPerPage;
-            const endIndex = startIndex + itemsPerPage;
-            const paginatedItems = currentFilteredProducts.slice(startIndex, endIndex);
+            titleEl.innerText = currentCategoryFilter === 'Всички' ? 'Всички продукти' : `Категория: ${currentCategoryFilter}`;
+            countEl.innerText = `Намерени: ${currentFilteredProducts.length} продукта`;
 
-            if (paginatedItems.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-500">Няма намерени продукти.</div>`;
-                const paginationContainer = document.getElementById('paginationContainer');
-                if (paginationContainer) paginationContainer.innerHTML = '';
+            grid.innerHTML = '';
+
+            if (currentFilteredProducts.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-gray-500">
+                        <i class="fa-solid fa-box-open text-5xl mb-3 opacity-30"></i>
+                        <p class="text-lg font-medium">Няма намерени продукти.</p>
+                    </div>
+                `;
+                paginationEl.innerHTML = '';
                 return;
             }
 
-            grid.innerHTML = paginatedItems.map(p => {
-                const activePrice = getActivePrice(p);
-                const hasDiscount = p.regularPrice > activePrice;
-                const discountPercent = hasDiscount ? Math.round(((p.regularPrice - activePrice) / p.regularPrice) * 100) : 0;
-                const status = getStockStatus(p);
-                const isSoldOut = status === 'продаден';
+            const totalPages = Math.ceil(currentFilteredProducts.length / itemsPerPage);
+            if (currentPage > totalPages) currentPage = totalPages;
 
-                const mainImage = p.images && p.images[0] ? p.images[0] : '';
-                const displayImg = getImageUrl(mainImage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageProducts = currentFilteredProducts.slice(startIndex, endIndex);
 
-                return `
-                    <div onclick="openProductModal(${p.id})" class="bg-white rounded-lg shadow-sm hover:shadow-lg transition p-3 sm:p-4 flex flex-col justify-between relative border border-gray-100 group cursor-pointer">
-                        <div class="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 flex flex-col gap-1 pointer-events-none">
-                            ${hasDiscount ? `<span class="bg-orange-500 text-white text-[10px] sm:text-xs font-black px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">-${discountPercent}%</span>` : ''}
-                            ${isSoldOut ? `<span class="bg-gray-800 text-white text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">Изчерпан</span>` : `<span class="bg-green-600 text-white text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">Наличен</span>`}
+            pageProducts.forEach(product => {
+                const isSold = getStockStatus(product) === 'продаден';
+                const mainImg = (product.images && product.images.length > 0) ? product.images[0] : '';
+                const activePrice = getActivePrice(product);
+                const hasPromo = product.promoPrice && Number(product.promoPrice) < Number(product.regularPrice);
+
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-xl overflow-hidden shadow border border-gray-100 flex flex-col justify-between group hover:shadow-lg transition cursor-pointer relative";
+                card.onclick = () => openProductModal(product);
+
+                card.innerHTML = `
+                    <div class="relative">
+                        <div class="h-48 w-full bg-gray-50 flex items-center justify-center overflow-hidden p-2">
+                            <img src="${getImageUrl(mainImg)}" alt="${product.title}" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300">
+                        </div>
+                        ${isSold ? '<span class="absolute top-2 right-2 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">ПРОДАДЕН</span>' : ''}
+                        ${hasPromo && !isSold ? '<span class="absolute top-2 left-2 bg-emagOrange text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">ПРОМО</span>' : ''}
+                    </div>
+
+                    <div class="p-4 flex flex-col flex-grow justify-between space-y-3">
+                        <div>
+                            <div class="text-[11px] text-gray-400 font-medium uppercase tracking-wider">${product.category || 'Общи'}</div>
+                            <h3 class="font-bold text-sm text-gray-800 line-clamp-2 mt-1 group-hover:text-emagBlue transition">${product.title}</h3>
+                            ${product.size ? `<span class="inline-block mt-1 text-[11px] bg-gray-100 text-gray-600 px-2 py-0.5 rounded">Размер: ${product.size}</span>` : ''}
                         </div>
 
-                        <div class="absolute top-2 right-2 sm:top-3 sm:right-3 z-10 flex items-center gap-1">
-                            ${typeof isAdminLoggedIn !== 'undefined' && isAdminLoggedIn ? `
-                                <button onclick="event.stopPropagation(); openEditProductFormDirect(${p.id})" title="Редактирай" class="bg-blue-600 hover:bg-blue-700 text-white w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center text-xs shadow transition">
-                                    <i class="fa-solid fa-pen"></i>
-                                </button>
-                            ` : ''}
-                            <span class="text-[10px] sm:text-xs bg-gray-100 text-gray-600 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded font-medium hidden xs:inline">${p.category || ''}</span>
-                        </div>
-
-                        <div class="w-full h-36 sm:h-48 mb-3 sm:mb-4 overflow-hidden rounded flex items-center justify-center bg-gray-50">
-                            <img src="${displayImg}" alt="${p.title}" class="object-cover h-full w-full group-hover:scale-105 transition duration-300">
-                        </div>
-
-                        <div class="space-y-1 mb-3 sm:mb-4 flex-grow">
-                            <div class="text-[10px] sm:text-xs text-gray-500">Размер: <span class="font-semibold text-gray-700">${p.size || 'N/A'}</span></div>
-                            <h3 class="font-bold text-gray-800 text-xs sm:text-sm line-clamp-2">${p.title}</h3>
-                            <p class="text-[11px] text-gray-500 line-clamp-2">${p.description || ''}</p>
-                        </div>
-
-                        <div class="border-t pt-2 sm:pt-3 mt-auto">
-                            <div class="flex items-baseline justify-between">
-                               <div>
-                                    <div class="text-[10px] sm:text-xs text-gray-400 line-through">${hasDiscount ? Number(p.regularPrice).toFixed(2) + ' €' : ''}</div>
-                                    <div class="text-base sm:text-xl font-black text-gray-900">${activePrice.toFixed(2)} €</div>
-                                </div>
-                                <div class="bg-blue-600 text-white p-1.5 sm:p-2 rounded-lg pointer-events-none text-xs sm:text-sm">
-                                    <i class="fa-solid fa-eye"></i>
-                                </div>
+                        <div class="pt-2 border-t border-gray-50 flex items-baseline justify-between">
+                            <div>
+                                ${hasPromo ? `<span class="text-xs text-gray-400 line-through mr-1">${Number(product.regularPrice).toFixed(2)} €</span>` : ''}
+                                <span class="text-lg font-black ${hasPromo ? 'text-red-600' : 'text-gray-900'}">${activePrice.toFixed(2)} €</span>
                             </div>
+                            <button class="bg-gray-100 group-hover:bg-emagBlue group-hover:text-white text-gray-600 p-2 rounded-lg transition">
+                                <i class="fa-solid fa-eye text-xs"></i>
+                            </button>
                         </div>
                     </div>
                 `;
-            }).join('');
+                grid.appendChild(card);
+            });
 
-            renderPagination();
+            // Странициране
+            renderPagination(totalPages, paginationEl);
         }
 
-        function renderPagination() {
-            const container = document.getElementById('paginationContainer');
-            const totalPages = Math.ceil(currentFilteredProducts.length / itemsPerPage);
-
+        function renderPagination(totalPages, container) {
             if (totalPages <= 1) {
                 container.innerHTML = '';
                 return;
             }
 
-            let html = '';
+            let html = `
+                <button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled class="px-3 py-1 bg-gray-200 text-gray-400 rounded cursor-not-allowed"' : 'class="px-3 py-1 bg-white text-gray-700 hover:bg-gray-100 rounded border"'}>
+                    <i class="fa-solid fa-chevron-left text-xs"></i>
+                </button>
+            `;
+
             for (let i = 1; i <= totalPages; i++) {
-                html += `
-                    <button onclick="changePage(${i})" class="px-3 py-1.5 rounded text-sm font-bold ${i === currentPage ? 'bg-emagBlue text-white' : 'bg-white border text-gray-700 hover:bg-gray-50'}">
-                        ${i}
-                    </button>
-                `;
+                if (i === currentPage) {
+                    html += `<button class="px-3 py-1 bg-emagBlue text-white font-bold rounded shadow">${i}</button>`;
+                } else {
+                    html += `<button onclick="changePage(${i})" class="px-3 py-1 bg-white text-gray-700 hover:bg-gray-100 rounded border">${i}</button>`;
+                }
             }
+
+            html += `
+                <button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled class="px-3 py-1 bg-gray-200 text-gray-400 rounded cursor-not-allowed"' : 'class="px-3 py-1 bg-white text-gray-700 hover:bg-gray-100 rounded border"'}>
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                </button>
+            `;
+
             container.innerHTML = html;
         }
 
@@ -721,96 +743,64 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function openProductModal(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-
-            const modalContent = document.getElementById('modalContent');
+        function openProductModal(product) {
+            const modal = document.getElementById('productModal');
+            const content = document.getElementById('modalContent');
+            const isSold = getStockStatus(product) === 'продаден';
             const activePrice = getActivePrice(product);
-            const hasDiscount = product.regularPrice > activePrice;
-            const status = getStockStatus(product);
-            const isSold = status === 'продаден';
-            const rawImages = (product.images && product.images.length > 0) ? product.images : [''];
-            
-            const similarProducts = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
+            const hasPromo = product.promoPrice && Number(product.promoPrice) < Number(product.regularPrice);
 
-            const thumbnailsHTML = rawImages.map(img => {
-                const proxyImg = getImageUrl(img);
-                return `
-                    <img src="${proxyImg}" onclick="document.getElementById('mainModalImg').src='${proxyImg}'" class="w-16 h-16 object-cover rounded cursor-pointer border-2 border-transparent hover:border-emagBlue transition flex-shrink-0">
-                `;
-            }).join('');
+            const images = product.images && product.images.length > 0 ? product.images : ['https://via.placeholder.com/300'];
 
-            let descriptionHTML = '';
-            if (product.description) {
-                descriptionHTML += `<div class="text-sm text-gray-600 mt-2 font-medium">${product.description}</div>`;
-            }
-            if (product.details && product.details.trim() !== '') {
-                descriptionHTML += `
-                    <div class="mt-4 pt-3 border-t border-gray-200">
-                        <h4 class="font-bold text-gray-800 text-sm mb-1">Подробно описание:</h4>
-                        <p class="text-sm text-gray-600 leading-relaxed whitespace-pre-line">${product.details}</p>
-                    </div>
-                `;
-            }
-            if (!descriptionHTML) {
-                descriptionHTML = '<div class="text-sm text-gray-400 mt-2 italic">Няма въведено описание.</div>';
-            }
-
-            const similarHTML = similarProducts.length > 0 ? `
-                <div class="mt-6 pt-6 border-t border-gray-200 w-full">
-                    <h4 class="font-bold text-gray-800 text-base mb-4">Сходни артикули</h4>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                        ${similarProducts.map(sim => {
-                            const simImg = sim.images && sim.images[0] ? sim.images[0] : '';
-                            return `
-                                <div onclick="openProductModal(${sim.id})" class="bg-gray-50 p-2 rounded-lg border hover:shadow-md transition cursor-pointer flex flex-col justify-between">
-                                    <img src="${getImageUrl(simImg)}" class="w-full h-28 object-cover rounded mb-2">
-                                    <div class="text-xs font-semibold text-gray-800 line-clamp-1">${sim.title}</div>
-                                    <div class="text-xs font-bold text-emagOrange mt-1">${getActivePrice(sim).toFixed(2)} €</div>
-                                </div>
-                            `;
-                        }).join('')}
-                    </div>
-                </div>
-            ` : '';
-
-            const mainDisplayImg = getImageUrl(rawImages[0]);
-
-            modalContent.innerHTML = `
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="space-y-4">
-                        <div class="h-80 bg-gray-50 rounded-lg overflow-hidden flex items-center justify-center border cursor-pointer" onclick="openLightbox(document.getElementById('mainModalImg').src)">
-                            <img id="mainModalImg" src="${mainDisplayImg}" class="object-cover h-full w-full">
+            content.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <div class="h-80 w-full bg-gray-50 rounded-xl overflow-hidden flex items-center justify-center p-2 border mb-3">
+                            <img id="modalMainImg" src="${getImageUrl(images[0])}" onclick="openLightbox('${getImageUrl(images[0])}')" class="max-h-full max-w-full object-contain cursor-zoom-in">
                         </div>
                         <div class="flex gap-2 overflow-x-auto pb-2">
-                            ${thumbnailsHTML}
+                            ${images.map(img => `
+                                <img src="${getImageUrl(img)}" onclick="document.getElementById('modalMainImg').src='${getImageUrl(img)}'" class="w-16 h-16 object-contain border rounded-lg cursor-pointer hover:border-emagBlue p-1 bg-white">
+                            `).join('')}
                         </div>
                     </div>
 
-                    <div class="space-y-4 flex flex-col justify-between">
+                    <div class="space-y-4">
                         <div>
-                            <span class="text-xs bg-blue-100 text-emagBlue px-2.5 py-1 rounded-full font-bold">${product.category}</span>
-                            <h2 class="text-2xl font-black text-gray-900 mt-2">${product.title}</h2>
-                            <div class="text-sm text-gray-600 mt-1">Размер: <span class="font-bold">${product.size || 'N/A'}</span></div>
-                            
-                            ${descriptionHTML}
+                            <span class="text-xs bg-blue-50 text-emagBlue font-bold px-2.5 py-1 rounded-full uppercase">${product.category || 'Общи'}</span>
+                            <h2 class="text-2xl font-bold text-gray-900 mt-2">${product.title}</h2>
+                            ${product.size ? `<p class="text-sm text-gray-500 mt-1">Размер: <span class="font-bold text-gray-800">${product.size}</span></p>` : ''}
                         </div>
 
-                        <div class="bg-gray-50 p-4 rounded-lg border mt-4">
-                            <div class="text-sm text-gray-500">Статус: <span class="font-bold ${isSold ? 'text-red-500' : 'text-green-600'}">${status.toUpperCase()}</span></div>
-                            <div class="mt-2">
-                                <span class="text-sm text-gray-400 line-through">${hasDiscount ? Number(product.regularPrice).toFixed(2) + ' €' : ''}</span>
-                                <div class="text-3xl font-black text-gray-900">${activePrice.toFixed(2)} €</div>
+                        <div class="bg-gray-50 p-4 rounded-xl border flex items-center justify-between">
+                            <div>
+                                ${hasPromo ? `<span class="text-sm text-gray-400 line-through block">${Number(product.regularPrice).toFixed(2)} €</span>` : ''}
+                                <span class="text-3xl font-black ${hasPromo ? 'text-red-600' : 'text-gray-900'}">${activePrice.toFixed(2)} €</span>
+                            </div>
+                            <div>
+                                ${isSold ? 
+                                    '<span class="bg-red-100 text-red-700 text-xs font-bold px-3 py-1.5 rounded-full border border-red-200">ИЗЧЕРПАН</span>' : 
+                                    '<span class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1.5 rounded-full border border-green-200">НАЛИЧЕН</span>'
+                                }
                             </div>
                         </div>
+
+                        <div>
+                            <h4 class="font-bold text-sm text-gray-700 mb-1">Описание:</h4>
+                            <p class="text-sm text-gray-600 leading-relaxed">${product.description || 'Няма въведено описание.'}</p>
+                        </div>
+
+                        ${product.details ? `
+                            <div>
+                                <h4 class="font-bold text-sm text-gray-700 mb-1">Допълнителни детайли:</h4>
+                                <p class="text-xs text-gray-500 leading-relaxed">${product.details}</p>
+                            </div>
+                        ` : ''}
                     </div>
                 </div>
-
-                ${similarHTML}
             `;
 
-            document.getElementById('productModal').classList.remove('hidden');
+            modal.classList.remove('hidden');
         }
 
         function closeProductModal() {
@@ -826,23 +816,17 @@
             document.getElementById('lightboxModal').classList.add('hidden');
         }
 
+        // АДМИН ЛОГИКА
         function openAdminLogin() {
+            document.getElementById('adminModal').classList.remove('hidden');
             if (isAdminLoggedIn) {
-                openAdminDashboardModal();
-                return;
+                document.getElementById('adminLoginSection').classList.add('hidden');
+                document.getElementById('adminDashboardSection').classList.remove('hidden');
+                renderAdminProductsList();
+            } else {
+                document.getElementById('adminLoginSection').classList.remove('hidden');
+                document.getElementById('adminDashboardSection').classList.add('hidden');
             }
-            document.getElementById('adminLoginSection').classList.remove('hidden');
-            document.getElementById('adminDashboardSection').classList.add('hidden');
-            document.getElementById('adminPasswordInput').value = '';
-            document.getElementById('adminLoginError').classList.add('hidden');
-            document.getElementById('adminModal').classList.remove('hidden');
-        }
-
-        function openAdminDashboardModal() {
-            document.getElementById('adminLoginSection').classList.add('hidden');
-            document.getElementById('adminDashboardSection').classList.remove('hidden');
-            renderAdminProductsList();
-            document.getElementById('adminModal').classList.remove('hidden');
         }
 
         function closeAdminModal() {
@@ -850,212 +834,168 @@
         }
 
         function verifyAdminPassword() {
-            const pass = document.getElementById('adminPasswordInput').value;
-            if (pass === 'onlineshop0000') {
+            const input = document.getElementById('adminPasswordInput').value;
+            if (input === '1234' || input === 'admin') {
                 isAdminLoggedIn = true;
-                closeAdminModal();
+                document.getElementById('adminLoginSection').classList.add('hidden');
+                document.getElementById('adminDashboardSection').classList.remove('hidden');
                 document.getElementById('adminBottomBar').classList.remove('hidden');
-                renderCatalog();
+                renderAdminProductsList();
             } else {
                 document.getElementById('adminLoginError').classList.remove('hidden');
             }
         }
 
         function adminLogout() {
-            if (hasUnsavedChanges && !confirm('Имате незапазени промени! Сигурни ли сте, че искате да излезете без да запазите в GitHub?')) {
-                return;
-            }
             isAdminLoggedIn = false;
             document.getElementById('adminBottomBar').classList.add('hidden');
-            renderCatalog();
-            alert('Успешно излязохте от администраторския панел.');
+            closeAdminModal();
+        }
+
+        function openAdminDashboardModal() {
+            openAdminLogin();
         }
 
         function renderAdminProductsList() {
             const list = document.getElementById('adminProductsList');
-            list.innerHTML = products.map(p => {
-                const activePrice = getActivePrice(p);
-                const status = getStockStatus(p);
-                const img = (p.images && p.images[0]) ? p.images[0] : '';
-                return `
-                    <div class="flex items-center justify-between bg-white p-3 rounded border shadow-sm">
-                        <div class="flex items-center gap-3">
-                            <img src="${getImageUrl(img)}" class="w-12 h-12 object-cover rounded">
-                            <div>
-                                <div class="font-bold text-sm">${p.title}</div>
-                                <div class="text-xs text-gray-500">${p.category} | ${activePrice.toFixed(2)} € | <span class="${status === 'продаден' ? 'text-red-500' : 'text-green-600'} font-semibold">${status}</span></div>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="toggleProductStock(${p.id})" class="px-2.5 py-1 text-xs rounded font-medium ${status === 'наличен' ? 'bg-amber-100 text-amber-700 hover:bg-amber-200' : 'bg-green-100 text-green-700 hover:bg-green-200'}">
-                                ${status === 'наличен' ? 'Маркирай продаден' : 'Маркирай наличен'}
-                            </button>
-                            <button onclick="openEditProductForm(${p.id})" class="bg-blue-100 text-blue-700 hover:bg-blue-200 p-2 rounded text-xs"><i class="fa-solid fa-pen"></i></button>
-                            <button onclick="deleteProduct(${p.id})" class="bg-red-100 text-red-700 hover:bg-red-200 p-2 rounded text-xs"><i class="fa-solid fa-trash"></i></button>
+            if (!list) return;
+
+            list.innerHTML = '';
+            products.forEach(product => {
+                const item = document.createElement('div');
+                item.className = "flex items-center justify-between p-3 bg-gray-50 rounded-lg border text-sm";
+                item.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <img src="${getImageUrl(product.images ? product.images[0] : '')}" class="w-10 h-10 object-contain bg-white border rounded">
+                        <div>
+                            <div class="font-bold text-gray-800 line-clamp-1">${product.title}</div>
+                            <div class="text-xs text-gray-500">${product.category} | ${getActivePrice(product).toFixed(2)} €</div>
                         </div>
                     </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="editProduct(${product.id})" class="bg-blue-100 text-blue-700 px-3 py-1 rounded text-xs font-bold hover:bg-blue-200">
+                            <i class="fa-solid fa-pen"></i> Редактирай
+                        </button>
+                        <button onclick="deleteProduct(${product.id})" class="bg-red-100 text-red-700 px-3 py-1 rounded text-xs font-bold hover:bg-red-200">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
                 `;
-            }).join('');
+                list.appendChild(item);
+            });
         }
 
         function openProductForm() {
-            document.getElementById('formTitle').innerText = 'Добавяне на нов продукт';
+            document.getElementById('productFormContainer').classList.remove('hidden');
             document.getElementById('productForm').reset();
             document.getElementById('editProductId').value = '';
-            document.getElementById('productFormContainer').classList.remove('hidden');
-        }
-
-        function openEditProductForm(id) {
-            const product = products.find(p => p.id === id);
-            if (!product) return;
-
-            document.getElementById('formTitle').innerText = 'Редакция на продукт';
-            document.getElementById('editProductId').value = product.id;
-            document.getElementById('formTitleInput').value = product.title;
-            document.getElementById('formCategoryInput').value = product.category;
-            document.getElementById('formRegularPrice').value = product.regularPrice;
-            document.getElementById('formPromoPrice').value = product.promoPrice !== undefined ? product.promoPrice : (product.salePrice !== undefined ? product.salePrice : '');
-            document.getElementById('formSize').value = product.size || '';
-            document.getElementById('formStockStatus').value = getStockStatus(product);
-            
-            const imgs = product.images || [];
-            document.getElementById('formImage1').value = imgs[0] || '';
-            document.getElementById('formImage2').value = imgs[1] || '';
-            document.getElementById('formImage3').value = imgs[2] || '';
-
-            document.getElementById('formDescription').value = product.description || '';
-            document.getElementById('formDetails').value = product.details || '';
-            document.getElementById('productFormContainer').classList.remove('hidden');
-        }
-
-        function openEditProductFormDirect(id) {
-            openAdminDashboardModal();
-            openEditProductForm(id);
+            document.getElementById('formTitle').innerText = 'Добавяне на нов продукт';
         }
 
         function cancelProductForm() {
             document.getElementById('productFormContainer').classList.add('hidden');
         }
 
-        async function handleProductFormSubmit(e) {
+        function editProduct(id) {
+            const p = products.find(item => item.id === id);
+            if (!p) return;
+
+            openProductForm();
+            document.getElementById('formTitle').innerText = 'Редактиране на продукт';
+            document.getElementById('editProductId').value = p.id;
+            document.getElementById('formTitleInput').value = p.title || '';
+            document.getElementById('formCategoryInput').value = p.category || 'Облекло';
+            document.getElementById('formRegularPrice').value = p.regularPrice || '';
+            document.getElementById('formPromoPrice').value = p.promoPrice || '';
+            document.getElementById('formSize').value = p.size || '';
+            document.getElementById('formStockStatus').value = getStockStatus(p);
+            document.getElementById('formDescription').value = p.description || '';
+            document.getElementById('formDetails').value = p.details || '';
+
+            if (p.images) {
+                document.getElementById('formImage1').value = p.images[0] || '';
+                document.getElementById('formImage2').value = p.images[1] || '';
+                document.getElementById('formImage3').value = p.images[2] || '';
+            }
+        }
+
+        function handleProductFormSubmit(e) {
             e.preventDefault();
             const editId = document.getElementById('editProductId').value;
-            
-            const img1 = document.getElementById('formImage1').value.trim();
-            const img2 = document.getElementById('formImage2').value.trim();
-            const img3 = document.getElementById('formImage3').value.trim();
-            const imagesArr = [img1, img2, img3].filter(Boolean);
 
-            const promoVal = document.getElementById('formPromoPrice').value;
-            const stockStatusVal = document.getElementById('formStockStatus').value;
+            const imgs = [
+                document.getElementById('formImage1').value,
+                document.getElementById('formImage2').value,
+                document.getElementById('formImage3').value
+            ].filter(url => url.trim() !== '');
 
             const productData = {
-                id: editId ? parseInt(editId) : (products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1),
+                id: editId ? Number(editId) : Date.now(),
                 title: document.getElementById('formTitleInput').value,
                 category: document.getElementById('formCategoryInput').value,
                 regularPrice: parseFloat(document.getElementById('formRegularPrice').value),
-                salePrice: promoVal ? parseFloat(promoVal) : null,
+                promoPrice: document.getElementById('formPromoPrice').value ? parseFloat(document.getElementById('formPromoPrice').value) : null,
                 size: document.getElementById('formSize').value,
-                stockStatus: stockStatusVal,
-                sold: stockStatusVal === 'продаден',
-                images: imagesArr.length > 0 ? imagesArr : ['https://via.placeholder.com/300'],
+                stockStatus: document.getElementById('formStockStatus').value,
+                images: imgs,
                 description: document.getElementById('formDescription').value,
                 details: document.getElementById('formDetails').value
             };
 
             if (editId) {
-                const index = products.findIndex(p => p.id === parseInt(editId));
-                if (index !== -1) products[index] = productData;
+                const idx = products.findIndex(p => p.id === Number(editId));
+                if (idx !== -1) products[idx] = productData;
             } else {
                 products.unshift(productData);
             }
 
+            hasUnsavedChanges = true;
+            updateUnsavedStatus();
             cancelProductForm();
             renderAdminProductsList();
-            renderHomeCategories();
-            filterByCategory(currentCategoryFilter);
-
-            hasUnsavedChanges = true;
-            updateUnsavedStatus();
+            applyFiltersAndSort();
         }
 
-        async function deleteProduct(id) {
-            if (!confirm('Сигурни ли сте, че искате да изтриете този продукт?')) return;
-            products = products.filter(p => p.id !== id);
-            renderAdminProductsList();
-            renderHomeCategories();
-            filterByCategory(currentCategoryFilter);
-
-            hasUnsavedChanges = true;
-            updateUnsavedStatus();
-        }
-
-        async function toggleProductStock(id) {
-            const product = products.find(p => p.id === id);
-            if (product) {
-                const currentStatus = getStockStatus(product);
-                product.stockStatus = currentStatus === 'наличен' ? 'продаден' : 'наличен';
-                product.sold = product.stockStatus === 'продаден';
-                renderAdminProductsList();
-                renderHomeCategories();
-                filterByCategory(currentCategoryFilter);
-
+        function deleteProduct(id) {
+            if (confirm('Сигурни ли сте, че искате да изтриете този продукт?')) {
+                products = products.filter(p => p.id !== id);
                 hasUnsavedChanges = true;
                 updateUnsavedStatus();
+                renderAdminProductsList();
+                applyFiltersAndSort();
             }
         }
 
         function downloadProductsJson() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(products, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", "products.json");
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
+            const dlAnchor = document.createElement('a');
+            dlAnchor.setAttribute("href", dataStr);
+            dlAnchor.setAttribute("download", "products.json");
+            document.body.appendChild(dlAnchor);
+            dlAnchor.click();
+            dlAnchor.remove();
         }
 
         function downloadFullIndexHtml() {
-            const htmlContent = document.documentElement.outerHTML;
-            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", url);
-            downloadAnchor.setAttribute("download", "index.html");
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
+            const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+            const dataStr = "data:text/html;charset=utf-8," + encodeURIComponent(htmlContent);
+            const dlAnchor = document.createElement('a');
+            dlAnchor.setAttribute("href", dataStr);
+            dlAnchor.setAttribute("download", "index.html");
+            document.body.appendChild(dlAnchor);
+            dlAnchor.click();
+            dlAnchor.remove();
         }
 
         async function manualSyncGitHub() {
             const btn = document.getElementById('syncGithubBtn');
-            const originalText = btn ? btn.innerHTML : '';
-            if (btn) {
-                btn.disabled = true;
-                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Запазване...';
-            }
-
-            const success = await syncWithGitHub();
-            
-            if (btn) {
-                btn.disabled = false;
-                btn.innerHTML = originalText;
-            }
-
-            if (success) {
-                hasUnsavedChanges = false;
-                updateUnsavedStatus();
-                alert('Промените са качени успешно в GitHub!');
-            } else {
-                alert('Възникна грешка при качването в GitHub. Моля, опитайте отново.');
-            }
-        }
-
-        async function syncWithGitHub() {
-            const { owner, repo, path, token } = GITHUB_CONFIG;
-            const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+            if (btn) btn.innerText = "Синхронизиране...";
 
             try {
+                const token = GITHUB_CONFIG.token;
+                const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.path}`;
+
+                let sha = "";
                 const getResponse = await fetch(url, {
                     headers: {
                         "Authorization": `Bearer ${token}`,
@@ -1063,14 +1003,12 @@
                     }
                 });
 
-                let sha = "";
                 if (getResponse.ok) {
-                    const fileData = await getResponse.json();
-                    sha = fileData.sha;
+                    const getData = await getResponse.json();
+                    sha = getData.sha;
                 }
 
-                const jsonString = JSON.stringify(products, null, 2);
-                const contentEncoded = btoa(unescape(encodeURIComponent(jsonString)));
+                const contentEncoded = btoa(unescape(encodeURIComponent(JSON.stringify(products, null, 2))));
 
                 const putResponse = await fetch(url, {
                     method: "PUT",
@@ -1087,32 +1025,33 @@
                 });
 
                 if (putResponse.ok) {
-                    console.log("Успешна синхронизация с GitHub репозиторито!");
-                    return true;
+                    alert("Успешна синхронизация с GitHub!");
+                    hasUnsavedChanges = false;
+                    updateUnsavedStatus();
                 } else {
-                    const err = await putResponse.json();
-                    console.error("Грешка при GitHub синхронизация:", err.message);
-                    return false;
+                    alert("Грешка при синхронизация с GitHub.");
                 }
             } catch (error) {
-                console.error("Мрежова грешка при връзка с GitHub API:", error);
-                return false;
+                alert("Мрежова грешка при връзка с GitHub.");
+            } finally {
+                if (btn) btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up mr-1"></i> Запази в GitHub';
             }
         }
     </script>
 
 <script>
-document.addEventListener('DOMContentLoaded',()=>{
- const cat=document.getElementById('formCategoryInput');
- if(cat){
-   const sizeInput=document.getElementById('formSize');
-   const wrapper=sizeInput.closest('div');
-   function upd(){
-      const show=cat.value==='Облекло';
-      wrapper.style.display=show?'':'none';
-   }
-   cat.addEventListener('change',upd);upd();
- }
+document.addEventListener('DOMContentLoaded', () => {
+    const cat = document.getElementById('formCategoryInput');
+    if (cat) {
+        const sizeInput = document.getElementById('formSize');
+        const wrapper = sizeInput.closest('div');
+        function upd() {
+            const show = cat.value === 'Облекло';
+            wrapper.style.display = show ? '' : 'none';
+        }
+        cat.addEventListener('change', upd);
+        upd();
+    }
 });
 </script>
 </body>
