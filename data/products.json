@@ -8,6 +8,8 @@
     "size": "",
     "stockStatus": "наличен",
     "sold": false,
+    "shipment": "1",
+    "itemNumber": "4",
     "images": [
       "https://m.media-amazon.com/images/I/61aaqxprorL._AC_SL1500_.jpg",
       "https://m.media-amazon.com/images/I/61-OX+HWSlL._AC_SL1500_.jpg",
