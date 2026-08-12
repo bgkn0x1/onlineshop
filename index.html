@@ -791,36 +791,28 @@ function showCatalogView() {
             switchView('catalog');
         }
 
-        function sortProducts(criteria) {
-    filteredProducts.sort((a, b) => {
-        const isOutOfStockA = getStockStatus(a) === 'изчерпан' ? 1 : 0;
-        const isOutOfStockB = getStockStatus(b) === 'изчерпан' ? 1 : 0;
-
-        // 1. ПЪРВО: Наличните се показват отпред, а изчерпаните отиват най-отзад
-        if (isOutOfStockA !== isOutOfStockB) {
-            return isOutOfStockA - isOutOfStockB;
+        function sortProducts(sortType) {
+            currentSort = sortType;
+            if (sortType === 'price-asc') {
+                currentFilteredProducts.sort((a, b) => getActivePrice(a) - getActivePrice(b));
+            } else if (sortType === 'price-desc') {
+                currentFilteredProducts.sort((a, b) => getActivePrice(b) - getActivePrice(a));
+            } else if (sortType === 'discount') {
+                currentFilteredProducts.sort((a, b) => {
+                    const priceA = getActivePrice(a);
+                    const priceB = getActivePrice(b);
+                    const discA = a.regularPrice > priceA ? ((a.regularPrice - priceA) / a.regularPrice) : 0;
+                    const discB = b.regularPrice > priceB ? ((b.regularPrice - priceB) / b.regularPrice) : 0;
+                    return discB - discA;
+                });
+            }
+            renderCatalog();
         }
-
-        // 2. ВТОРО: Сортиране спрямо избрания от потребителя критерий
-        if (criteria === 'price-asc') {
-            return getActivePrice(a) - getActivePrice(b);
-        } else if (criteria === 'price-desc') {
-            return getActivePrice(b) - getActivePrice(a);
-        } else if (criteria === 'title-asc') {
-            return a.title.localeCompare(b.title, 'bg');
-        } else if (criteria === 'title-desc') {
-            return b.title.localeCompare(a.title, 'bg');
-        }
-        return 0;
-    });
-
-    renderPage(1);
-}
 
         function applySortingAndPagination() {
             sortProducts(currentSort);
         }
-        
+
         function renderCatalog() {
             const grid = document.getElementById('productsGrid');
             const countElem = document.getElementById('catalogCount');
@@ -1300,23 +1292,17 @@ function showCatalogView() {
     </script>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const cat = document.getElementById('formCategoryInput');
-    if (cat) {
-        const sizeInput = document.getElementById('formSize');
-        if (sizeInput) {
-            const wrapper = sizeInput.closest('div');
-            function upd() {
-                // Проверява за 'Дрехи' или 'Облекло' спрямо твоите категории
-                const show = cat.value === 'Дрехи' || cat.value === 'Облекло';
-                if (wrapper) {
-                    wrapper.style.display = show ? '' : 'none';
-                }
-            }
-            cat.addEventListener('change', upd);
-            upd();
-        }
-    }
+document.addEventListener('DOMContentLoaded',()=>{
+ const cat=document.getElementById('formCategoryInput');
+ if(cat){
+   const sizeInput=document.getElementById('formSize');
+   const wrapper=sizeInput.closest('div');
+   function upd(){
+      const show=cat.value==='Облекло';
+      wrapper.style.display=show?'':'none';
+   }
+   cat.addEventListener('change',upd);upd();
+ }
 });
 </script>
 </body>
