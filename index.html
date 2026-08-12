@@ -825,6 +825,13 @@ function showCatalogView() {
                 });
             }
 
+            // Приоритетните продукти отиват най-отпред
+            currentFilteredProducts.sort((a, b) => {
+                const aPriority = a.priority ? 1 : 0;
+                const bPriority = b.priority ? 1 : 0;
+                return bPriority - aPriority;
+            });
+
             // Изчерпаните продукти винаги отиват най-отзад, независимо от избраната подредба
             currentFilteredProducts.sort((a, b) => {
                 const aSold = getStockStatus(a) === 'продаден' ? 1 : 0;
@@ -870,12 +877,16 @@ function showCatalogView() {
                 return `
                     <div onclick="openProductModal(${p.id})" class="bg-white rounded-lg shadow-sm hover:shadow-lg transition p-3 sm:p-4 flex flex-col justify-between relative border border-gray-100 group cursor-pointer">
                         <div class="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 flex flex-col gap-1 pointer-events-none">
+                            ${p.priority ? `<span class="bg-amber-400 text-white text-[10px] sm:text-xs font-black px-1.5 sm:px-2 py-0.5 sm:py-1 rounded flex items-center gap-1"><i class="fa-solid fa-star"></i> Приоритетен</span>` : ''}
                             ${hasDiscount ? `<span class="bg-orange-500 text-white text-[10px] sm:text-xs font-black px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">-${discountPercent}%</span>` : ''}
                             ${isSoldOut ? `<span class="bg-gray-800 text-white text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">Изчерпан</span>` : `<span class="bg-green-600 text-white text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">Наличен</span>`}
                         </div>
 
                         <div class="absolute top-2 right-2 sm:top-3 sm:right-3 z-10 flex items-center gap-1">
                             ${typeof isAdminLoggedIn !== 'undefined' && isAdminLoggedIn ? `
+                                <button onclick="event.stopPropagation(); toggleProductPriority(${p.id})" title="${p.priority ? 'Премахни приоритет' : 'Отбележи като приоритетен'}" class="${p.priority ? 'bg-amber-400 hover:bg-amber-500' : 'bg-gray-500 hover:bg-gray-600'} text-white w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center text-xs shadow transition">
+                                    <i class="fa-solid fa-star"></i>
+                                </button>
                                 <button onclick="event.stopPropagation(); openEditProductFormDirect(${p.id})" title="Редактирай" class="bg-blue-600 hover:bg-blue-700 text-white w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center text-xs shadow transition">
                                     <i class="fa-solid fa-pen"></i>
                                 </button>
@@ -1110,15 +1121,21 @@ function showCatalogView() {
                 const status = getStockStatus(p);
                 const img = (p.images && p.images[0]) ? p.images[0] : '';
                 return `
-                    <div class="flex items-center justify-between bg-white p-3 rounded border shadow-sm">
+                    <div class="flex items-center justify-between bg-white p-3 rounded border shadow-sm ${p.priority ? 'ring-2 ring-amber-400' : ''}">
                         <div class="flex items-center gap-3">
                             <img src="${getImageUrl(img)}" class="w-12 h-12 object-cover rounded">
                             <div>
-                                <div class="font-bold text-sm">${p.title}</div>
+                                <div class="font-bold text-sm flex items-center gap-1.5">
+                                    ${p.priority ? '<i class="fa-solid fa-star text-amber-400"></i>' : ''}
+                                    ${p.title}
+                                </div>
                                 <div class="text-xs text-gray-500">${p.category} | ${activePrice.toFixed(2)} € | <span class="${status === 'продаден' ? 'text-red-500' : 'text-green-600'} font-semibold">${status}</span></div>
                             </div>
                         </div>
                         <div class="flex items-center gap-2">
+                            <button onclick="toggleProductPriority(${p.id})" title="${p.priority ? 'Премахни приоритет' : 'Отбележи като приоритетен'}" class="p-2 rounded text-xs ${p.priority ? 'bg-amber-400 text-white hover:bg-amber-500' : 'bg-gray-100 text-gray-400 hover:bg-amber-100 hover:text-amber-500'}">
+                                <i class="fa-solid fa-star"></i>
+                            </button>
                             <button onclick="toggleProductStock(${p.id})" class="px-2.5 py-1 text-xs rounded font-medium ${status === 'наличен' ? 'bg-amber-100 text-amber-700 hover:bg-amber-200' : 'bg-green-100 text-green-700 hover:bg-green-200'}">
                                 ${status === 'наличен' ? 'Маркирай продаден' : 'Маркирай наличен'}
                             </button>
@@ -1185,7 +1202,10 @@ function showCatalogView() {
             const promoVal = document.getElementById('formPromoPrice').value;
             const stockStatusVal = document.getElementById('formStockStatus').value;
 
+            const existingProduct = editId ? products.find(p => p.id === parseInt(editId)) : null;
+
             const productData = {
+                ...(existingProduct || {}),
                 id: editId ? parseInt(editId) : (products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1),
                 title: document.getElementById('formTitleInput').value,
                 category: document.getElementById('formCategoryInput').value,
@@ -1234,6 +1254,19 @@ function showCatalogView() {
                 const currentStatus = getStockStatus(product);
                 product.stockStatus = currentStatus === 'наличен' ? 'продаден' : 'наличен';
                 product.sold = product.stockStatus === 'продаден';
+                renderAdminProductsList();
+                renderHomeCategories();
+                filterByCategory(currentCategoryFilter);
+
+                hasUnsavedChanges = true;
+                updateUnsavedStatus();
+            }
+        }
+
+        async function toggleProductPriority(id) {
+            const product = products.find(p => p.id === id);
+            if (product) {
+                product.priority = !product.priority;
                 renderAdminProductsList();
                 renderHomeCategories();
                 filterByCategory(currentCategoryFilter);
