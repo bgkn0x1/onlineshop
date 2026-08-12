@@ -719,27 +719,34 @@ function showCatalogView() {
             }).join('');
         }
 
-        function filterByCategory(category) {
-    currentCategory = category;
+        function filterByCategory(categoryName) {
+    currentCategoryFilter = categoryName;
+    currentSearchQuery = '';
     
-    // Ако е натиснато "Облекло", дефинираме списък с всички нейни подкатегории
+    // Зачистваме полетата за търсене
+    const desktopSearch = document.getElementById('searchInputDesktop');
+    const mobileSearch = document.getElementById('searchInputMobile');
+    if (desktopSearch) desktopSearch.value = '';
+    if (mobileSearch) mobileSearch.value = '';
+    
+    // Списък с подкатегориите, които влизат в "Облекло"
     const clothingSubcategories = ['Облекло', 'Дрехи', 'Обувки', 'За деца', 'Очила'];
 
-    if (category === 'Всички') {
-        filteredProducts = [...allProducts];
-    } else if (category === 'Облекло') {
-        // Взимаме всички продукти, чиято категория се съдържа в списъка за облекло
-        filteredProducts = allProducts.filter(product => 
-            clothingSubcategories.includes(product.category)
-        );
+    if (categoryName === 'Всички') {
+        currentFilteredProducts = [...products];
+        document.getElementById('catalogTitle').innerText = 'Всички продукти';
+    } else if (categoryName === 'Облекло') {
+        // Показва всички продукти, чиято категория е Дрехи, Обувки, За деца, Очила или Облекло
+        currentFilteredProducts = products.filter(p => p.category && clothingSubcategories.includes(p.category.trim()));
+        document.getElementById('catalogTitle').innerText = 'Категория: Облекло';
     } else {
-        // За всички останали категории филтрираме точно по името
-        filteredProducts = allProducts.filter(product => product.category === category);
+        currentFilteredProducts = products.filter(p => p.category && p.category.trim() === categoryName.trim());
+        document.getElementById('catalogTitle').innerText = `Категория: ${categoryName}`;
     }
 
-    // Връщаме на първа страница и презареждаме изгледа
     currentPage = 1;
-    renderCatalog();
+    applySortingAndPagination();
+    switchView('catalog');
 }
 
         function handleSearch(query) {
