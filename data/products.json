@@ -173,15 +173,13 @@
   },
   {
     "id": 1785423034125,
-    "title": "(Използвана) Акумулаторна Ножица за Трева и Храсти WORKPRO (2 в 1)",
+    "title": "Акумулаторна Ножица за Трева и Храсти WORKPRO (2 в 1)",
     "category": "Инструменти",
     "regularPrice": 44.99,
-    "salePrice": 10,
+    "salePrice": 21.99,
     "size": "",
     "stockStatus": "наличен",
     "sold": false,
-    "shipment": "",
-    "itemNumber": "",
     "images": [
       "https://m.media-amazon.com/images/I/71Wn4mfuR+L._AC_SL1500_.jpg",
       "https://m.media-amazon.com/images/I/91NbPrazFAL._AC_SL1500_.jpg",
@@ -214,8 +212,10 @@
     "regularPrice": 35.99,
     "salePrice": 20,
     "size": "",
-    "stockStatus": "продаден",
-    "sold": true,
+    "stockStatus": "наличен",
+    "sold": false,
+    "shipment": "",
+    "itemNumber": "",
     "images": [
       "https://m.media-amazon.com/images/I/71Kgi0ArfhL._AC_SL1500_.jpg",
       "https://m.media-amazon.com/images/I/71m45oRxtCL._AC_SL1500_.jpg",
@@ -248,10 +248,8 @@
     "regularPrice": 47.99,
     "salePrice": 20,
     "size": "",
-    "stockStatus": "продаден",
-    "sold": true,
-    "shipment": "",
-    "itemNumber": "",
+    "stockStatus": "наличен",
+    "sold": false,
     "images": [
       "https://m.media-amazon.com/images/I/71lsuk11P2L._SL1500_.jpg",
       "https://m.media-amazon.com/images/I/81qswox+OPL._SL1500_.jpg",
@@ -482,21 +480,19 @@
   {
     "id": 1785422144338,
     "title": "LED лампа с тъч и APP контро",
-    "category": "Дом и кухня",
     "regularPrice": 45.99,
     "salePrice": 20,
+    "quantity": 1,
+    "category": "Дом и кухня",
     "size": "",
-    "stockStatus": "наличен",
-    "sold": false,
-    "shipment": "",
-    "itemNumber": "",
     "images": [
-      "https://assets.jobalots.com/product_image/s3vb0Rd41rvRJQljjQNDtbDTb4MHp8zV6gyiF5I3.png?format=auto&width=640&quality=100",
+      "https://assets.jobalots.com/product_image/nbEmtQjqz1VhoiR1FtNTJURyNcrQ0d5Oap2Nx4NY.png?format=auto&width=640&quality=100",
       "https://assets.jobalots.com/product_image/pRYMY2sKdjvSA0meXJnGULuXhOJCuONPzFEKhh8c.png?format=auto&width=640&quality=100",
-      "https://assets.jobalots.com/product_image/nbEmtQjqz1VhoiR1FtNTJURyNcrQ0d5Oap2Nx4NY.png?format=auto&width=640&quality=100"
+      "https://assets.jobalots.com/product_image/s3vb0Rd41rvRJQljjQNDtbDTb4MHp8zV6gyiF5I3.png?format=auto&width=640&quality=100"
     ],
     "description": "Умен RGB LED ъглов подов лампа с тъч и APP контрол 1500LM димируем – Черна",
-    "details": ""
+    "details": "",
+    "sold": false
   },
   {
     "id": 1785422086685,
@@ -1336,10 +1332,8 @@
     "regularPrice": 40,
     "salePrice": 20,
     "size": "",
-    "stockStatus": "продаден",
-    "sold": true,
-    "shipment": "",
-    "itemNumber": "",
+    "stockStatus": "наличен",
+    "sold": false,
     "images": [
       "https://m.media-amazon.com/images/I/61olQ9wZnbL._AC_SL1500_.jpg",
       "https://m.media-amazon.com/images/I/71UACHnQWHL._AC_SL1500_.jpg",
