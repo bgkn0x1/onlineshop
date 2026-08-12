@@ -399,6 +399,15 @@
                             </select>
                         </div>
                         
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Пратка <span class="text-gray-400 font-normal">(вижда се само в админ панел)</span></label>
+                            <input type="text" id="formShipment" placeholder="напр. Пратка от 12.08.2026" class="w-full border p-2 rounded bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Номер на артикул <span class="text-gray-400 font-normal">(вижда се само в админ панел)</span></label>
+                            <input type="text" id="formItemNumber" placeholder="напр. A-104" class="w-full border p-2 rounded bg-white">
+                        </div>
+
                         <div class="md:col-span-2 space-y-2">
                             <label class="block text-sm font-medium">Снимки на продукта (до 3 URL адреса)</label>
                             <input type="url" id="formImage1" placeholder="Снимка 1 (задължителна) - https://..." required class="w-full border p-2 rounded bg-white text-sm">
@@ -478,6 +487,7 @@
 
         let products = [];
         let currentFilteredProducts = [];
+        let baseFilteredProducts = [];
         let currentPage = 1;
         const itemsPerPage = 16;
         let currentCategoryFilter = 'Всички';
@@ -652,6 +662,7 @@
                 products = getDefaultSampleProducts();
             }
             currentFilteredProducts = [...products];
+            baseFilteredProducts = [...products];
             renderHomeCategories();
             renderCatalog();
         }
@@ -760,6 +771,7 @@ function showCatalogView() {
     }
 
     currentPage = 1;
+    baseFilteredProducts = [...currentFilteredProducts];
     applySortingAndPagination();
     
     // Превключваме към изгледа с каталога
@@ -787,13 +799,16 @@ function showCatalogView() {
                 document.getElementById('catalogTitle').innerText = `Търсене: "${query}"`;
             }
             currentPage = 1;
+            baseFilteredProducts = [...currentFilteredProducts];
             applySortingAndPagination();
             switchView('catalog');
         }
 
         function sortProducts(sortType) {
             currentSort = sortType;
-            if (sortType === 'price-asc') {
+            if (sortType === 'default') {
+                currentFilteredProducts = [...baseFilteredProducts];
+            } else if (sortType === 'price-asc') {
                 currentFilteredProducts.sort((a, b) => getActivePrice(a) - getActivePrice(b));
             } else if (sortType === 'price-desc') {
                 currentFilteredProducts.sort((a, b) => getActivePrice(b) - getActivePrice(a));
@@ -865,8 +880,16 @@ function showCatalogView() {
                             <span class="text-[10px] sm:text-xs bg-gray-100 text-gray-600 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded font-medium hidden xs:inline">${p.category || ''}</span>
                         </div>
 
-                        <div class="w-full h-36 sm:h-48 mb-3 sm:mb-4 overflow-hidden rounded flex items-center justify-center bg-gray-50">
+                        <div class="relative w-full h-36 sm:h-48 mb-3 sm:mb-4 overflow-hidden rounded flex items-center justify-center bg-gray-50">
                             <img src="${displayImg}" alt="${p.title}" class="object-cover h-full w-full group-hover:scale-105 transition duration-300 ${isSoldOut ? 'grayscale opacity-60' : ''}">
+                            ${typeof isAdminLoggedIn !== 'undefined' && isAdminLoggedIn && (p.shipment || p.itemNumber) ? `
+                                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                    <div class="bg-black/70 text-white text-[10px] sm:text-xs px-2 py-1.5 rounded-lg text-center leading-tight shadow-lg backdrop-blur-sm">
+                                        ${p.shipment ? `<div><span class="font-bold">Пратка:</span> ${p.shipment}</div>` : ''}
+                                        ${p.itemNumber ? `<div><span class="font-bold">№:</span> ${p.itemNumber}</div>` : ''}
+                                    </div>
+                                </div>
+                            ` : ''}
                         </div>
 
                         <div class="space-y-1 mb-3 sm:mb-4 flex-grow ${isSoldOut ? 'opacity-60' : ''}">
@@ -978,8 +1001,16 @@ function showCatalogView() {
             modalContent.innerHTML = `
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="space-y-4">
-                        <div class="h-80 bg-gray-50 rounded-lg overflow-hidden flex items-center justify-center border cursor-pointer" onclick="openLightbox(document.getElementById('mainModalImg').src)">
-                            <img id="mainModalImg" src="${mainDisplayImg}" class="object-cover h-full w-full">
+                        <div class="relative h-80 bg-gray-50 rounded-lg overflow-hidden flex items-center justify-center border cursor-pointer" onclick="openLightbox(document.getElementById('mainModalImg').src)">
+                            <img id="mainModalImg" src="${mainDisplayImg}" class="object-cover h-full w-full ${isSold ? 'grayscale opacity-60' : ''}">
+                            ${typeof isAdminLoggedIn !== 'undefined' && isAdminLoggedIn && (product.shipment || product.itemNumber) ? `
+                                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                    <div class="bg-black/70 text-white text-sm px-3 py-2 rounded-lg text-center leading-tight shadow-lg backdrop-blur-sm">
+                                        ${product.shipment ? `<div><span class="font-bold">Пратка:</span> ${product.shipment}</div>` : ''}
+                                        ${product.itemNumber ? `<div><span class="font-bold">№:</span> ${product.itemNumber}</div>` : ''}
+                                    </div>
+                                </div>
+                            ` : ''}
                         </div>
                         <div class="flex gap-2 overflow-x-auto pb-2">
                             ${thumbnailsHTML}
@@ -1101,6 +1132,7 @@ function showCatalogView() {
             document.getElementById('productForm').reset();
             document.getElementById('editProductId').value = '';
             document.getElementById('productFormContainer').classList.remove('hidden');
+            if (typeof updateSizeFieldVisibility === 'function') updateSizeFieldVisibility();
         }
 
         function openEditProductForm(id) {
@@ -1115,6 +1147,8 @@ function showCatalogView() {
             document.getElementById('formPromoPrice').value = product.promoPrice !== undefined ? product.promoPrice : (product.salePrice !== undefined ? product.salePrice : '');
             document.getElementById('formSize').value = product.size || '';
             document.getElementById('formStockStatus').value = getStockStatus(product);
+            document.getElementById('formShipment').value = product.shipment || '';
+            document.getElementById('formItemNumber').value = product.itemNumber || '';
             
             const imgs = product.images || [];
             document.getElementById('formImage1').value = imgs[0] || '';
@@ -1124,6 +1158,7 @@ function showCatalogView() {
             document.getElementById('formDescription').value = product.description || '';
             document.getElementById('formDetails').value = product.details || '';
             document.getElementById('productFormContainer').classList.remove('hidden');
+            if (typeof updateSizeFieldVisibility === 'function') updateSizeFieldVisibility();
         }
 
         function openEditProductFormDirect(id) {
@@ -1156,6 +1191,8 @@ function showCatalogView() {
                 size: document.getElementById('formSize').value,
                 stockStatus: stockStatusVal,
                 sold: stockStatusVal === 'продаден',
+                shipment: document.getElementById('formShipment').value,
+                itemNumber: document.getElementById('formItemNumber').value,
                 images: imagesArr.length > 0 ? imagesArr : ['https://via.placeholder.com/300'],
                 description: document.getElementById('formDescription').value,
                 details: document.getElementById('formDetails').value
@@ -1300,16 +1337,19 @@ function showCatalogView() {
     </script>
 
 <script>
+function updateSizeFieldVisibility(){
+   const cat=document.getElementById('formCategoryInput');
+   const sizeInput=document.getElementById('formSize');
+   if(!cat || !sizeInput) return;
+   const wrapper=sizeInput.closest('div');
+   const show=cat.value==='Облекло';
+   wrapper.style.display=show?'':'none';
+}
 document.addEventListener('DOMContentLoaded',()=>{
  const cat=document.getElementById('formCategoryInput');
  if(cat){
-   const sizeInput=document.getElementById('formSize');
-   const wrapper=sizeInput.closest('div');
-   function upd(){
-      const show=cat.value==='Облекло';
-      wrapper.style.display=show?'':'none';
-   }
-   cat.addEventListener('change',upd);upd();
+   cat.addEventListener('change',updateSizeFieldVisibility);
+   updateSizeFieldVisibility();
  }
 });
 </script>
