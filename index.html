@@ -719,24 +719,28 @@ function showCatalogView() {
             }).join('');
         }
 
-        function filterByCategory(categoryName) {
-            currentCategoryFilter = categoryName;
-            currentSearchQuery = '';
-            document.getElementById('searchInputDesktop').value = '';
-            document.getElementById('searchInputMobile').value = '';
-            
-            if (categoryName === 'Всички') {
-                currentFilteredProducts = [...products];
-                document.getElementById('catalogTitle').innerText = 'Всички продукти';
-            } else {
-                currentFilteredProducts = products.filter(p => p.category === categoryName);
-                document.getElementById('catalogTitle').innerText = `Категория: ${categoryName}`;
-            }
+        function filterByCategory(category) {
+    currentCategory = category;
+    
+    // Ако е натиснато "Облекло", дефинираме списък с всички нейни подкатегории
+    const clothingSubcategories = ['Облекло', 'Дрехи', 'Обувки', 'За деца', 'Очила'];
 
-            currentPage = 1;
-            applySortingAndPagination();
-            switchView('catalog');
-        }
+    if (category === 'Всички') {
+        filteredProducts = [...allProducts];
+    } else if (category === 'Облекло') {
+        // Взимаме всички продукти, чиято категория се съдържа в списъка за облекло
+        filteredProducts = allProducts.filter(product => 
+            clothingSubcategories.includes(product.category)
+        );
+    } else {
+        // За всички останали категории филтрираме точно по името
+        filteredProducts = allProducts.filter(product => product.category === category);
+    }
+
+    // Връщаме на първа страница и презареждаме изгледа
+    currentPage = 1;
+    renderCatalog();
+}
 
         function handleSearch(query) {
             currentSearchQuery = query.toLowerCase().trim();
