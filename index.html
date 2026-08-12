@@ -560,23 +560,34 @@
         }
 
         function filterByCategory(categoryName) {
-            currentCategoryFilter = categoryName;
-            currentSearchQuery = '';
-            document.getElementById('searchInputDesktop').value = '';
-            document.getElementById('searchInputMobile').value = '';
-            
-            if (categoryName === 'Всички') {
-                currentFilteredProducts = [...products];
-                document.getElementById('catalogTitle').innerText = 'Всички продукти';
-            } else {
-                currentFilteredProducts = products.filter(p => p.category === categoryName);
-                document.getElementById('catalogTitle').innerText = `Категория: ${categoryName}`;
-            }
+    currentCategoryFilter = categoryName;
+    currentSearchQuery = '';
+    
+    // Зачистваме полетата за търсене
+    const desktopSearch = document.getElementById('searchInputDesktop');
+    const mobileSearch = document.getElementById('searchInputMobile');
+    if (desktopSearch) desktopSearch.value = '';
+    if (mobileSearch) mobileSearch.value = '';
+    
+    // Списък с подкатегориите, които влизат в "Облекло"
+    const clothingSubcategories = ['Облекло', 'Дрехи', 'Обувки', 'За деца', 'Очила'];
 
-            currentPage = 1;
-            applySortingAndPagination();
-            switchView('catalog');
-        }
+    if (categoryName === 'Всички') {
+        currentFilteredProducts = [...products];
+        document.getElementById('catalogTitle').innerText = 'Всички продукти';
+    } else if (categoryName === 'Облекло') {
+        // Показва всички продукти, чиято категория е Дрехи, Обувки, За деца, Очила или Облекло
+        currentFilteredProducts = products.filter(p => p.category && clothingSubcategories.includes(p.category.trim()));
+        document.getElementById('catalogTitle').innerText = 'Категория: Облекло';
+    } else {
+        currentFilteredProducts = products.filter(p => p.category && p.category.trim() === categoryName.trim());
+        document.getElementById('catalogTitle').innerText = `Категория: ${categoryName}`;
+    }
+
+    currentPage = 1;
+    applySortingAndPagination();
+    switchView('catalog');
+}
 
         function handleSearch(query) {
             currentSearchQuery = query.toLowerCase().trim();
