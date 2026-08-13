@@ -274,7 +274,13 @@
                     <h2 id="catalogTitle" class="text-2xl font-extrabold text-gray-800">Каталог продукти</h2>
                     <p id="catalogCount" class="text-sm text-gray-500">Зареждане на продукти...</p>
                 </div>
-                <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+                <div class="flex items-center gap-3 w-full sm:w-auto justify-end flex-wrap">
+                    <div id="catalogShipmentFilterWrapper" class="hidden flex items-center gap-2">
+                        <label class="text-sm font-medium text-gray-600">Пратка:</label>
+                        <select id="catalogShipmentFilter" onchange="filterByShipmentCatalog(this.value)" class="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emagBlue">
+                            <option value="Всички">Всички</option>
+                        </select>
+                    </div>
                     <label class="text-sm font-medium text-gray-600">Сортиране:</label>
                     <select id="sortSelect" onchange="sortProducts(this.value)" class="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emagBlue">
                         <option value="default">По подразбиране</option>
@@ -501,6 +507,7 @@
         let currentCategoryFilter = 'Всички';
         let currentSearchQuery = '';
         let currentSort = 'default';
+        let currentShipmentFilter = 'Всички';
         let isAdminLoggedIn = false;
         let hasUnsavedChanges = false;
 
@@ -741,6 +748,34 @@ function showCatalogView() {
             }).join('');
         }
 
+        function getAvailableShipments() {
+            return [...new Set(
+                products
+                    .map(p => (p.shipment || '').trim())
+                    .filter(s => s !== '')
+            )].sort((a, b) => a.localeCompare(b, 'bg', { numeric: true }));
+        }
+
+        function populateCatalogShipmentFilter() {
+            const select = document.getElementById('catalogShipmentFilter');
+            if (!select) return;
+            const shipments = getAvailableShipments();
+            const previouslySelected = select.value || 'Всички';
+            select.innerHTML = '<option value="Всички">Всички</option>' +
+                shipments.map(s => `<option value="${s}">${s}</option>`).join('');
+            select.value = shipments.includes(previouslySelected) ? previouslySelected : 'Всички';
+            currentShipmentFilter = select.value;
+        }
+
+        function filterByShipmentCatalog(value) {
+            currentShipmentFilter = value;
+            if (currentSearchQuery) {
+                handleSearch(currentSearchQuery);
+            } else {
+                filterByCategory(currentCategoryFilter);
+            }
+        }
+
         function filterByCategory(categoryName) {
     currentCategoryFilter = categoryName;
     currentSearchQuery = '';
@@ -781,6 +816,10 @@ function showCatalogView() {
         if (titleElem) titleElem.innerText = `Категория: ${categoryName}`;
     }
 
+    if (currentShipmentFilter && currentShipmentFilter !== 'Всички') {
+        currentFilteredProducts = currentFilteredProducts.filter(p => (p.shipment || '').trim() === currentShipmentFilter);
+    }
+
     currentPage = 1;
     baseFilteredProducts = [...currentFilteredProducts];
     applySortingAndPagination();
@@ -808,6 +847,9 @@ function showCatalogView() {
                     p.category.toLowerCase().includes(currentSearchQuery)
                 );
                 document.getElementById('catalogTitle').innerText = `Търсене: "${query}"`;
+            }
+            if (currentShipmentFilter && currentShipmentFilter !== 'Всички') {
+                currentFilteredProducts = currentFilteredProducts.filter(p => (p.shipment || '').trim() === currentShipmentFilter);
             }
             currentPage = 1;
             baseFilteredProducts = [...currentFilteredProducts];
@@ -1106,6 +1148,8 @@ function showCatalogView() {
                 isAdminLoggedIn = true;
                 closeAdminModal();
                 document.getElementById('adminBottomBar').classList.remove('hidden');
+                document.getElementById('catalogShipmentFilterWrapper').classList.remove('hidden');
+                populateCatalogShipmentFilter();
                 renderCatalog();
             } else {
                 document.getElementById('adminLoginError').classList.remove('hidden');
@@ -1118,7 +1162,9 @@ function showCatalogView() {
             }
             isAdminLoggedIn = false;
             document.getElementById('adminBottomBar').classList.add('hidden');
-            renderCatalog();
+            document.getElementById('catalogShipmentFilterWrapper').classList.add('hidden');
+            currentShipmentFilter = 'Всички';
+            filterByCategory(currentCategoryFilter);
             alert('Успешно излязохте от администраторския панел.');
         }
 
@@ -1126,11 +1172,7 @@ function showCatalogView() {
             const filterSelect = document.getElementById('adminShipmentFilter');
 
             // Извличаме уникалните пратки, които реално съществуват в продуктите
-            const shipments = [...new Set(
-                products
-                    .map(p => (p.shipment || '').trim())
-                    .filter(s => s !== '')
-            )].sort((a, b) => a.localeCompare(b, 'bg', { numeric: true }));
+            const shipments = getAvailableShipments();
 
             const previouslySelected = filterSelect.value || 'Всички';
             filterSelect.innerHTML = '<option value="Всички">Всички</option>' +
