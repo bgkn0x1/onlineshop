@@ -431,7 +431,15 @@
                 </div>
 
                 <div>
-                    <h4 class="text-lg font-bold mb-3">Управление на съществуващи продукти</h4>
+                    <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+                        <h4 class="text-lg font-bold">Управление на съществуващи продукти</h4>
+                        <div class="flex items-center gap-2 text-sm">
+                            <label for="adminShipmentFilter" class="font-medium text-gray-600">Пратка:</label>
+                            <select id="adminShipmentFilter" onchange="renderAdminProductsList()" class="border border-gray-300 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-emagBlue">
+                                <option value="Всички">Всички</option>
+                            </select>
+                        </div>
+                    </div>
                     <div id="adminProductsList" class="space-y-2 max-h-96 overflow-y-auto pr-2">
                         <!-- Списък с продукти -->
                     </div>
@@ -1115,8 +1123,34 @@ function showCatalogView() {
         }
 
         function renderAdminProductsList() {
+            const filterSelect = document.getElementById('adminShipmentFilter');
+
+            // Извличаме уникалните пратки, които реално съществуват в продуктите
+            const shipments = [...new Set(
+                products
+                    .map(p => (p.shipment || '').trim())
+                    .filter(s => s !== '')
+            )].sort((a, b) => a.localeCompare(b, 'bg', { numeric: true }));
+
+            const previouslySelected = filterSelect.value || 'Всички';
+            filterSelect.innerHTML = '<option value="Всички">Всички</option>' +
+                shipments.map(s => `<option value="${s}">${s}</option>`).join('');
+            // Възстановяваме избора, ако все още е валиден (пратката все още съществува)
+            filterSelect.value = shipments.includes(previouslySelected) ? previouslySelected : 'Всички';
+
+            const activeFilter = filterSelect.value;
+            const filteredProducts = activeFilter === 'Всички'
+                ? products
+                : products.filter(p => (p.shipment || '').trim() === activeFilter);
+
             const list = document.getElementById('adminProductsList');
-            list.innerHTML = products.map(p => {
+
+            if (filteredProducts.length === 0) {
+                list.innerHTML = `<div class="text-center text-gray-400 text-sm py-6">Няма продукти от тази пратка.</div>`;
+                return;
+            }
+
+            list.innerHTML = filteredProducts.map(p => {
                 const activePrice = getActivePrice(p);
                 const status = getStockStatus(p);
                 const img = (p.images && p.images[0]) ? p.images[0] : '';
