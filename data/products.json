@@ -8,7 +8,7 @@
     "size": "",
     "stockStatus": "наличен",
     "sold": false,
-    "shipment": "1",
+    "shipment": "",
     "itemNumber": "4",
     "images": [
       "https://m.media-amazon.com/images/I/61aaqxprorL._AC_SL1500_.jpg",
@@ -1030,7 +1030,9 @@
     "description": "Мини хладилник FOHERE, 5-литрови мини хладилници за козметика, напитки, допълнително USB захранване, 220V AC/ 12V DC, малък хладилник за спалня, офис, общежитие, кола (зелен)",
     "details": "",
     "sold": true,
-    "stockStatus": "продаден"
+    "stockStatus": "продаден",
+    "shipment": "3",
+    "itemNumber": ""
   },
   {
     "id": 1785418613480,
@@ -1048,7 +1050,9 @@
     "description": "Тракер за кабели Локатор Многофункционален тестер за мрежови и телефонни линии ",
     "details": "",
     "sold": true,
-    "stockStatus": "продаден"
+    "stockStatus": "продаден",
+    "shipment": "3",
+    "itemNumber": ""
   },
   {
     "id": 1785418480053,
@@ -1064,7 +1068,10 @@
     ],
     "description": "LED завеса ледени лампи 24м 800 LED водоустойчиви дистанционно 8 режима външна декорация",
     "details": "",
-    "sold": false
+    "sold": false,
+    "stockStatus": "наличен",
+    "shipment": "3",
+    "itemNumber": ""
   },
   {
     "id": 1785418395809,
@@ -1081,7 +1088,10 @@
     ],
     "description": "Нагревателно одеяло 10 настройки автоматично изключване пухкаво – сиво 130x180 см",
     "details": "",
-    "sold": false
+    "sold": false,
+    "stockStatus": "наличен",
+    "shipment": "3",
+    "itemNumber": ""
   },
   {
     "id": 1785418270495,
@@ -1098,7 +1108,10 @@
     ],
     "description": "HDMI 2.1 кабел 6м Сертифициран 48Gbps Ултра висока скорост за игри",
     "details": "2024 нов 6-метров 10K 8K 4K HDMI кабел, сертифициран 48Gbps ултра високоскоростен HDMI® кабел 4K 144Hz 120Hz 8K@60Hz, поддръжка на eARC HDCP2.3 HDR10+ D.olby Atmos, съвместим с PS5 X-box HDTV монитор",
-    "sold": false
+    "sold": false,
+    "stockStatus": "наличен",
+    "shipment": "1",
+    "itemNumber": ""
   },
   {
     "id": 1785418217048,
@@ -1115,7 +1128,10 @@
     ],
     "description": "SNOWKIDS Оптичен HDMI Кабел 15M 8K 48Gbps ",
     "details": "SNOWKIDS 15 метра дълъг 8K HDMI оптичен кабел 48Gbps HDMI 2.1 кабел 8K@60Hz HDMI кабел 4K@120Hz 7680P, за конзола PS5, DTS:",
-    "sold": false
+    "sold": false,
+    "stockStatus": "наличен",
+    "shipment": "1",
+    "itemNumber": ""
   },
   {
     "id": 1785418173324,
@@ -1132,7 +1148,10 @@
     ],
     "description": "Трипътен мониторен механизъм регулируем стойка за екрани до 27 инча ",
     "details": "Държач за монитор WALI за 3 монитора за екрани до 27 инча, стойка за монитор за 3 монитора напълно регулируема, държач за монитор за 3 монитора 7 кг на рамо, VESA 75/100 (M003S) черен",
-    "sold": false
+    "sold": false,
+    "stockStatus": "наличен",
+    "shipment": "1",
+    "itemNumber": ""
   },
   {
     "id": 1785418048149,
@@ -1149,7 +1168,10 @@
     ],
     "description": "MIUCDA Интелигентен модул за превключване на ролетни щори WIFI + RF с функция за процент с Alexa Google Home Направи си сам таймер за управление на електрически ролетни щори APP управление за моторни щори и сенници",
     "details": "",
-    "sold": false
+    "sold": false,
+    "stockStatus": "наличен",
+    "shipment": "1",
+    "itemNumber": ""
   },
   {
     "id": 1785417936354,
@@ -1166,7 +1188,10 @@
     ],
     "description": "Aigostar 9W LED прожектори за вграждане димируеми 230V 2 пакета",
     "details": "Aigostar 9W LED прожектори за вграждане димируеми 230V 2 пакета, интелигентни LED прожектори за вграждане димируеми RGB неутрално бяло, ултра плоски спотове таванна светлина, 780lm таванна лампа за вграждане, съвместима с Alexa/Google Home",
-    "sold": false
+    "sold": false,
+    "stockStatus": "наличен",
+    "shipment": "1",
+    "itemNumber": ""
   },
   {
     "id": 1785417853028,
@@ -1181,7 +1206,10 @@
       "https://assets.jobalots.com/product_image/6fuQLc0AInhEjNdonC6lLU3xkBQxVD6P88nHx8NM.png?format=auto&width=640&quality=100",
       "https://assets.jobalots.com/product_image/x01cQpzPKqPna1TxcuCmI2SXrfXg5yWFoppXncKq.png?format=auto&width=640&quality=100"
     ],
-    "description": "day wolf Загряващи ръкавици 7.4V Презареждаща се батерия 3 нива на топлина "
+    "description": "day wolf Загряващи ръкавици 7.4V Презареждаща се батерия 3 нива на топлина ",
+    "shipment": "1",
+    "itemNumber": "",
+    "details": ""
   },
   {
     "id": 1785341641755,
@@ -1385,7 +1413,10 @@
     "description": "Слънчеви Очила с Bluetooth колонка и микрофон",
     "details": "",
     "sold": false,
-    "priority": true
+    "priority": true,
+    "stockStatus": "наличен",
+    "shipment": "2",
+    "itemNumber": ""
   },
   {
     "id": 1785336810941,
@@ -1402,7 +1433,10 @@
     ],
     "description": "Умна комбинирана катарама с ключ NFC и RFID ",
     "details": "",
-    "sold": false
+    "sold": false,
+    "stockStatus": "наличен",
+    "shipment": "2",
+    "itemNumber": ""
   },
   {
     "id": 1785336676420,
@@ -1419,7 +1453,10 @@
     ],
     "description": "Сребърен разтегателен прът за завеси с конзоли за спалня, хол – 72-125см",
     "details": "Сребърен разтегателен прът за завеси с конзоли за спалня, хол – 72-125см",
-    "sold": false
+    "sold": false,
+    "stockStatus": "наличен",
+    "shipment": "2",
+    "itemNumber": ""
   },
   {
     "id": 1785336429982,
@@ -1436,7 +1473,10 @@
     ],
     "description": "LED тениска с програмируемо приложение",
     "details": "SOOOEC LED тениска с програмируемо приложение за Bluetooth, светеща в тъмното тениска със светещ LED панел, светеща тениска за рейв партита, черна, XXL",
-    "sold": false
+    "sold": false,
+    "stockStatus": "наличен",
+    "shipment": "2",
+    "itemNumber": ""
   },
   {
     "id": 1785336324566,
@@ -1470,6 +1510,9 @@
     ],
     "description": "Загряващи Ръкавици с Презареждаема Батерия – Унисекс",
     "details": "Загряващи Ръкавици с Презареждаема Батерия",
-    "sold": false
+    "sold": false,
+    "stockStatus": "наличен",
+    "shipment": "2",
+    "itemNumber": ""
   }
 ]
