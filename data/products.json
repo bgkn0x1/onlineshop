@@ -776,8 +776,8 @@
     "regularPrice": 306.82,
     "salePrice": 60,
     "size": "",
-    "stockStatus": "наличен",
-    "sold": false,
+    "stockStatus": "продаден",
+    "sold": true,
     "images": [
       "https://assets.jobalots.com/product_image/6pas8IwHSxHIDnSsFTGSdL43s1CGVUg6sjPjZ2eO.png?format=auto&width=640&quality=100",
       "https://assets.jobalots.com/product_image/yGOgI6hqXkbKhgzeWCjIlw0mB8uIu480ntiyV9uu.png?format=auto&width=640&quality=100"
@@ -1613,9 +1613,9 @@
     ],
     "description": "Акумулаторен помпов пръскател 5L електрическа градинска пръскачка 4 дюзи",
     "details": "",
-    "sold": false,
+    "sold": true,
     "priority": true,
-    "stockStatus": "наличен",
+    "stockStatus": "продаден",
     "shipment": "5",
     "itemNumber": ""
   },
