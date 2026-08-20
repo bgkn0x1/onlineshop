@@ -1,5 +1,24 @@
 [
   {
+    "id": 1785423034171,
+    "title": "Сгъваем стол CAHAYA CY0333 с регулируема височина",
+    "category": "Инструменти",
+    "regularPrice": 45,
+    "salePrice": 15,
+    "size": "",
+    "stockStatus": "наличен",
+    "sold": false,
+    "shipment": "13",
+    "itemNumber": "",
+    "images": [
+      "https://m.media-amazon.com/images/I/610F56+EzgL._AC_SL1500_.jpg",
+      "https://m.media-amazon.com/images/I/71Ad0ZDgFuL._AC_SL1024_.jpg",
+      "https://m.media-amazon.com/images/I/71eP6ergXpS._AC_SL1500_.jpg"
+    ],
+    "description": "Практичен сгъваем стол с X-образна конструкция и 3 степени на регулиране на височината. Подходящ е за дома, офиса, работилницата, къмпинг или други места.",
+    "details": ""
+  },
+  {
     "id": 1785423034170,
     "title": "Сандвич тостер GreenChef 3 в 1",
     "category": "Дом и кухня",
