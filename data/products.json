@@ -1,8 +1,84 @@
 [
   {
+    "id": 1785423034158,
+    "title": "Безжичен радиоключ DieseRC 433 MHz за осветление – 1 приемник и 1 превключвател",
+    "category": "Електроника",
+    "regularPrice": 25,
+    "salePrice": 10,
+    "size": "",
+    "stockStatus": "наличен",
+    "sold": false,
+    "shipment": "7",
+    "itemNumber": "",
+    "images": [
+      "https://m.media-amazon.com/images/I/71SAnV3RC4L._SL1500_.jpg",
+      "https://m.media-amazon.com/images/I/71lAwJFoGbL._SL1500_.jpg",
+      "https://m.media-amazon.com/images/I/71ntVxcNT0L._SL1500_.jpg"
+    ],
+    "description": "Комплект за безжично управление на осветление и други електрически устройства чрез радиосигнал на честота 433 MHz. Състои се от приемник и безжичен стенен превключвател, който може да се монтира без прокарване на кабели.",
+    "details": "Безжичният радиоключ DieseRC позволява дистанционно включване и изключване на осветителни тела и други съвместими устройства. Приемникът се свързва между захранването и управлявания уред, а превключвателят изпраща команда чрез RF сигнал на честота 433 MHz. Сигналът може да преминава през врати, подове и стени, което позволява монтаж на превключвателя на удобно място, без да се изработва кабелна инсталация. Превключвателят може да бъде закрепен с двустранна лепенка или винтове. Комплектът е подходящ за LED лампи, стандартни осветителни тела и други електрически консуматори в рамките на допустимото натоварване. Характеристики: марка DieseRC; честота: 433 MHz; комплект: 1 приемник и 1 безжичен превключвател; монтаж: лепенка или винтове; цвят: бял; предназначение: безжично управление на осветление. Преди монтаж захранването трябва да бъде изключено, а свързването към електрическата мрежа трябва да се извърши от квалифицирано лице."
+  },
+  {
+    "id": 1785423034157,
+    "title": "Соларни градински лампи PUAIDA – комплект 2 броя, IP65",
+    "category": "Градина",
+    "regularPrice": 30,
+    "salePrice": 15,
+    "size": "",
+    "stockStatus": "наличен",
+    "sold": false,
+    "shipment": "7",
+    "itemNumber": "",
+    "images": [
+      "https://m.media-amazon.com/images/I/81eb-RMjY7L._AC_SL1500_.jpg",
+      "https://m.media-amazon.com/images/I/71GTXU79fML._AC_SL1500_.jpg",
+      "https://m.media-amazon.com/images/I/91pwIBHE6gL._AC_SL1500_.jpg"
+    ],
+    "description": "Комплект от 2 соларни лампи за градина с топлобяла LED светлина и автоматично включване при здрач. Подходящи са за монтаж в почва по алеи, цветни лехи, тревни площи, тераси и балкони.",
+    "details": ""
+  },
+  {
+    "id": 1785423034156,
+    "title": "Дамски отопляем елек с качулка – 15 зони и батерия 16 000 mAh",
+    "category": "Облекло",
+    "regularPrice": 80,
+    "salePrice": 40,
+    "size": "",
+    "stockStatus": "наличен",
+    "sold": false,
+    "shipment": "7",
+    "itemNumber": "",
+    "images": [
+      "https://assets.jobalots.com/product_image/rp9COcqO9ajwxsdNt7j6AgNV5gcVGtMCtICl1UqT.png?format=auto&width=640&quality=100",
+      "https://assets.jobalots.com/product_image/KOOyYnc5gTBIlhCGSkn1IlDO2yvrA0YOlT45PVmT.png?format=auto&width=640&quality=100",
+      "https://assets.jobalots.com/product_image/vrfWdwYNVx6fbuNEMhCEmno3IHnojc7yR79tgCe2.png?format=auto&width=640&quality=100"
+    ],
+    "description": "Елекът е оборудван с 15 нагревателни зони, 3 температурни степени и презареждаема батерия 7,4 V/16 000 mAh. Моделът е с вградена качулка и е предназначен за носене при студено време, туризъм и работа на открито.",
+    "details": ""
+  },
+  {
+    "id": 1785423034155,
+    "title": "Комплект кабели за Starlink – захранващ и Ethernet кабел",
+    "category": "Електроника",
+    "regularPrice": 43.99,
+    "salePrice": 20,
+    "size": "",
+    "stockStatus": "наличен",
+    "sold": false,
+    "shipment": "7",
+    "itemNumber": "",
+    "images": [
+      "https://assets.jobalots.com/product_image/jSCkfHr8aBzVKCu19QmqwzSNLvekHk4GsiPZFgfd.png?format=auto&width=640&quality=100",
+      "https://assets.jobalots.com/product_image/zklm3bsQyTBqVqiIsAilemwon2id0wDLW7oO2nu4.png?format=auto&width=640&quality=100",
+      "https://assets.jobalots.com/product_image/j8JPQUjmiKUsJ2eAOoc1QnnAT5hQaYA01IouQhYd.png?format=auto&width=640&quality=100"
+    ],
+    "description": "Комплектът HanCenDa включва 2 кабела за свързване и захранване на Starlink оборудване. Поддържа DC/USB-C към DC захранване и RJ45 Ethernet връзка.",
+    "details": "Комплектът Starlink Power & Ethernet Cable Kit на HanCenDa е предназначен за свързване на Starlink терминал и мрежово оборудване. Включва захранващ кабел с DC/USB-C вход и DC изход, както и Ethernet кабел с RJ45 конектори за кабелна мрежова връзка. Подходящ е при подмяна на оригинални кабели или при изграждане на алтернативна конфигурация на захранването и интернет връзката. Комплектът съдържа 2 кабела. Марка: HanCenDa; предназначение: Starlink оборудване; тип: захранващ и Ethernet кабел; връзки: DC/USB-C към DC и RJ45; брой: 2 броя. Проверете съвместимостта с конкретния модел Starlink преди покупка."
+  },
+  {
     "id": 1785423034154,
     "title": "LED светлинна тръба Auting 10 м с 100 топлобели LED светлини",
-    "category": "Облекло",
+    "category": "Градина",
     "regularPrice": 24,
     "salePrice": 8,
     "size": "",
@@ -294,7 +370,7 @@
     "stockStatus": "наличен",
     "sold": false,
     "shipment": "7",
-    "itemNumber": "",
+    "itemNumber": "2 броя",
     "images": [
       "https://assets.jobalots.com/product_image/zKF9QVdfVFBJ4cunG5XqmJN1bx2lWC24JIDXMhDQ.png?format=auto&width=640&quality=100",
       "https://assets.jobalots.com/product_image/YQvxlQRCQkNWlMNLkTkDQqLudbOn77NzZU9wPfWv.png?format=auto&width=640&quality=100",
