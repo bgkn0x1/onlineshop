@@ -1,5 +1,174 @@
 [
   {
+    "id": 1785423034170,
+    "title": "Сандвич тостер GreenChef 3 в 1",
+    "category": "Дом и кухня",
+    "regularPrice": 30,
+    "salePrice": 15,
+    "size": "",
+    "stockStatus": "наличен",
+    "sold": false,
+    "shipment": "12",
+    "itemNumber": "",
+    "images": [
+      "https://m.media-amazon.com/images/I/81xGBm-gNNL._AC_SL1500_.jpg",
+      "https://m.media-amazon.com/images/I/819B-SLkNDL._AC_SL1500_.jpg"
+    ],
+    "description": "Мултифункционален уред с 3 комплекта сменяеми плочи за приготвяне на сандвичи, панини и гофрети. Разполага с керамично незалепващо покритие без PFAS, мощност 750 W и LED индикатори.",
+    "details": ""
+  },
+  {
+    "id": 1785423034169,
+    "title": "Акумулаторен мини трион Homerays 6/8",
+    "category": "Инструменти",
+    "regularPrice": 80,
+    "salePrice": 40,
+    "size": "",
+    "stockStatus": "наличен",
+    "sold": false,
+    "shipment": "12",
+    "itemNumber": "",
+    "images": [
+      "https://m.media-amazon.com/images/I/81EtH570DhL._AC_SL1500_.jpg",
+      "https://m.media-amazon.com/images/I/71Jx3xYzPsL._AC_SL1500_.jpg",
+      "https://m.media-amazon.com/images/I/81k+0G1A84L._AC_SL1500_.jpg"
+    ],
+    "description": "Компактен безжичен трион Homerays с безчетков мотор, предназначен за рязане на клони, дърва и подрязване на храсти. Комплектът включва 2 сменяеми батерии с капацитет 8000 mAh и автоматична система за смазване на веригата.",
+    "details": ""
+  },
+  {
+    "id": 1785423034168,
+    "title": "Ламинатор",
+    "category": "Електроника",
+    "regularPrice": 40,
+    "salePrice": 20,
+    "size": "",
+    "stockStatus": "наличен",
+    "sold": false,
+    "shipment": "12",
+    "itemNumber": "",
+    "images": [
+      "https://assets.jobalots.com/product_image/0Rzld3nbjaCddvg4ryMYNq6qx4gLwFZz848Jrqlv.png?format=auto&width=640&quality=100",
+      "https://assets.jobalots.com/product_image/PO89cHSHsBUkjILPggqHEOPrynnO06gBIBoa3EMT.png?format=auto&width=640&quality=100"
+    ],
+    "description": "Термо- и студен ламинатор за документи, снимки, учебни материали и рекламни материали. Комплектът включва 30 ламиниращи фолиа, вградена резачка за хартия и инструмент за заобляне на ъгли.",
+    "details": ""
+  },
+  {
+    "id": 1785423034167,
+    "title": "Автоматичен инкубатор за яйца Okkobi M12",
+    "category": "Домашни любимци",
+    "regularPrice": 47,
+    "salePrice": 20,
+    "size": "",
+    "stockStatus": "наличен",
+    "sold": false,
+    "shipment": "12",
+    "itemNumber": "",
+    "images": [
+      "https://assets.jobalots.com/product_image/8B5WR1otFsdENxhywIZmv1Kz02tA3OnXBryDEDw9.png?format=auto&width=640&quality=100",
+      "https://assets.jobalots.com/product_image/ZdGnLjKxzJQQLElmyrPUhYoaMaoxhhjLaifPNRev.png?format=auto&width=640&quality=100",
+      "https://assets.jobalots.com/product_image/r2YmaNOFbWH5NWWXvHlSL3UkiW3yumjbgjDt2ESH.png?format=auto&width=640&quality=100"
+    ],
+    "description": "Инкубаторът Okkobi M12 разполага с автоматично обръщане на яйцата, регулиране на температурата и автоматичен контрол на влажността. Побира между 12 и 24 яйца в зависимост от размера и вида им.",
+    "details": ""
+  },
+  {
+    "id": 1785423034166,
+    "title": "Комплект от 2 безжични масажора за стъпала 3 в 1 с вибрация и затопляне",
+    "category": "Здраве и красота",
+    "regularPrice": 54,
+    "salePrice": 25,
+    "size": "",
+    "stockStatus": "наличен",
+    "sold": false,
+    "shipment": "12",
+    "itemNumber": "",
+    "images": [
+      "https://assets.jobalots.com/product_image/lrubG9VPeP3IYfn1oA75MsyO8OQXvXQWruEjH6y3.png?format=auto&width=640&quality=100",
+      "https://m.media-amazon.com/images/I/610VnapN0RL._AC_SL1001_.jpg",
+      "https://m.media-amazon.com/images/I/61D2jGWaFtL._AC_SL1001_.jpg"
+    ],
+    "description": "Безжични масажори за стъпала с 3 функции: вибрационен масаж, затопляне и регулируема интензивност. Комплектът включва 2 броя, подходящи за използване у дома или при пътуване.",
+    "details": ""
+  },
+  {
+    "id": 1785423034165,
+    "title": "Акумулаторен винтоверт DEKOPRO 20 V",
+    "category": "Инструменти",
+    "regularPrice": 40,
+    "salePrice": 20,
+    "size": "",
+    "stockStatus": "наличен",
+    "sold": false,
+    "shipment": "12",
+    "itemNumber": "",
+    "images": [
+      "https://assets.jobalots.com/product_image/sGcXVwvZuiJZuXJxnrXQDW7AEs3PsI0MQGn6vaN7.png?format=auto&width=640&quality=100",
+      "https://assets.jobalots.com/product_image/Tw2yOdeyaM1nrqM9HER3IPzi7vXfEdvCg99kVzkG.png?format=auto&width=640&quality=100",
+      "https://assets.jobalots.com/product_image/Sbk6FaRksWZFir5CC0POca7QBOaLpIf3mSWo6zxE.png?format=auto&width=640&quality=100"
+    ],
+    "description": "Компактен акумулаторен винтоверт DEKOPRO с въртящ момент 40 Nm и комплект от 30 аксесоара. Подходящ е за завиване, пробиване и монтажни дейности у дома.",
+    "details": ""
+  },
+  {
+    "id": 1785423034164,
+    "title": "Eлектрическа четка за фуги",
+    "category": "Дом и кухня",
+    "regularPrice": 22,
+    "salePrice": 10,
+    "size": "",
+    "stockStatus": "наличен",
+    "sold": false,
+    "shipment": "11",
+    "itemNumber": "",
+    "images": [
+      "https://m.media-amazon.com/images/I/71QkRC37nlL._AC_SL1500_.jpg",
+      "https://m.media-amazon.com/images/I/712ujIFHwEL._AC_SL1500_.jpg",
+      "https://m.media-amazon.com/images/I/71SyyEWr82L._AC_SL1500_.jpg"
+    ],
+    "description": "Компактна електрическа четка за почистване на фуги, плочки, ъгли, кухня и баня. Работи с вградена батерия, има водоустойчив корпус.",
+    "details": ""
+  },
+  {
+    "id": 1785423034163,
+    "title": "Електрическа звукова четка за зъби TrueLife SonicBrush Clean30",
+    "category": "Здраве и красота",
+    "regularPrice": 25,
+    "salePrice": 12,
+    "size": "",
+    "stockStatus": "наличен",
+    "sold": false,
+    "shipment": "11",
+    "itemNumber": "",
+    "images": [
+      "https://assets.jobalots.com/product_image/WENDToUkhjfrdsRIElTVP4GEB3ebpCwERoJJmJZf.png?format=auto&width=640&quality=100",
+      "https://assets.jobalots.com/product_image/jqhkLbA9Bt2CWiFFy5NGCHVA6D7Id0KvQFaU3RPA.png?format=auto&width=640&quality=100",
+      "https://assets.jobalots.com/product_image/1waaEJP69e2DDAntllkFS6jn3YjS2ivdqSkaU2u9.png?format=auto&width=640&quality=100"
+    ],
+    "description": "Звуковата четка TrueLife SonicBrush Clean30 работи с до 70 000 движения в минута и разполага с 5 режима на почистване.",
+    "details": ""
+  },
+  {
+    "id": 1785423034162,
+    "title": "Отопляемо термобельо GHKWXUE – 28 зони, USB захранване",
+    "category": "Облекло",
+    "regularPrice": 99.99,
+    "salePrice": 40,
+    "size": "M",
+    "stockStatus": "наличен",
+    "sold": false,
+    "shipment": "11",
+    "itemNumber": "",
+    "images": [
+      "https://assets.jobalots.com/product_image/kI1f2MYwD2R8jZHa0oJ3G75ilTM79b0j6ZRK98MR.png?format=auto&width=640&quality=100",
+      "https://m.media-amazon.com/images/I/71fazX4Q8YL._AC_SX569_.jpg",
+      "https://m.media-amazon.com/images/I/61H3p3ISK7L._AC_SX569_.jpg"
+    ],
+    "description": "Комплектът включва отопляем горнище с дълъг ръкав и долнище с 28 нагревателни зони. Работи с външна Power Bank 5 V/2 A, която се свързва чрез USB порт. Включени са 2 powerbank.",
+    "details": ""
+  },
+  {
     "id": 1785423034161,
     "title": "5-степенен шкаф за обувки OYREL с 3 странични джоба – бял",
     "category": "Дом и кухня",
