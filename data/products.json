@@ -1,5 +1,24 @@
 [
   {
+    "id": 1785423034154,
+    "title": "LED светлинна тръба Auting 10 м с 100 топлобели LED светлини",
+    "category": "Облекло",
+    "regularPrice": 24,
+    "salePrice": 8,
+    "size": "",
+    "stockStatus": "наличен",
+    "sold": false,
+    "shipment": "5",
+    "itemNumber": "",
+    "images": [
+      "https://m.media-amazon.com/images/I/81VpIlPnbcL._AC_SL1500_.jpg",
+      "https://m.media-amazon.com/images/I/81NebVDFQXL._AC_SL1500_.jpg",
+      "https://m.media-amazon.com/images/I/81ZioGSwJ7L._AC_SL1500_.jpg"
+    ],
+    "description": "Гъвкава LED светлинна тръба с дължина 10 м, 100 топлобели LED диода и 3-метров захранващ кабел. Подходяща е за декоративно осветление на градини, тераси, балкони, фасади и интериор.",
+    "details": ""
+  },
+  {
     "id": 1785423034153,
     "title": "Мъжки отопляем елек",
     "category": "Облекло",
@@ -1236,8 +1255,8 @@
     ],
     "description": "Спортен комплект Navneet Дамски комплект за фитнес тренировка Дълъг спортен комплект Екипиране Фитнес комплект с дълъг ръкав Горнище без гръб Скрънч клинове V талия Клин от две части Черен S",
     "details": "",
-    "sold": true,
-    "stockStatus": "продаден",
+    "sold": false,
+    "stockStatus": "наличен",
     "shipment": "7",
     "itemNumber": ""
   },
@@ -1276,8 +1295,8 @@
     ],
     "description": "Електрическа кутия за храна 1L преносима с таймер регулируемо затопляне",
     "details": "",
-    "sold": false,
-    "stockStatus": "наличен",
+    "sold": true,
+    "stockStatus": "продаден",
     "shipment": "7",
     "itemNumber": ""
   },
