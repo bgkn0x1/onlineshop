@@ -650,7 +650,7 @@
     </div>
 
     <!-- МОДАЛ: АДМИН ПАНЕЛ -->
-    <div id="adminModal" class="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div id="adminModal" class="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 overflow-y-auto hidden">
         <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 relative shadow-2xl">
             <button onclick="closeAdminModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl font-bold">
                 <i class="fa-solid fa-xmark"></i>
@@ -664,7 +664,7 @@
                 <p id="adminLoginError" class="text-red-500 text-sm mt-2 text-center hidden">Грешна парола!</p>
             </div>
 
-            <div id="adminDashboardSection" class="space-y-6">
+            <div id="adminDashboardSection" class="space-y-6 hidden">
                 <div class="flex flex-col sm:flex-row justify-between items-center border-b pb-4 gap-4">
                     <h3 class="text-2xl font-bold">Администраторски панел</h3>
                     <div class="flex flex-wrap gap-2">
@@ -3540,6 +3540,24 @@
         window.addEventListener('DOMContentLoaded', async () => {
             renderCategoryDropdownMenu();
             await loadProducts();
+
+            // Ако адресът съдържа ?product=ID, отваряме директно този артикул (споделен линк)
+            const params = new URLSearchParams(window.location.search);
+            const sharedProductId = params.get('product');
+            if (sharedProductId && products.some(p => p.id === parseInt(sharedProductId))) {
+                openProductModal(parseInt(sharedProductId), false);
+            }
+        });
+
+        // Поддръжка на бутона "Назад"/"Напред" в браузъра при отворен продукт
+        window.addEventListener('popstate', () => {
+            const params = new URLSearchParams(window.location.search);
+            const productId = params.get('product');
+            if (productId && products.some(p => p.id === parseInt(productId))) {
+                openProductModal(parseInt(productId), false);
+            } else {
+                document.getElementById('productModal').classList.add('hidden');
+            }
         });
 
         async function loadProducts() {
@@ -3884,7 +3902,7 @@ function showCatalogView() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function openProductModal(productId) {
+        function openProductModal(productId, updateUrl = true) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
 
@@ -3975,6 +3993,10 @@ function showCatalogView() {
                                 <div class="text-3xl font-black text-gray-900">${activePrice.toFixed(2)} €</div>
                             </div>
                         </div>
+
+                        <button onclick="copyProductLink(${product.id}, this)" class="w-full flex items-center justify-center gap-2 border-2 border-emagBlue text-emagBlue hover:bg-blue-50 font-bold py-2.5 rounded-lg transition text-sm">
+                            <i class="fa-solid fa-link"></i> Копирай линк към този артикул
+                        </button>
                     </div>
                 </div>
 
@@ -3982,10 +4004,34 @@ function showCatalogView() {
             `;
 
             document.getElementById('productModal').classList.remove('hidden');
+
+            if (updateUrl) {
+                const url = new URL(window.location.href);
+                url.searchParams.set('product', productId);
+                history.pushState({ productId }, '', url);
+            }
+        }
+
+        function copyProductLink(productId, btnEl) {
+            const url = new URL(window.location.href);
+            url.searchParams.set('product', productId);
+            navigator.clipboard.writeText(url.toString()).then(() => {
+                if (!btnEl) return;
+                const originalHTML = btnEl.innerHTML;
+                btnEl.innerHTML = '<i class="fa-solid fa-check"></i> Линкът е копиран!';
+                setTimeout(() => { btnEl.innerHTML = originalHTML; }, 2000);
+            }).catch(() => {
+                prompt('Копирай този линк:', url.toString());
+            });
         }
 
         function closeProductModal() {
             document.getElementById('productModal').classList.add('hidden');
+            const url = new URL(window.location.href);
+            if (url.searchParams.has('product')) {
+                url.searchParams.delete('product');
+                history.replaceState({}, '', url);
+            }
         }
 
         function openLightbox(src) {
@@ -4332,7 +4378,8 @@ function updateSizeFieldVisibility(){
    const sizeInput=document.getElementById('formSize');
    if(!cat || !sizeInput) return;
    const wrapper=sizeInput.closest('div');
-   const show=cat.value==='Облекло';
+   const categoriesWithSize = ['Облекло', 'Дрехи', 'Обувки', 'За деца'];
+   const show=categoriesWithSize.includes(cat.value);
    wrapper.style.display=show?'':'none';
 }
 document.addEventListener('DOMContentLoaded',()=>{
