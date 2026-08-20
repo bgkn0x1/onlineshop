@@ -650,7 +650,7 @@
     </div>
 
     <!-- МОДАЛ: АДМИН ПАНЕЛ -->
-    <div id="adminModal" class="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div id="adminModal" class="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 overflow-y-auto hidden">
         <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 relative shadow-2xl">
             <button onclick="closeAdminModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl font-bold">
                 <i class="fa-solid fa-xmark"></i>
@@ -664,7 +664,7 @@
                 <p id="adminLoginError" class="text-red-500 text-sm mt-2 text-center hidden">Грешна парола!</p>
             </div>
 
-            <div id="adminDashboardSection" class="space-y-6">
+            <div id="adminDashboardSection" class="space-y-6 hidden">
                 <div class="flex flex-col sm:flex-row justify-between items-center border-b pb-4 gap-4">
                     <h3 class="text-2xl font-bold">Администраторски панел</h3>
                     <div class="flex flex-wrap gap-2">
