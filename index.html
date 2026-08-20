@@ -362,6 +362,12 @@
                         <label class="text-sm font-medium text-gray-600">Пратка:</label>
                         <select id="catalogShipmentFilter" onchange="filterByShipmentCatalog(this.value)" class="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emagBlue"><option value="Всички">Всички</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="13">13</option></select>
                     </div>
+                    <div id="catalogSizeFilterWrapper" class="hidden flex items-center gap-2">
+                        <label class="text-sm font-medium text-gray-600">Размер:</label>
+                        <select id="catalogSizeFilter" onchange="filterBySizeCatalog(this.value)" class="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emagBlue">
+                            <option value="Всички">Всички</option>
+                        </select>
+                    </div>
                     <label class="text-sm font-medium text-gray-600">Сортиране:</label>
                     <select id="sortSelect" onchange="sortProducts(this.value)" class="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emagBlue">
                         <option value="default">По подразбиране</option>
@@ -3386,6 +3392,8 @@
         let currentSearchQuery = '';
         let currentSort = 'default';
         let currentShipmentFilter = 'Всички';
+        let currentSizeFilter = 'Всички';
+        const sizeEligibleCategories = ['облекло', 'дрехи', 'обувки', 'за деца'];
         let isAdminLoggedIn = false;
         let hasUnsavedChanges = false;
 
@@ -3677,6 +3685,57 @@ function showCatalogView() {
             }
         }
 
+        function getAvailableSizes(list) {
+            return [...new Set(
+                list
+                    .map(p => (p.size || '').trim())
+                    .filter(s => s !== '')
+            )].sort((a, b) => a.localeCompare(b, 'bg', { numeric: true }));
+        }
+
+        function isSizeEligibleCategory(categoryName) {
+            if (!categoryName) return false;
+            const clean = categoryName.toString().trim().toLowerCase();
+            return sizeEligibleCategories.includes(clean);
+        }
+
+        function populateCatalogSizeFilter(baseList) {
+            const wrapper = document.getElementById('catalogSizeFilterWrapper');
+            const select = document.getElementById('catalogSizeFilter');
+            if (!wrapper || !select) return;
+
+            const showSizeFilter = currentCategoryFilter === 'Облекло' || isSizeEligibleCategory(currentCategoryFilter);
+
+            if (!showSizeFilter) {
+                wrapper.classList.add('hidden');
+                currentSizeFilter = 'Всички';
+                return;
+            }
+
+            const sizes = getAvailableSizes(baseList);
+            const previouslySelected = select.value || 'Всички';
+            select.innerHTML = '<option value="Всички">Всички</option>' +
+                sizes.map(s => `<option value="${s}">${s}</option>`).join('');
+            select.value = sizes.includes(previouslySelected) ? previouslySelected : 'Всички';
+            currentSizeFilter = select.value;
+
+            if (sizes.length > 0) {
+                wrapper.classList.remove('hidden');
+            } else {
+                wrapper.classList.add('hidden');
+                currentSizeFilter = 'Всички';
+            }
+        }
+
+        function filterBySizeCatalog(value) {
+            currentSizeFilter = value;
+            if (currentSearchQuery) {
+                handleSearch(currentSearchQuery);
+            } else {
+                filterByCategory(currentCategoryFilter);
+            }
+        }
+
         function filterByCategory(categoryName) {
     currentCategoryFilter = categoryName;
     currentSearchQuery = '';
@@ -3721,6 +3780,12 @@ function showCatalogView() {
         currentFilteredProducts = currentFilteredProducts.filter(p => (p.shipment || '').trim() === currentShipmentFilter);
     }
 
+    // Менюто "Размер:" се показва само за категориите с размери, попълнено с наличните размери в момента
+    populateCatalogSizeFilter(currentFilteredProducts);
+    if (currentSizeFilter && currentSizeFilter !== 'Всички') {
+        currentFilteredProducts = currentFilteredProducts.filter(p => (p.size || '').trim() === currentSizeFilter);
+    }
+
     currentPage = 1;
     baseFilteredProducts = [...currentFilteredProducts];
     applySortingAndPagination();
@@ -3752,6 +3817,10 @@ function showCatalogView() {
             if (currentShipmentFilter && currentShipmentFilter !== 'Всички') {
                 currentFilteredProducts = currentFilteredProducts.filter(p => (p.shipment || '').trim() === currentShipmentFilter);
             }
+            // При търсене категорийният контекст се губи, затова скриваме менюто "Размер:"
+            const sizeWrapper = document.getElementById('catalogSizeFilterWrapper');
+            if (sizeWrapper) sizeWrapper.classList.add('hidden');
+            currentSizeFilter = 'Всички';
             currentPage = 1;
             baseFilteredProducts = [...currentFilteredProducts];
             applySortingAndPagination();
@@ -3998,10 +4067,6 @@ function showCatalogView() {
                                 <div class="text-3xl font-black text-gray-900">${activePrice.toFixed(2)} €</div>
                             </div>
                         </div>
-
-                        <button onclick="copyProductLink(${product.id}, this)" class="w-full flex items-center justify-center gap-2 border-2 border-emagBlue text-emagBlue hover:bg-blue-50 font-bold py-2.5 rounded-lg transition text-sm">
-                            <i class="fa-solid fa-link"></i> Копирай линк към този артикул
-                        </button>
                     </div>
                 </div>
 
@@ -4015,24 +4080,6 @@ function showCatalogView() {
                 url.searchParams.set('product', productId);
                 history.pushState({ productId }, '', url);
             }
-        }
-
-        function buildProductShareUrl(productId) {
-            const url = new URL(window.location.origin + window.location.pathname);
-            url.searchParams.set('product', productId);
-            return url.toString();
-        }
-
-        function copyProductLink(productId, btnEl) {
-            const shareUrl = buildProductShareUrl(productId);
-            navigator.clipboard.writeText(shareUrl).then(() => {
-                if (!btnEl) return;
-                const originalHTML = btnEl.innerHTML;
-                btnEl.innerHTML = '<i class="fa-solid fa-check"></i> Линкът е копиран!';
-                setTimeout(() => { btnEl.innerHTML = originalHTML; }, 2000);
-            }).catch(() => {
-                prompt('Копирай този линк:', shareUrl);
-            });
         }
 
         function closeProductModal() {
