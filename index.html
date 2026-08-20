@@ -152,7 +152,7 @@
                         <i class="fa-solid fa-arrow-left"></i>
                     </button>
                     <div>
-                        <a href="#" onclick="switchView('home')" class="text-xl md:text-2xl font-black tracking-wider flex items-center gap-1.5">
+                        <a href="javascript:void(0)" onclick="switchView('home')" class="text-xl md:text-2xl font-black tracking-wider flex items-center gap-1.5">
                             <span class="bg-emagOrange text-white px-2 py-0.5 rounded text-sm md:text-lg">Твоят</span>Шанс
                         </a>
                     </div>
@@ -3544,8 +3544,13 @@
             // Ако адресът съдържа ?product=ID, отваряме директно този артикул (споделен линк)
             const params = new URLSearchParams(window.location.search);
             const sharedProductId = params.get('product');
-            if (sharedProductId && products.some(p => p.id === parseInt(sharedProductId))) {
-                openProductModal(parseInt(sharedProductId), false);
+            if (sharedProductId) {
+                const found = products.some(p => p.id === parseInt(sharedProductId));
+                if (found) {
+                    openProductModal(parseInt(sharedProductId), false);
+                } else {
+                    console.warn('Продукт с ID ' + sharedProductId + ' не беше намерен в заредените продукти.');
+                }
             }
         });
 
@@ -4006,32 +4011,34 @@ function showCatalogView() {
             document.getElementById('productModal').classList.remove('hidden');
 
             if (updateUrl) {
-                const url = new URL(window.location.href);
+                const url = new URL(window.location.origin + window.location.pathname);
                 url.searchParams.set('product', productId);
                 history.pushState({ productId }, '', url);
             }
         }
 
-        function copyProductLink(productId, btnEl) {
-            const url = new URL(window.location.href);
+        function buildProductShareUrl(productId) {
+            const url = new URL(window.location.origin + window.location.pathname);
             url.searchParams.set('product', productId);
-            navigator.clipboard.writeText(url.toString()).then(() => {
+            return url.toString();
+        }
+
+        function copyProductLink(productId, btnEl) {
+            const shareUrl = buildProductShareUrl(productId);
+            navigator.clipboard.writeText(shareUrl).then(() => {
                 if (!btnEl) return;
                 const originalHTML = btnEl.innerHTML;
                 btnEl.innerHTML = '<i class="fa-solid fa-check"></i> Линкът е копиран!';
                 setTimeout(() => { btnEl.innerHTML = originalHTML; }, 2000);
             }).catch(() => {
-                prompt('Копирай този линк:', url.toString());
+                prompt('Копирай този линк:', shareUrl);
             });
         }
 
         function closeProductModal() {
             document.getElementById('productModal').classList.add('hidden');
-            const url = new URL(window.location.href);
-            if (url.searchParams.has('product')) {
-                url.searchParams.delete('product');
-                history.replaceState({}, '', url);
-            }
+            const url = new URL(window.location.origin + window.location.pathname);
+            history.replaceState({}, '', url);
         }
 
         function openLightbox(src) {
