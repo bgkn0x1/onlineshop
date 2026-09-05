@@ -39,24 +39,6 @@
     "priority": true
   },
   {
-    "id": 1785423034176,
-    "title": "Акумулаторен ударен гайковерт blayram 1200 Nm – 18 V, 1/2″ с 2 батерии",
-    "category": "Инструменти",
-    "regularPrice": 150,
-    "salePrice": 100,
-    "size": "",
-    "stockStatus": "наличен",
-    "sold": false,
-    "shipment": "14",
-    "itemNumber": "",
-    "images": [
-      "https://m.media-amazon.com/images/I/71RKsnOCrkL._AC_SL1500_.jpg",
-      "https://m.media-amazon.com/images/I/81uFOqJlMqL._AC_SL1500_.jpg"
-    ],
-    "description": "Мощен безчетков ударен гайковерт с максимален въртящ момент 1200 Nm и захват 1/2″. Работи с 18 V литиево-йонни батерии, съвместими с Makita, и е предназначен за автомобилни ремонти, монтаж и демонтаж на метални конструкции.\n",
-    "details": ""
-  },
-  {
     "id": 1785423034175,
     "title": "Изкуствен мъх SASKATE 200 гр",
     "category": "Градина",
@@ -113,26 +95,6 @@
     ],
     "description": "Професионален комплект за сваляне на лагери, главини, оси, зъбни колела и шайби. Включва сепаратори с размер 2 и 3 инча и е предназначен за натоварване до 5 тона.",
     "details": ""
-  },
-  {
-    "id": 1785423034172,
-    "title": "Уред за дълбоко почистване HAUSHOF StainZapper Pro 450 W",
-    "category": "Дом и кухня",
-    "regularPrice": 120,
-    "salePrice": 65,
-    "size": "",
-    "stockStatus": "наличен",
-    "sold": false,
-    "shipment": "14",
-    "itemNumber": "",
-    "images": [
-      "https://m.media-amazon.com/images/I/71cgtv2WdbL._AC_SL1500_.jpg",
-      "https://m.media-amazon.com/images/I/71pqe-DOgJL._AC_SL1500_.jpg",
-      "https://m.media-amazon.com/images/I/91wtv5b8drL._AC_SL1500_.jpg"
-    ],
-    "description": "Компактен електрически уред за изпиране и изсмукване на замърсявания от килими, мокети, стълби, дивани, автомобилни седалки и тапицерия. Разполага с два отделни резервоара, мощност 450 W.",
-    "details": "",
-    "priority": true
   },
   {
     "id": 1785423034171,
